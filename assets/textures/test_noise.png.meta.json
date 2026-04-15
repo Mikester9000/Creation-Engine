@@ -1,0 +1,7 @@
+{
+  "name": "assets/textures/test_noise.png",
+  "width": 64,
+  "height": 64,
+  "type": "noise",
+  "seed": 42
+}

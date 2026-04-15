@@ -1,0 +1,37 @@
+{
+  "texturePath": "assets/textures/default_tileset.png",
+  "tileWidth": 16,
+  "tileHeight": 16,
+  "tiles": [
+    {
+      "id": 0,
+      "name": "empty",
+      "solid": false
+    },
+    {
+      "id": 1,
+      "name": "ground",
+      "solid": false
+    },
+    {
+      "id": 2,
+      "name": "wall",
+      "solid": true
+    },
+    {
+      "id": 3,
+      "name": "water",
+      "solid": false
+    },
+    {
+      "id": 4,
+      "name": "bwall",
+      "solid": true
+    },
+    {
+      "id": 5,
+      "name": "bfloor",
+      "solid": false
+    }
+  ]
+}
