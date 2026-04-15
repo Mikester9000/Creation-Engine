@@ -1,0 +1,34 @@
+{
+
+  "version": "1.0",
+  "name": "wet_stone",
+  "prompt": "wet stone",
+  "seed": 123,
+  "params": {
+
+    "baseColor": [
+
+      0.256,
+      0.24,
+      0.224
+    ],
+    "roughness": 0.3825,
+    "metallic": 0,
+    "ao": 1,
+    "emissive": [
+
+      0,
+      0,
+      0
+    ]
+  },
+  "textures": {
+
+    "albedo": "wet_stone_albedo.png",
+    "normal": "wet_stone_normal.png",
+    "roughness": "wet_stone_roughness.png",
+    "metallic": "wet_stone_metallic.png",
+    "ao": "wet_stone_ao.png",
+    "emissive": ""
+  }
+}

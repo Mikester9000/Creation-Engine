@@ -1,0 +1,34 @@
+{
+
+  "version": "1.0",
+  "name": "polished_gold",
+  "prompt": "polished gold",
+  "seed": 789,
+  "params": {
+
+    "baseColor": [
+
+      1,
+      0.8085,
+      0.357
+    ],
+    "roughness": 0.04,
+    "metallic": 1,
+    "ao": 1,
+    "emissive": [
+
+      0,
+      0,
+      0
+    ]
+  },
+  "textures": {
+
+    "albedo": "polished_gold_albedo.png",
+    "normal": "polished_gold_normal.png",
+    "roughness": "polished_gold_roughness.png",
+    "metallic": "polished_gold_metallic.png",
+    "ao": "polished_gold_ao.png",
+    "emissive": ""
+  }
+}
