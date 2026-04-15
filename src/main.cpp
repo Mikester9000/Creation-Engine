@@ -66,7 +66,6 @@
 #include <string>
 #include <vector>
 #include <algorithm>
-#include <cstdlib>
 #include <cstdint>
 
 // Windows mkdir vs POSIX mkdir
@@ -84,6 +83,18 @@
 #include "material/Material.hpp"
 
 namespace ce {
+
+// =============================================================================
+// Default values
+// =============================================================================
+// Extracted as constants so lesson plans and integration tests can reference
+// canonical default values without duplicating magic strings.
+
+constexpr const char* DEFAULT_TEXTURE_PROMPT = "stone";
+constexpr const char* DEFAULT_MAP_PROMPT     = "grass field";
+constexpr const char* DEFAULT_OUTPUT_DIR     = "assets";
+constexpr int         DEFAULT_TEXTURE_SIZE   = 64;
+constexpr uint32_t    DEFAULT_SEED           = 42u;
 
 // =============================================================================
 // CLI helpers
@@ -223,13 +234,15 @@ void ensureDir(const std::string& dir)
  */
 int cmdTexture(const std::vector<std::string>& args)
 {
-    // ── Parse arguments ───────────────────────────────────────────────────────
-    std::string prompt = getArg(args, "--prompt", "stone");
-    uint32_t    seed   = static_cast<uint32_t>(std::stoul(getArg(args, "--seed", "42")));
-    std::string outDir = getArg(args, "--out",  "assets");
-    std::string name   = getArg(args, "--name", "");
-    int         width  = std::stoi(getArg(args, "--width",  "64"));
-    int         height = std::stoi(getArg(args, "--height", "64"));
+    const std::string prompt = getArg(args, "--prompt", DEFAULT_TEXTURE_PROMPT);
+    const uint32_t    seed   = static_cast<uint32_t>(std::stoul(getArg(args, "--seed",
+                                    std::to_string(DEFAULT_SEED))));
+    const std::string outDir = getArg(args, "--out",  DEFAULT_OUTPUT_DIR);
+    std::string       name   = getArg(args, "--name", "");
+    const int         width  = std::stoi(getArg(args, "--width",
+                                    std::to_string(DEFAULT_TEXTURE_SIZE)));
+    const int         height = std::stoi(getArg(args, "--height",
+                                    std::to_string(DEFAULT_TEXTURE_SIZE)));
 
     if (name.empty()) name = toIdent(prompt);
 
@@ -294,11 +307,11 @@ int cmdTexture(const std::vector<std::string>& args)
  */
 int cmdMap(const std::vector<std::string>& args)
 {
-    // ── Parse arguments ───────────────────────────────────────────────────────
-    std::string prompt = getArg(args, "--prompt", "grass field");
-    uint32_t    seed   = static_cast<uint32_t>(std::stoul(getArg(args, "--seed", "42")));
-    std::string outDir = getArg(args, "--out",  "assets");
-    std::string name   = getArg(args, "--name", "");
+    const std::string prompt = getArg(args, "--prompt", DEFAULT_MAP_PROMPT);
+    const uint32_t    seed   = static_cast<uint32_t>(std::stoul(getArg(args, "--seed",
+                                    std::to_string(DEFAULT_SEED))));
+    const std::string outDir = getArg(args, "--out",  DEFAULT_OUTPUT_DIR);
+    std::string       name   = getArg(args, "--name", "");
 
     if (name.empty()) name = toIdent(prompt);
 

@@ -6,22 +6,17 @@
  * TEACHING NOTE — Generating Each PBR Channel
  * =============================================================================
  *
- * All channels derive from the same underlying noise height field h(x,y).
- * Using the same seed (plus a channel offset) ensures all maps "agree" about
- * the surface topology: a bump in the albedo map corresponds to a bump in the
- * normal map, a rougher region in the roughness map, etc.
+ * All six channels (albedo, normal, roughness, metallic, AO, emissive) derive
+ * from the same underlying noise height field h(x,y). Using the same seed
+ * with per-channel offsets ensures all maps "agree" about the surface:
+ * a bump in the albedo map corresponds to a bump in the normal map, a rougher
+ * region in the roughness map, etc.
  *
- *   SEED OFFSETS (avoid correlated maps)
- *   ────────────────────────────────────
- *   Albedo    seed + 0
- *   Normal    seed + 1000  (height field derived from this)
- *   Roughness seed + 2000
- *   Metallic  seed + 3000
- *   AO        seed + 4000
- *   Emissive  seed + 5000
- *
- * Using different seed offsets prevents two maps from being identical
- * (which would happen if they shared the exact same noise call sequence).
+ * SEED OFFSETS (defined as constants below)
+ * ──────────────────────────────────────────
+ * Each channel uses a different seed offset to prevent two maps from being
+ * correlated (i.e., identical). If they shared the exact same noise call
+ * sequence they would produce redundant data.
  *
  * @author  Creation Engine Project
  * @version 1.0
@@ -31,12 +26,24 @@
 
 #include <cmath>
 #include <algorithm>
-#include <sstream>
 
 #include "util/Noise.hpp"
 #include "util/PNGWriter.hpp"
 
 namespace ce {
+
+// =============================================================================
+// Seed offsets per PBR channel
+// =============================================================================
+// Must be multiples of OCTAVE_SEED_STRIDE (1000) to avoid intra-octave
+// collisions between channels.
+
+constexpr uint32_t CHANNEL_SEED_ALBEDO    = 0u;
+constexpr uint32_t CHANNEL_SEED_NORMAL    = 1000u;
+constexpr uint32_t CHANNEL_SEED_ROUGHNESS = 2000u;
+constexpr uint32_t CHANNEL_SEED_METALLIC  = 3000u;
+constexpr uint32_t CHANNEL_SEED_AO        = 4000u;
+constexpr uint32_t CHANNEL_SEED_EMISSIVE  = 5000u;
 
 // =============================================================================
 // Internal helpers
@@ -50,6 +57,28 @@ inline float clamp01(float v) { return std::max(0.0f, std::min(1.0f, v)); }
 /** @brief Convert a [0,1] float to a uint8 [0,255]. */
 inline uint8_t toU8(float v) { return static_cast<uint8_t>(clamp01(v) * 255.0f + 0.5f); }
 
+/**
+ * @brief Sample fBm noise at pixel (px, py) using the given scale and seed.
+ *
+ * This helper centralises the pixel-to-world-space conversion that all
+ * channel generators share:
+ *   worldX = pixelX / scale
+ *   worldY = pixelY / scale
+ *
+ * @param px     Pixel X coordinate.
+ * @param py     Pixel Y coordinate.
+ * @param scale  Spatial scale (higher = lower frequency detail).
+ * @param oct    Number of fBm octaves.
+ * @param seed   Combined seed (base seed + channel offset).
+ * @return       Noise value in [0, 1].
+ */
+inline float sampleNoise(int px, int py, float scale, int oct, uint32_t seed)
+{
+    return fbm(static_cast<float>(px) / scale,
+               static_cast<float>(py) / scale,
+               seed, oct);
+}
+
 // ─────────────────────────────────────────────────────────────────────────────
 // Albedo generator
 // ─────────────────────────────────────────────────────────────────────────────
@@ -59,37 +88,24 @@ inline uint8_t toU8(float v) { return static_cast<uint8_t>(clamp01(v) * 255.0f +
  *
  * TEACHING NOTE — Albedo
  * The albedo is the raw surface colour under perfectly white, diffuse light.
- * We start from mat.baseColor and add noise-driven variation so identical tiles
- * don't look like cloned stamps.
- *
- * Variation amount: ±15% (controlled by the 0.15 factor).
- * This is similar to how FFXV stone tiles have subtle colour variation across
- * their surfaces to avoid repetition.
- *
- * @param mat   Material (provides baseColor).
- * @param w, h  Texture dimensions.
- * @param scale Noise spatial frequency.
- * @param oct   Number of fBm octaves.
- * @param seed  Noise seed.
- * @return      RGB pixel buffer (w * h * 3 bytes).
+ * We start from mat.baseColor and add noise-driven variation so identical
+ * tiles don't look like cloned stamps. The tint range ±15% (0.85…1.15) is
+ * small enough to preserve colour identity but large enough to prevent
+ * repetition — similar to how FFXV stone tiles have subtle hue variation.
  */
 std::vector<uint8_t> genAlbedo(const Material& mat,
-                                int w, int h,
-                                float scale, int oct, uint32_t seed)
+                                int w, int h, float scale, int oct, uint32_t seed)
 {
+    // Tint variation: 0.85 at noise=0, 1.15 at noise=1 (±15% range).
+    constexpr float TINT_MIN     = 0.85f;
+    constexpr float TINT_RANGE   = 0.30f;
+
     std::vector<uint8_t> buf(static_cast<size_t>(w * h * 3));
 
     for (int y = 0; y < h; ++y) {
         for (int x = 0; x < w; ++x) {
-            // Sample fBm noise in [0,1]
-            float n = fbm(static_cast<float>(x) / scale,
-                          static_cast<float>(y) / scale,
-                          seed, oct);
-
-            // Apply noise as a multiplicative tint: ×(0.85 … 1.15)
-            float tint = 0.85f + 0.30f * n;
-
-            size_t idx = static_cast<size_t>((y * w + x) * 3);
+            const float tint = TINT_MIN + TINT_RANGE * sampleNoise(x, y, scale, oct, seed);
+            const size_t idx = static_cast<size_t>((y * w + x) * 3);
             buf[idx + 0] = toU8(mat.baseColor[0] * tint);
             buf[idx + 1] = toU8(mat.baseColor[1] * tint);
             buf[idx + 2] = toU8(mat.baseColor[2] * tint);
@@ -106,55 +122,41 @@ std::vector<uint8_t> genAlbedo(const Material& mat,
  * @brief Generate a tangent-space normal map from a noise height field.
  *
  * TEACHING NOTE — Normal Maps
- * A normal map stores a surface normal vector per pixel in tangent space.
- * Tangent space means the Z axis points "up" out of the surface; X and Y lie
- * along the surface.
+ * A normal map stores a per-pixel surface normal vector in tangent space
+ * (Z = up from the surface, X/Y lie along the surface).
  *
- * We derive normals from a procedural height field h(x,y) using central
- * finite differences:
+ * We derive normals from a height field h(x,y) using central differences:
  *
- *   dh/dx ≈ (h(x+1,y) - h(x-1,y)) / 2
- *   dh/dy ≈ (h(x,y+1) - h(x,y-1)) / 2
+ *   dh/dx ≈ (h(x+1, y) - h(x-1, y)) / 2
+ *   dh/dy ≈ (h(x, y+1) - h(x, y-1)) / 2
  *
- * The surface tangent in X is (1, 0, dh/dx) and in Y is (0, 1, dh/dy).
- * Their cross product gives the normal: (-dh/dx, -dh/dy, 1), normalised.
+ * Cross-product of tangent vectors → normal (-dh/dx, -dh/dy, 1), normalised.
+ * Encoding: map [-1,1] to [0,255] per channel.
+ * A flat surface encodes as (128, 128, 255) — pointing straight up.
  *
- * Encoding: (N + 1) / 2 → [0,255] per channel.
- * A flat surface would be (128, 128, 255) — pointing straight up.
- *
- * @param strength  How much height variation affects the normals. Higher
- *                  = more dramatic bumps.
+ * @param strength  How pronounced the height variation is in the normal map.
+ *                  Higher = more dramatic bumps.
  */
-std::vector<uint8_t> genNormal(int w, int h,
-                                float scale, int oct, uint32_t seed,
+std::vector<uint8_t> genNormal(int w, int h, float scale, int oct, uint32_t seed,
                                 float strength)
 {
     std::vector<uint8_t> buf(static_cast<size_t>(w * h * 3));
 
-    // Lambda to sample height at any (integer) pixel coordinate.
-    auto height = [&](int px, int py) -> float {
-        return fbm(static_cast<float>(px) / scale,
-                   static_cast<float>(py) / scale,
-                   seed, oct);
-    };
-
     for (int y = 0; y < h; ++y) {
         for (int x = 0; x < w; ++x) {
-            // Central differences (wrap at texture edges for seamless tiling)
-            float dX = height((x + 1) % w, y) - height((x - 1 + w) % w, y);
-            float dY = height(x, (y + 1) % h) - height(x, (y - 1 + h) % h);
+            // Central differences using wrap-around for seamless tiling.
+            const float dX = sampleNoise((x + 1) % w, y, scale, oct, seed)
+                           - sampleNoise((x - 1 + w) % w, y, scale, oct, seed);
+            const float dY = sampleNoise(x, (y + 1) % h, scale, oct, seed)
+                           - sampleNoise(x, (y - 1 + h) % h, scale, oct, seed);
 
-            // Normal: (-dX*strength, -dY*strength, 1), then normalised
             float nx = -dX * strength;
             float ny = -dY * strength;
             float nz = 1.0f;
-            float len = std::sqrt(nx * nx + ny * ny + nz * nz);
-            nx /= len;
-            ny /= len;
-            nz /= len;
+            const float len = std::sqrt(nx * nx + ny * ny + nz * nz);
+            nx /= len;  ny /= len;  nz /= len;
 
-            // Encode to [0, 255]: (v + 1) / 2 * 255
-            size_t idx = static_cast<size_t>((y * w + x) * 3);
+            const size_t idx = static_cast<size_t>((y * w + x) * 3);
             buf[idx + 0] = toU8((nx + 1.0f) * 0.5f);
             buf[idx + 1] = toU8((ny + 1.0f) * 0.5f);
             buf[idx + 2] = toU8((nz + 1.0f) * 0.5f);
@@ -164,29 +166,28 @@ std::vector<uint8_t> genNormal(int w, int h,
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Grayscale channel (roughness, metallic, AO) generator
+// Grayscale channel (roughness, metallic) generator
 // ─────────────────────────────────────────────────────────────────────────────
 
 /**
- * @brief Generate a greyscale PBR channel map.
+ * @brief Generate a greyscale PBR channel map (roughness or metallic).
  *
- * The base value is shifted by noise-driven variation.
+ * The base scalar PBR value is shifted by noise-driven variation in
+ * [base - variation, base + variation].
  *
- * @param base       Scalar PBR value from the material [0,1].
- * @param variation  Max noise-driven deviation from base (e.g., 0.15).
+ * @param base       Scalar PBR value from the material definition [0,1].
+ * @param variation  Max noise-driven deviation from base (e.g., 0.12).
  */
 std::vector<uint8_t> genGrayscale(float base, float variation,
-                                   int w, int h,
-                                   float scale, int oct, uint32_t seed)
+                                   int w, int h, float scale, int oct, uint32_t seed)
 {
     std::vector<uint8_t> buf(static_cast<size_t>(w * h));
 
     for (int y = 0; y < h; ++y) {
         for (int x = 0; x < w; ++x) {
-            float n = fbm(static_cast<float>(x) / scale,
-                          static_cast<float>(y) / scale,
-                          seed, oct);
-            float v = base + variation * (n - 0.5f) * 2.0f;
+            const float n = sampleNoise(x, y, scale, oct, seed);
+            // Map noise [0,1] to variation range [-variation, +variation]
+            const float v = base + variation * (n - 0.5f) * 2.0f;
             buf[static_cast<size_t>(y * w + x)] = toU8(v);
         }
     }
@@ -194,7 +195,7 @@ std::vector<uint8_t> genGrayscale(float base, float variation,
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// AO generator — darker in "crevices" (high-frequency noise peaks)
+// AO generator
 // ─────────────────────────────────────────────────────────────────────────────
 
 /**
@@ -202,27 +203,23 @@ std::vector<uint8_t> genGrayscale(float base, float variation,
  *
  * TEACHING NOTE — Ambient Occlusion
  * AO simulates the tendency of concave areas to receive less ambient light.
- * We approximate this by inverting the high-frequency noise: areas where the
- * noise is high (raised bumps) receive full AO (bright), while areas where
- * noise is low (recesses) are slightly darkened.
+ * We approximate this by inverting the noise: areas where noise is high
+ * (raised bumps) receive full AO (bright=1.0), while recessed areas
+ * (low noise) are darkened:
  *
- *   ao(x,y) = 1.0 - occlusionStrength * (1.0 - fbm(x,y))
+ *   ao(x,y) = 1.0 - aoStrength * (1.0 - fbm(x,y))
  *
- * @param aoStrength  How dark the darkest crevice gets (e.g., 0.35 = 35% dark).
+ * @param aoStrength  Darkness of the deepest crevice (e.g., 0.35 = 35% dark).
  */
 std::vector<uint8_t> genAO(float aoStrength,
-                             int w, int h,
-                             float scale, int oct, uint32_t seed)
+                            int w, int h, float scale, int oct, uint32_t seed)
 {
     std::vector<uint8_t> buf(static_cast<size_t>(w * h));
 
     for (int y = 0; y < h; ++y) {
         for (int x = 0; x < w; ++x) {
-            float n = fbm(static_cast<float>(x) / scale,
-                          static_cast<float>(y) / scale,
-                          seed, oct);
-            // Recessed areas (n close to 0) get darkened
-            float ao = 1.0f - aoStrength * (1.0f - n);
+            const float n  = sampleNoise(x, y, scale, oct, seed);
+            const float ao = 1.0f - aoStrength * (1.0f - n);
             buf[static_cast<size_t>(y * w + x)] = toU8(ao);
         }
     }
@@ -236,46 +233,48 @@ std::vector<uint8_t> genAO(float aoStrength,
 /**
  * @brief Generate an emissive map (black for non-glowing materials).
  *
- * For emissive materials (lava, neon, fire) this adds a noise-modulated
- * glow. The emissive colour comes from mat.emissive.
+ * For emissive materials (lava, neon, fire) ridged noise concentrates the
+ * glow into thin vein-like cracks that exceed an emission threshold.
+ * The threshold (0.6) means only the brightest 40% of ridges emit light.
  */
 std::vector<uint8_t> genEmissive(const Material& mat,
-                                  int w, int h,
-                                  float scale, int oct, uint32_t seed)
+                                  int w, int h, float scale, int oct, uint32_t seed)
 {
-    std::vector<uint8_t> buf(static_cast<size_t>(w * h * 3), 0);
+    constexpr float EMIT_THRESHOLD = 0.6f;
+    constexpr float EMIT_RANGE     = 1.0f - EMIT_THRESHOLD;
 
-    bool hasEmission = (mat.emissive[0] + mat.emissive[1] + mat.emissive[2]) > 0.001f;
-    if (!hasEmission) return buf;
+    const bool hasEmission = (mat.emissive[0] + mat.emissive[1] + mat.emissive[2]) > 0.001f;
+
+    std::vector<uint8_t> buf(static_cast<size_t>(w * h * 3), 0);
+    if (!hasEmission) return buf;   // Early-out for non-emissive materials.
 
     for (int y = 0; y < h; ++y) {
         for (int x = 0; x < w; ++x) {
-            // Use ridged noise so emission concentrates in thin veins (lava cracks)
-            float n = ridgedFbm(static_cast<float>(x) / scale,
-                                static_cast<float>(y) / scale,
-                                seed, oct);
-            // Only the brightest noise peaks emit (threshold = 0.6)
-            float e = std::max(0.0f, (n - 0.6f) / 0.4f);
+            const float n = ridgedFbm(static_cast<float>(x) / scale,
+                                      static_cast<float>(y) / scale,
+                                      seed, oct);
+            // Only ridges above the threshold emit; normalise to [0, 1].
+            const float emitFactor = std::max(0.0f, (n - EMIT_THRESHOLD) / EMIT_RANGE);
 
-            size_t idx = static_cast<size_t>((y * w + x) * 3);
-            buf[idx + 0] = toU8(mat.emissive[0] * e);
-            buf[idx + 1] = toU8(mat.emissive[1] * e);
-            buf[idx + 2] = toU8(mat.emissive[2] * e);
+            const size_t idx = static_cast<size_t>((y * w + x) * 3);
+            buf[idx + 0] = toU8(mat.emissive[0] * emitFactor);
+            buf[idx + 1] = toU8(mat.emissive[1] * emitFactor);
+            buf[idx + 2] = toU8(mat.emissive[2] * emitFactor);
         }
     }
     return buf;
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Filename builder
+// Texture filename builder
 // ─────────────────────────────────────────────────────────────────────────────
 
-/** @brief Build a texture file path: "<dir>/<matName>_<channel>.png". */
-std::string texPath(const std::string& dir,
-                    const std::string& matName,
-                    const std::string& channel)
+/** @brief Build: "<outputDir>/<materialName>_<channel>.png". */
+std::string texturePath(const std::string& outputDir,
+                        const std::string& materialName,
+                        const std::string& channel)
 {
-    return dir + "/" + matName + "_" + channel + ".png";
+    return outputDir + "/" + materialName + "_" + channel + ".png";
 }
 
 } // anonymous namespace
@@ -284,8 +283,8 @@ std::string texPath(const std::string& dir,
 // Public API
 // =============================================================================
 
-bool generateTextures(Material&           mat,
-                      const std::string&  outputDir,
+bool generateTextures(Material&            mat,
+                      const std::string&   outputDir,
                       const TexGenOptions& opts)
 {
     const int   W     = opts.width;
@@ -294,63 +293,72 @@ bool generateTextures(Material&           mat,
     const int   OCT   = opts.octaves;
     const float STR   = opts.normalStrength;
 
+    // Convenience: build full seed for each channel.
+    const uint32_t seedAlbedo    = mat.seed + CHANNEL_SEED_ALBEDO;
+    const uint32_t seedNormal    = mat.seed + CHANNEL_SEED_NORMAL;
+    const uint32_t seedRoughness = mat.seed + CHANNEL_SEED_ROUGHNESS;
+    const uint32_t seedMetallic  = mat.seed + CHANNEL_SEED_METALLIC;
+    const uint32_t seedAO        = mat.seed + CHANNEL_SEED_AO;
+    const uint32_t seedEmissive  = mat.seed + CHANNEL_SEED_EMISSIVE;
+
     bool ok = true;
 
-    // ── Albedo ───────────────────────────────────────────────────────────────
+    // ── Albedo ────────────────────────────────────────────────────────────────
     {
-        auto buf  = genAlbedo(mat, W, H, SCALE, OCT, mat.seed);
-        std::string path = texPath(outputDir, mat.name, "albedo");
-        ok &= writePNG(path, W, H, 3, buf.data());
+        const auto pixels = genAlbedo(mat, W, H, SCALE, OCT, seedAlbedo);
+        const std::string path = texturePath(outputDir, mat.name, "albedo");
+        ok &= writePNG(path, W, H, 3, pixels.data());
         mat.texAlbedo = mat.name + "_albedo.png";
     }
 
-    // ── Normal ───────────────────────────────────────────────────────────────
+    // ── Normal ────────────────────────────────────────────────────────────────
     {
-        auto buf  = genNormal(W, H, SCALE, OCT, mat.seed + 1000u, STR);
-        std::string path = texPath(outputDir, mat.name, "normal");
-        ok &= writePNG(path, W, H, 3, buf.data());
+        const auto pixels = genNormal(W, H, SCALE, OCT, seedNormal, STR);
+        const std::string path = texturePath(outputDir, mat.name, "normal");
+        ok &= writePNG(path, W, H, 3, pixels.data());
         mat.texNormal = mat.name + "_normal.png";
     }
 
     // ── Roughness ─────────────────────────────────────────────────────────────
     {
-        // variation of ±0.12 around the base roughness
-        auto buf  = genGrayscale(mat.roughness, 0.12f, W, H, SCALE, OCT,
-                                  mat.seed + 2000u);
-        std::string path = texPath(outputDir, mat.name, "roughness");
-        ok &= writePNG(path, W, H, 1, buf.data());
+        constexpr float ROUGHNESS_VARIATION = 0.12f;  // ±12% around base value.
+        const auto pixels = genGrayscale(mat.roughness, ROUGHNESS_VARIATION,
+                                          W, H, SCALE, OCT, seedRoughness);
+        const std::string path = texturePath(outputDir, mat.name, "roughness");
+        ok &= writePNG(path, W, H, 1, pixels.data());
         mat.texRoughness = mat.name + "_roughness.png";
     }
 
     // ── Metallic ──────────────────────────────────────────────────────────────
     {
-        // Metals have very small variation; dielectrics stay near 0.
-        float var = (mat.metallic > 0.5f) ? 0.05f : 0.02f;
-        auto buf  = genGrayscale(mat.metallic, var, W, H, SCALE, OCT,
-                                  mat.seed + 3000u);
-        std::string path = texPath(outputDir, mat.name, "metallic");
-        ok &= writePNG(path, W, H, 1, buf.data());
+        // Metallic surfaces have more variation than dielectrics, but still small
+        // — real metals are highly uniform; only oxidation/patina adds variation.
+        const float metallicVariation = (mat.metallic > 0.5f) ? 0.05f : 0.02f;
+        const auto pixels = genGrayscale(mat.metallic, metallicVariation,
+                                          W, H, SCALE, OCT, seedMetallic);
+        const std::string path = texturePath(outputDir, mat.name, "metallic");
+        ok &= writePNG(path, W, H, 1, pixels.data());
         mat.texMetallic = mat.name + "_metallic.png";
     }
 
     // ── AO ───────────────────────────────────────────────────────────────────
     {
-        // aoStrength: how dark the darkest crevices get.
-        // Rough/porous materials (stone, soil) have stronger AO.
-        float aoStr = 0.15f + 0.25f * mat.roughness;
-        auto buf    = genAO(aoStr, W, H, SCALE, OCT, mat.seed + 4000u);
-        std::string path = texPath(outputDir, mat.name, "ao");
-        ok &= writePNG(path, W, H, 1, buf.data());
+        // Rougher/porous materials (stone, soil) have stronger ambient occlusion
+        // because their micro-crevices are deeper relative to smooth materials.
+        const float aoStrength = 0.15f + 0.25f * mat.roughness;
+        const auto pixels = genAO(aoStrength, W, H, SCALE, OCT, seedAO);
+        const std::string path = texturePath(outputDir, mat.name, "ao");
+        ok &= writePNG(path, W, H, 1, pixels.data());
         mat.texAO = mat.name + "_ao.png";
     }
 
     // ── Emissive ──────────────────────────────────────────────────────────────
     {
-        auto buf  = genEmissive(mat, W, H, SCALE, OCT, mat.seed + 5000u);
-        std::string path = texPath(outputDir, mat.name, "emissive");
-        ok &= writePNG(path, W, H, 3, buf.data());
-        // Only record the texture path if we actually have emission
-        bool hasEmission = (mat.emissive[0] + mat.emissive[1] + mat.emissive[2]) > 0.001f;
+        const auto pixels = genEmissive(mat, W, H, SCALE, OCT, seedEmissive);
+        const std::string path = texturePath(outputDir, mat.name, "emissive");
+        ok &= writePNG(path, W, H, 3, pixels.data());
+        // Record texture path only for genuinely emissive materials.
+        const bool hasEmission = (mat.emissive[0] + mat.emissive[1] + mat.emissive[2]) > 0.001f;
         mat.texEmissive = hasEmission ? (mat.name + "_emissive.png") : "";
     }
 

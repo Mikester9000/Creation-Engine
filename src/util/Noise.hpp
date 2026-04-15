@@ -50,6 +50,19 @@
 namespace ce {
 
 // =============================================================================
+// Constants
+// =============================================================================
+
+/// Per-octave seed stride — each noise octave uses a different seed to
+/// prevent correlation between frequency layers.
+constexpr uint32_t OCTAVE_SEED_STRIDE = 1000u;
+
+// Default fBm parameters, exposed as constants for easy lesson-plan tuning.
+constexpr int   FBM_DEFAULT_OCTAVES     = 4;
+constexpr float FBM_DEFAULT_LACUNARITY  = 2.0f;   ///< Frequency multiplier per octave.
+constexpr float FBM_DEFAULT_PERSISTENCE = 0.5f;   ///< Amplitude multiplier per octave.
+
+// =============================================================================
 // Section 1 — Hash Function
 // =============================================================================
 
@@ -58,8 +71,10 @@ namespace ce {
  *
  * TEACHING NOTE — Integer Hash
  * Uses a sequence of XOR-shifts and multiplications to scatter bits
- * across the full 32-bit range. This is NOT cryptographically secure,
- * but it is fast and produces good visual randomness for procedural generation.
+ * across the full 32-bit range. The multipliers (1619, 31337, 6791) are
+ * large primes chosen to maximise bit avalanche (changing one input bit
+ * changes roughly half the output bits). NOT cryptographically secure, but
+ * fast and adequate for visual procedural generation.
  *
  * @param x     Integer X coordinate.
  * @param y     Integer Y coordinate.
@@ -71,8 +86,9 @@ inline uint32_t hash2(int32_t x, int32_t y, uint32_t seed)
     uint32_t h = static_cast<uint32_t>(x) * 1619u
                ^ static_cast<uint32_t>(y) * 31337u
                ^ seed * 6791u;
+    // XOR-shift finalisation — distributes any remaining bias.
     h ^= (h >> 16);
-    h *= 0x45d9f3b;
+    h *= 0x45d9f3bu;
     h ^= (h >> 16);
     return h;
 }
@@ -80,14 +96,14 @@ inline uint32_t hash2(int32_t x, int32_t y, uint32_t seed)
 /**
  * @brief Convert a hash to a float in [0, 1].
  *
+ * Divide by the maximum uint32 value so the full integer range maps to
+ * the full floating-point unit interval.
+ *
  * @param h  Raw hash value.
  * @return   Float in the range [0.0, 1.0].
  */
 inline float hashToFloat(uint32_t h)
 {
-    // Take the upper 23 bits (mantissa of float), form a number in [1,2),
-    // then subtract 1 to get [0, 1).
-    // A simpler approach: divide by max uint32 value.
     return static_cast<float>(h) / static_cast<float>(0xFFFFFFFFu);
 }
 
@@ -99,10 +115,10 @@ inline float hashToFloat(uint32_t h)
  * @brief Smoothstep (cubic Hermite) interpolation: smoother than linear.
  *
  * TEACHING NOTE — Smoothstep vs Linear
- * Linear interpolation produces a grid-like blocky pattern because the
- * derivative is discontinuous at cell boundaries. Smoothstep (3t² - 2t³)
- * ensures the first derivative is zero at t=0 and t=1, removing the
- * "blocky" look.
+ * Linear interpolation (lerp) produces a grid-like blocky pattern because
+ * the derivative is discontinuous at cell boundaries. Smoothstep (3t² - 2t³)
+ * makes the first derivative zero at t=0 and t=1, so adjacent cells blend
+ * seamlessly into each other. This eliminates the "blocky" look.
  *
  * @param t  Parameter in [0, 1].
  * @return   Smoothly remapped parameter.
@@ -133,9 +149,10 @@ inline float lerp(float a, float b, float t)
  * @brief Sample 2D value noise at a continuous coordinate.
  *
  * Algorithm:
- *   1. Decompose (fx, fy) into integer cell (ix, iy) and fractional (tx, ty).
+ *   1. Decompose (fx, fy) into integer cell (cellX, cellY) and fractional
+ *      (fracX, fracY).
  *   2. Hash all four corners of the cell to [0,1] values.
- *   3. Bilinearly interpolate using smoothstep-remapped tx, ty.
+ *   3. Bilinearly interpolate using smoothstep-remapped fractions.
  *
  * @param fx    Continuous X coordinate.
  * @param fy    Continuous Y coordinate.
@@ -144,28 +161,23 @@ inline float lerp(float a, float b, float t)
  */
 inline float valueNoise(float fx, float fy, uint32_t seed)
 {
-    // Integer cell coordinates
-    int32_t ix = static_cast<int32_t>(std::floor(fx));
-    int32_t iy = static_cast<int32_t>(std::floor(fy));
+    const int32_t cellX = static_cast<int32_t>(std::floor(fx));
+    const int32_t cellY = static_cast<int32_t>(std::floor(fy));
 
-    // Fractional position within cell
-    float tx = fx - static_cast<float>(ix);
-    float ty = fy - static_cast<float>(iy);
+    // Fractional position within the cell, smoothed for seamless blending.
+    const float fracX = smoothstep(fx - static_cast<float>(cellX));
+    const float fracY = smoothstep(fy - static_cast<float>(cellY));
 
-    // Smooth the fractional part
-    float ux = smoothstep(tx);
-    float uy = smoothstep(ty);
+    // Sample the four grid corners.
+    const float v00 = hashToFloat(hash2(cellX,     cellY,     seed));
+    const float v10 = hashToFloat(hash2(cellX + 1, cellY,     seed));
+    const float v01 = hashToFloat(hash2(cellX,     cellY + 1, seed));
+    const float v11 = hashToFloat(hash2(cellX + 1, cellY + 1, seed));
 
-    // Sample the four corners of the cell
-    float v00 = hashToFloat(hash2(ix,     iy,     seed));
-    float v10 = hashToFloat(hash2(ix + 1, iy,     seed));
-    float v01 = hashToFloat(hash2(ix,     iy + 1, seed));
-    float v11 = hashToFloat(hash2(ix + 1, iy + 1, seed));
-
-    // Bilinear interpolation
-    float top    = lerp(v00, v10, ux);
-    float bottom = lerp(v01, v11, ux);
-    return lerp(top, bottom, uy);
+    // Bilinear interpolation: X first, then Y.
+    return lerp(lerp(v00, v10, fracX),
+                lerp(v01, v11, fracX),
+                fracY);
 }
 
 // =============================================================================
@@ -180,34 +192,34 @@ inline float valueNoise(float fx, float fy, uint32_t seed)
  * amplitude (persistence = 0.5). The result is a sum of noise at different
  * scales, mimicking natural fractal patterns (mountains, clouds, stone).
  *
- *   result = Σ (amplitude^i * noise(frequency^i * x, frequency^i * y))
+ *   result = Σᵢ (persistenceⁱ × valueNoise(lacunarityⁱ × x, y, seed + i))
  *
  * The output is normalised to approximately [0, 1] by dividing by the
- * sum of amplitudes.
+ * sum of amplitudes (the geometric series sum).
  *
- * @param fx         X coordinate (in world-space units, not pixel-space).
- * @param fy         Y coordinate.
- * @param seed       Seed differentiates independent noise fields.
- * @param octaves    Number of frequency layers (2–8 is typical).
- * @param lacunarity Frequency multiplier per octave (default 2.0).
+ * @param fx          X coordinate (normalised world-space units).
+ * @param fy          Y coordinate.
+ * @param seed        Differentiates independent noise fields.
+ * @param octaves     Number of frequency layers (2–8 is typical).
+ * @param lacunarity  Frequency multiplier per octave (default 2.0).
  * @param persistence Amplitude multiplier per octave (default 0.5).
- * @return           Noise value approximately in [0, 1].
+ * @return            Noise value approximately in [0, 1].
  */
-inline float fbm(float fx, float fy, uint32_t seed,
-                 int   octaves     = 4,
-                 float lacunarity  = 2.0f,
-                 float persistence = 0.5f)
+inline float fbm(float    fx,
+                 float    fy,
+                 uint32_t seed,
+                 int      octaves     = FBM_DEFAULT_OCTAVES,
+                 float    lacunarity  = FBM_DEFAULT_LACUNARITY,
+                 float    persistence = FBM_DEFAULT_PERSISTENCE)
 {
-    float value     = 0.0f;
+    float value    = 0.0f;
     float amplitude = 1.0f;
     float frequency = 1.0f;
-    float maxValue  = 0.0f;  // Used for normalisation.
+    float maxValue  = 0.0f;   // Sum of amplitudes; used to normalise output.
 
     for (int i = 0; i < octaves; ++i) {
-        // Each octave uses a different seed offset to avoid correlation.
-        value    += amplitude * valueNoise(fx * frequency,
-                                           fy * frequency,
-                                           seed + static_cast<uint32_t>(i * 1000));
+        value    += amplitude * valueNoise(fx * frequency, fy * frequency,
+                                           seed + static_cast<uint32_t>(i) * OCTAVE_SEED_STRIDE);
         maxValue += amplitude;
         amplitude *= persistence;
         frequency *= lacunarity;
@@ -220,9 +232,8 @@ inline float fbm(float fx, float fy, uint32_t seed,
  * @brief Ridged multi-fractal noise — produces sharp mountain ridges.
  *
  * TEACHING NOTE — Ridged Noise
- * By inverting the absolute value of noise (1 - |2n - 1|), peaks
- * become sharp ridges instead of smooth domes. Used for mountain ranges
- * and rocky surfaces in FFXV-style landscapes.
+ * By computing (1 - |2n - 1|) instead of n, smooth dome peaks become sharp
+ * ridges. Used for mountain ranges and rocky surfaces in FFXV-style landscapes.
  *
  * @param fx      X coordinate.
  * @param fy      Y coordinate.
@@ -230,22 +241,23 @@ inline float fbm(float fx, float fy, uint32_t seed,
  * @param octaves Number of octaves.
  * @return        Ridged noise value in [0, 1].
  */
-inline float ridgedFbm(float fx, float fy, uint32_t seed, int octaves = 4)
+inline float ridgedFbm(float fx, float fy, uint32_t seed,
+                       int octaves = FBM_DEFAULT_OCTAVES)
 {
-    float value     = 0.0f;
+    float value    = 0.0f;
     float amplitude = 1.0f;
     float frequency = 1.0f;
     float maxValue  = 0.0f;
 
     for (int i = 0; i < octaves; ++i) {
         float n = valueNoise(fx * frequency, fy * frequency,
-                             seed + static_cast<uint32_t>(i * 1000));
-        // Invert to create ridges
+                             seed + static_cast<uint32_t>(i) * OCTAVE_SEED_STRIDE);
+        // Invert absolute deviation from 0.5 to create ridges at peaks.
         n = 1.0f - std::abs(2.0f * n - 1.0f);
         value    += amplitude * n;
         maxValue += amplitude;
-        amplitude *= 0.5f;
-        frequency *= 2.0f;
+        amplitude *= FBM_DEFAULT_PERSISTENCE;
+        frequency *= FBM_DEFAULT_LACUNARITY;
     }
 
     return value / maxValue;

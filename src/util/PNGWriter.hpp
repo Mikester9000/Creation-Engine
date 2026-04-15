@@ -55,6 +55,26 @@
 namespace ce {
 
 // =============================================================================
+// Constants
+// =============================================================================
+
+// CRC32 (IEEE 802.3) polynomial, bit-reversed form of 0x04C11DB7.
+constexpr uint32_t CRC32_POLYNOMIAL        = 0xEDB88320u;
+// Adler32 modulus (largest prime below 2^16 = 65536).
+constexpr uint32_t ADLER32_MOD             = 65521u;
+// Maximum bytes per DEFLATE stored block (RFC 1951 §3.2.4).
+constexpr size_t   DEFLATE_MAX_BLOCK_BYTES = 65535u;
+
+// PNG file signature — same 8 bytes in every valid PNG file.
+// 0x89 catches 7-bit ASCII truncation; \r\n catches CR/LF translation.
+static const uint8_t PNG_SIGNATURE[8] = {0x89, 0x50, 0x4E, 0x47,
+                                          0x0D, 0x0A, 0x1A, 0x0A};
+// Zlib header bytes for "deflate, 32 KB window, no dictionary".
+// (CMF=0x78, FLG=0x01 such that (CMF*256+FLG) % 31 == 0)
+constexpr uint8_t ZLIB_CMF = 0x78u;
+constexpr uint8_t ZLIB_FLG = 0x01u;
+
+// =============================================================================
 // Section 1 — CRC32 (PNG chunk integrity)
 // =============================================================================
 
@@ -63,8 +83,11 @@ namespace ce {
  *
  * TEACHING NOTE — CRC32
  * CRC (Cyclic Redundancy Check) detects accidental data corruption.
- * The polynomial 0xEDB88320 is the bit-reversed form of 0x04C11DB7 (IEEE 802.3).
- * CRC is computed incrementally: feed bytes one by one, XOR with polynomial.
+ * The polynomial is the bit-reversed form of 0x04C11DB7 (IEEE 802.3).
+ * Each byte is XOR-ed into the running CRC and then reduced through 8
+ * single-bit polynomial divisions. The branchless form `(crc >> 1) ^ (P & -(crc & 1))`
+ * is equivalent to "if LSB=1 then XOR with P, else just shift" but avoids
+ * a branch prediction miss on every bit.
  *
  * @param data  Pointer to the data bytes.
  * @param len   Number of bytes.
@@ -72,13 +95,11 @@ namespace ce {
  */
 inline uint32_t crc32(const uint8_t* data, size_t len)
 {
-    static const uint32_t POLY = 0xEDB88320u;
     uint32_t crc = 0xFFFFFFFFu;
     for (size_t i = 0; i < len; ++i) {
         crc ^= static_cast<uint32_t>(data[i]);
-        for (int k = 0; k < 8; ++k) {
-            // Branchless: if LSB set, XOR with polynomial; else just shift.
-            crc = (crc >> 1) ^ (POLY & static_cast<uint32_t>(-(crc & 1u)));
+        for (int bit = 0; bit < 8; ++bit) {
+            crc = (crc >> 1) ^ (CRC32_POLYNOMIAL & static_cast<uint32_t>(-(crc & 1u)));
         }
     }
     return crc ^ 0xFFFFFFFFu;
@@ -92,20 +113,20 @@ inline uint32_t crc32(const uint8_t* data, size_t len)
  * @brief Compute Adler32 checksum (RFC 1950, used inside zlib IDAT data).
  *
  * TEACHING NOTE — Adler32
- * Adler32 uses two running sums s1 and s2, both modulo 65521 (largest prime
- * below 65536). Simpler and faster than CRC32, but slightly weaker.
+ * Adler32 uses two running sums s1 and s2, both modulo ADLER32_MOD (65521).
+ * s1 accumulates byte values; s2 accumulates running values of s1.
+ * Simpler and faster than CRC32, but slightly weaker against burst errors.
  *
  * @param data  Data bytes.
  * @param len   Number of bytes.
- * @return      32-bit Adler32 checksum (s2 in high 16 bits, s1 in low 16).
+ * @return      32-bit Adler32 (s2 in high 16 bits, s1 in low 16).
  */
 inline uint32_t adler32(const uint8_t* data, size_t len)
 {
-    constexpr uint32_t MOD = 65521u;
     uint32_t s1 = 1u, s2 = 0u;
     for (size_t i = 0; i < len; ++i) {
-        s1 = (s1 + data[i]) % MOD;
-        s2 = (s2 + s1)      % MOD;
+        s1 = (s1 + data[i]) % ADLER32_MOD;
+        s2 = (s2 + s1)      % ADLER32_MOD;
     }
     return (s2 << 16) | s1;
 }
@@ -130,6 +151,10 @@ inline void writeBE32(uint8_t* buf, uint32_t v)
 /**
  * @brief Write one PNG chunk to an output stream.
  *
+ * Incremental CRC is computed directly over the type + data bytes to avoid
+ * allocating a combined buffer (which would trigger a compiler warning for
+ * very large chunks).
+ *
  * @param out   Binary output stream.
  * @param type  4-character chunk type string (e.g., "IHDR").
  * @param data  Pointer to chunk data bytes (may be nullptr if len == 0).
@@ -140,36 +165,34 @@ inline void writeChunk(std::ofstream& out,
                        const uint8_t* data,
                        size_t         len)
 {
-    // Length field (big-endian)
+    // 1. Length field (big-endian)
     uint8_t lenBuf[4];
     writeBE32(lenBuf, static_cast<uint32_t>(len));
     out.write(reinterpret_cast<const char*>(lenBuf), 4);
 
-    // Type bytes
+    // 2. Type bytes
     out.write(type, 4);
 
-    // Data bytes
+    // 3. Data bytes
     if (data && len > 0)
         out.write(reinterpret_cast<const char*>(data), static_cast<std::streamsize>(len));
 
-    // CRC32 over type + data — compute incrementally to avoid a large allocation
-    // and the associated -Wstringop-overflow false-positive when len is unknown.
+    // 4. CRC32 computed incrementally over type + data to avoid a large allocation.
     uint32_t crc = 0xFFFFFFFFu;
-    auto crcStep = [&](const uint8_t* buf, size_t n) {
-        static const uint32_t POLY = 0xEDB88320u;
+    auto updateCRC = [&](const uint8_t* buf, size_t n) {
         for (size_t i = 0; i < n; ++i) {
             crc ^= static_cast<uint32_t>(buf[i]);
-            for (int k = 0; k < 8; ++k)
-                crc = (crc >> 1) ^ (POLY & static_cast<uint32_t>(-(crc & 1u)));
+            for (int bit = 0; bit < 8; ++bit)
+                crc = (crc >> 1) ^ (CRC32_POLYNOMIAL & static_cast<uint32_t>(-(crc & 1u)));
         }
     };
-    crcStep(reinterpret_cast<const uint8_t*>(type), 4);
-    if (data && len > 0) crcStep(data, len);
+    updateCRC(reinterpret_cast<const uint8_t*>(type), 4);
+    if (data && len > 0) updateCRC(data, len);
     crc ^= 0xFFFFFFFFu;
 
-    uint8_t crcOut[4];
-    writeBE32(crcOut, crc);
-    out.write(reinterpret_cast<const char*>(crcOut), 4);
+    uint8_t crcBuf[4];
+    writeBE32(crcBuf, crc);
+    out.write(reinterpret_cast<const char*>(crcBuf), 4);
 }
 
 // =============================================================================
@@ -180,26 +203,26 @@ inline void writeChunk(std::ofstream& out,
  * @brief Write pixel data to a PNG file.
  *
  * Supports:
- *   - RGB  (channels == 3, PNG color type 2)
- *   - RGBA (channels == 4, PNG color type 6)
  *   - Grayscale (channels == 1, PNG color type 0)
+ *   - RGB       (channels == 3, PNG color type 2)
+ *   - RGBA      (channels == 4, PNG color type 6)
  *
  * Uses uncompressed DEFLATE (stored blocks) — valid PNG, no compression.
- * For the purpose of teaching asset pipelines, uncompressed PNGs are fine;
- * a real-world pipeline would pass these through optipng or pngcrush.
+ * A production pipeline would compress with zlib or optipng, but the
+ * uncompressed form is self-contained and easy to teach.
  *
  * DEFLATE Stored-Block Format (RFC 1951 §3.2.4)
  * ───────────────────────────────────────────────
- *   Byte 0: BFINAL(1 bit) | BTYPE=00(2 bits) | padding(5 bits)
- *   Bytes 1-2: LEN  (little-endian 16-bit)
+ *   Byte 0   : BFINAL(1b) | BTYPE=00(2b) | padding(5b)
+ *   Bytes 1-2: LEN  (little-endian 16-bit block length)
  *   Bytes 3-4: NLEN (one's-complement of LEN, little-endian)
- *   Bytes 5..LEN+4: raw data
+ *   Bytes 5.. : raw data (up to DEFLATE_MAX_BLOCK_BYTES bytes)
  *
  * @param filename  Output file path.
  * @param width     Image width in pixels.
  * @param height    Image height in pixels.
  * @param channels  1 (gray), 3 (RGB), or 4 (RGBA).
- * @param data      Row-major pixel data (top to bottom, left to right).
+ * @param data      Row-major pixel data (top-to-bottom, left-to-right).
  *                  Expected size: width * height * channels bytes.
  * @return          true on success, false if the file could not be opened.
  */
@@ -216,72 +239,67 @@ inline bool writePNG(const std::string& filename,
     // Step 1: Build raw scanlines with filter byte 0 (None)
     // ---------------------------------------------------------
     // TEACHING NOTE — Filter Types
-    // Before compression, each row can optionally be "filtered" to improve
-    // compression ratio. Filter 0 (None) stores the raw pixel values.
-    // The filter byte is part of the compressed data, not a metadata header.
+    // Before compression, each row is optionally "filtered" to improve
+    // compression. Filter 0 (None) stores raw pixel bytes — the simplest
+    // choice, optimal for our uncompressed output.
 
-    const int rowStride   = width * channels;
-    const int filtRowSize = 1 + rowStride;     // filter byte + pixels
+    const int rowBytes       = width * channels;
+    const int filteredRowLen = 1 + rowBytes;  // filter byte + pixel bytes
 
     std::vector<uint8_t> scanlines;
-    scanlines.reserve(static_cast<size_t>(height) * static_cast<size_t>(filtRowSize));
+    scanlines.reserve(static_cast<size_t>(height) * static_cast<size_t>(filteredRowLen));
 
-    for (int y = 0; y < height; ++y) {
-        scanlines.push_back(0x00u);  // filter type 0 = None
-        const uint8_t* row = data + static_cast<size_t>(y) * static_cast<size_t>(rowStride);
-        scanlines.insert(scanlines.end(), row, row + rowStride);
+    for (int row = 0; row < height; ++row) {
+        scanlines.push_back(0x00u);  // Filter type 0 = None
+        const uint8_t* rowPtr = data + static_cast<size_t>(row) * static_cast<size_t>(rowBytes);
+        scanlines.insert(scanlines.end(), rowPtr, rowPtr + rowBytes);
     }
 
     // ---------------------------------------------------------
-    // Step 2: Compute Adler32 over the raw scanlines
-    //         (goes at the end of the zlib stream)
+    // Step 2: Adler32 checksum of raw scanlines (zlib trailer)
     // ---------------------------------------------------------
-    uint32_t a32 = adler32(scanlines.data(), scanlines.size());
+    const uint32_t adler = adler32(scanlines.data(), scanlines.size());
 
     // ---------------------------------------------------------
-    // Step 3: Build IDAT payload (zlib header + deflate blocks + adler32)
+    // Step 3: Build IDAT payload  = zlib header
+    //                             + DEFLATE stored blocks
+    //                             + Adler32 trailer
     // ---------------------------------------------------------
-
     std::vector<uint8_t> idat;
     idat.reserve(scanlines.size() + 128);
 
-    // Zlib header (RFC 1950 §2.2)
-    // CMF = 0x78: deflate (CM=8), window size 32 KB (CINFO=7)
-    // FLG must satisfy (CMF*256 + FLG) % 31 == 0.
-    //   0x78 * 256 = 30720; 30720 % 31 = 30; FLG = 1 makes sum = 30721 % 31 = 0.
-    idat.push_back(0x78u);  // CMF
-    idat.push_back(0x01u);  // FLG
+    // Zlib stream header (RFC 1950 §2.2)
+    idat.push_back(ZLIB_CMF);
+    idat.push_back(ZLIB_FLG);
 
-    // Deflate stored blocks (max 65535 bytes each)
-    constexpr size_t MAX_BLOCK = 65535u;
-    size_t offset = 0;
-    const size_t total = scanlines.size();
+    // DEFLATE stored blocks (each up to DEFLATE_MAX_BLOCK_BYTES bytes)
+    size_t       offset = 0;
+    const size_t total  = scanlines.size();
 
     while (offset < total) {
-        const size_t blockLen  = std::min(MAX_BLOCK, total - offset);
-        const bool   isFinal   = (offset + blockLen >= total);
-        const uint16_t len16   = static_cast<uint16_t>(blockLen);
-        const uint16_t nlen16  = static_cast<uint16_t>(~len16);
+        const size_t   blockLen = std::min(DEFLATE_MAX_BLOCK_BYTES, total - offset);
+        const bool     isFinal  = (offset + blockLen >= total);
+        const uint16_t len16    = static_cast<uint16_t>(blockLen);
+        const uint16_t nlen16   = static_cast<uint16_t>(~len16);
 
-        // Block header
-        idat.push_back(isFinal ? 0x01u : 0x00u);      // BFINAL | BTYPE=00
-        idat.push_back( len16        & 0xFFu);         // LEN low
-        idat.push_back((len16 >> 8)  & 0xFFu);         // LEN high
-        idat.push_back( nlen16       & 0xFFu);         // NLEN low
-        idat.push_back((nlen16 >> 8) & 0xFFu);         // NLEN high
+        // Block header: BFINAL | BTYPE=00 | LEN | ~LEN
+        idat.push_back(isFinal ? 0x01u : 0x00u);  // BFINAL=1 for last block
+        idat.push_back( len16        & 0xFFu);     // LEN  low byte
+        idat.push_back((len16 >> 8)  & 0xFFu);     // LEN  high byte
+        idat.push_back( nlen16       & 0xFFu);     // NLEN low byte
+        idat.push_back((nlen16 >> 8) & 0xFFu);     // NLEN high byte
 
-        // Block data
         idat.insert(idat.end(),
                     scanlines.begin() + static_cast<ptrdiff_t>(offset),
                     scanlines.begin() + static_cast<ptrdiff_t>(offset + blockLen));
         offset += blockLen;
     }
 
-    // Adler32 trailer (big-endian, RFC 1950)
-    idat.push_back((a32 >> 24) & 0xFFu);
-    idat.push_back((a32 >> 16) & 0xFFu);
-    idat.push_back((a32 >>  8) & 0xFFu);
-    idat.push_back( a32        & 0xFFu);
+    // Adler32 trailer (big-endian, RFC 1950 §2.2)
+    idat.push_back((adler >> 24) & 0xFFu);
+    idat.push_back((adler >> 16) & 0xFFu);
+    idat.push_back((adler >>  8) & 0xFFu);
+    idat.push_back( adler        & 0xFFu);
 
     // ---------------------------------------------------------
     // Step 4: Determine PNG color type from channel count
@@ -289,34 +307,29 @@ inline bool writePNG(const std::string& filename,
     uint8_t colorType = 0;
     switch (channels) {
         case 1: colorType = 0; break;  // Grayscale
-        case 3: colorType = 2; break;  // RGB
+        case 3: colorType = 2; break;  // RGB truecolor
         case 4: colorType = 6; break;  // RGBA
-        default: return false;         // Unsupported
+        default: return false;         // Unsupported channel count
     }
 
     // ---------------------------------------------------------
-    // Step 5: Assemble and write the PNG file
+    // Step 5: Write PNG file — signature, IHDR, IDAT, IEND
     // ---------------------------------------------------------
 
-    // PNG file signature (always the same 8 bytes)
-    const uint8_t sig[] = {0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A};
-    out.write(reinterpret_cast<const char*>(sig), 8);
+    out.write(reinterpret_cast<const char*>(PNG_SIGNATURE), 8);
 
-    // IHDR chunk (13 bytes of image header)
+    // IHDR: 13 bytes of image metadata
     uint8_t ihdr[13];
     writeBE32(ihdr + 0, static_cast<uint32_t>(width));
     writeBE32(ihdr + 4, static_cast<uint32_t>(height));
     ihdr[8]  = 8;          // Bit depth: 8 bits per channel
-    ihdr[9]  = colorType;  // Color type
-    ihdr[10] = 0;          // Compression method (always 0 in PNG)
+    ihdr[9]  = colorType;  // Color type (see above)
+    ihdr[10] = 0;          // Compression method (always 0 in PNG spec)
     ihdr[11] = 0;          // Filter method (always 0)
     ihdr[12] = 0;          // Interlace method (0 = no interlace)
     writeChunk(out, "IHDR", ihdr, 13);
 
-    // IDAT chunk (compressed pixel data)
     writeChunk(out, "IDAT", idat.data(), idat.size());
-
-    // IEND chunk (end marker, no data)
     writeChunk(out, "IEND", nullptr, 0);
 
     return true;

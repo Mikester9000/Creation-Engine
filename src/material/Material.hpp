@@ -66,6 +66,9 @@ namespace ce {
 // PBR-lite Material Struct
 // =============================================================================
 
+/// JSON format version — increment when the schema changes.
+constexpr const char* MATERIAL_FORMAT_VERSION = "1.0";
+
 /**
  * @struct Material
  * @brief All parameters for a single PBR-lite material surface.
@@ -77,7 +80,7 @@ struct Material {
 
     // ── Identity ──────────────────────────────────────────────────────────────
     std::string name;               ///< Identifier (e.g., "wet_stone").
-    std::string version = "1.0";    ///< Format version for forward-compatibility.
+    std::string version = MATERIAL_FORMAT_VERSION;  ///< JSON format version.
 
     // ── Scalar PBR parameters ─────────────────────────────────────────────────
     // These values are used when the corresponding texture is absent, and also

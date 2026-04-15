@@ -314,102 +314,168 @@ void scatterProps(TileMap& map, LCG& rng,
 // ─────────────────────────────────────────────────────────────────────────────
 
 /**
- * @brief Simple random-room dungeon generator.
- *
- * TEACHING NOTE — Room-and-Corridor Dungeons
- * This is one of the oldest procedural techniques in games (Rogue, 1980).
- * The algorithm:
- *   1. Fill with WALL.
- *   2. Place rooms at random positions (reject overlaps).
- *   3. Connect room centres with L-shaped FLOOR corridors.
- *   4. Add DOOR at each room entry, STAIRS at start/end.
- *
- * A "BSP dungeon" divides the map recursively and places one room per leaf
- * node — this avoids all overlap checking. For teaching purposes, the simpler
- * rejection-sampling approach here is easier to follow.
+ * @brief Room record used internally by the dungeon generator.
  */
-void generateDungeon(TileMap& map, LCG& rng, int numRooms)
+struct Room { int x, y, w, h; };
+
+// Dungeon sizing constraints (extracted from the generator below).
+// Adjust these to change the room variety in lesson exercises.
+constexpr int DUNGEON_ROOM_MIN_W        = 4;
+constexpr int DUNGEON_ROOM_MIN_H        = 3;
+constexpr int DUNGEON_ROOM_MAX_FRACTION = 4;   ///< Max room size = map / this.
+constexpr int DUNGEON_PLACEMENT_TRIES   = 20;  ///< Attempts per room before giving up.
+
+/**
+ * @brief Fill the tilemap with WALLs and place random non-overlapping rooms.
+ *
+ * TEACHING NOTE — Rejection Sampling
+ * We attempt to place each room at a random position. If it overlaps an
+ * existing room (+ 1-tile padding), we discard it and try again. This is
+ * called "rejection sampling". It's simple but can be slow if the map is
+ * nearly full — the BSP (Binary Space Partitioning) alternative guarantees
+ * no overlap but is harder to implement.
+ *
+ * @param map      Tilemap (WALL-filled, modified in-place).
+ * @param rooms    Output vector of placed rooms.
+ * @param rng      Seeded RNG.
+ * @param numRooms Desired room count.
+ */
+void placeRooms(TileMap& map, std::vector<Room>& rooms, LCG& rng, int numRooms)
 {
     const int W = map.width, H = map.height;
 
-    // Fill with WALL
-    std::fill(map.tiles.begin(), map.tiles.end(), TILE_WALL);
+    for (int attempt = 0;
+         attempt < numRooms * DUNGEON_PLACEMENT_TRIES
+         && static_cast<int>(rooms.size()) < numRooms;
+         ++attempt)
+    {
+        const int roomW = rng.nextInt(DUNGEON_ROOM_MIN_W, std::min(12, W / DUNGEON_ROOM_MAX_FRACTION));
+        const int roomH = rng.nextInt(DUNGEON_ROOM_MIN_H, std::min( 8, H / DUNGEON_ROOM_MAX_FRACTION));
+        const int roomX = rng.nextInt(1, W - roomW - 1);
+        const int roomY = rng.nextInt(1, H - roomH - 1);
 
-    struct Room { int x, y, w, h; };
-    std::vector<Room> rooms;
-
-    // Place rooms (reject overlapping)
-    for (int attempt = 0; attempt < numRooms * 20 && static_cast<int>(rooms.size()) < numRooms; ++attempt) {
-        int rw = rng.nextInt(4, std::min(12, W / 4));
-        int rh = rng.nextInt(3, std::min( 8, H / 4));
-        int rx = rng.nextInt(1, W - rw - 1);
-        int ry = rng.nextInt(1, H - rh - 1);
-
-        // Check no overlap with existing rooms (+1 padding for walls)
-        bool overlap = false;
-        for (const Room& r : rooms) {
-            if (rx < r.x + r.w + 1 && rx + rw + 1 > r.x &&
-                ry < r.y + r.h + 1 && ry + rh + 1 > r.y) {
-                overlap = true;
+        // Reject if this room overlaps (with 1-tile padding) an existing room.
+        bool overlaps = false;
+        for (const Room& existing : rooms) {
+            if (roomX < existing.x + existing.w + 1 &&
+                roomX + roomW + 1 > existing.x        &&
+                roomY < existing.y + existing.h + 1 &&
+                roomY + roomH + 1 > existing.y)
+            {
+                overlaps = true;
                 break;
             }
         }
-        if (overlap) continue;
+        if (overlaps) continue;
 
-        // Carve room floor
-        for (int dy = 0; dy < rh; ++dy)
-            for (int dx = 0; dx < rw; ++dx)
-                map.at(rx + dx, ry + dy) = TILE_FLOOR;
+        // Carve the room interior as FLOOR.
+        for (int dy = 0; dy < roomH; ++dy)
+            for (int dx = 0; dx < roomW; ++dx)
+                map.at(roomX + dx, roomY + dy) = TILE_FLOOR;
 
-        rooms.push_back({rx, ry, rw, rh});
+        rooms.push_back({roomX, roomY, roomW, roomH});
     }
+}
 
-    // Connect rooms with L-shaped corridors
+/**
+ * @brief Connect each room to the previous one with an L-shaped FLOOR corridor.
+ *
+ * TEACHING NOTE — L-Shaped Corridors
+ * An L-shape requires two segments: one horizontal, one vertical (or vice
+ * versa). We randomly choose the order (50/50) to avoid all corridors looking
+ * the same. A more sophisticated approach would use A* to navigate around rooms.
+ */
+void connectRooms(TileMap& map, const std::vector<Room>& rooms, LCG& rng)
+{
     for (size_t i = 1; i < rooms.size(); ++i) {
-        int ax = rooms[i-1].x + rooms[i-1].w / 2;
-        int ay = rooms[i-1].y + rooms[i-1].h / 2;
-        int bx = rooms[i].x   + rooms[i].w   / 2;
-        int by = rooms[i].y   + rooms[i].h   / 2;
+        // Use room centres as corridor endpoints.
+        const int ax = rooms[i-1].x + rooms[i-1].w / 2;
+        const int ay = rooms[i-1].y + rooms[i-1].h / 2;
+        const int bx = rooms[i].x   + rooms[i].w   / 2;
+        const int by = rooms[i].y   + rooms[i].h   / 2;
 
-        // Horizontal segment then vertical (or vice versa)
-        bool hFirst = rng.nextFloat() < 0.5f;
-        if (hFirst) {
-            for (int x = std::min(ax,bx); x <= std::max(ax,bx); ++x)
+        const bool horizontalFirst = rng.nextFloat() < 0.5f;
+
+        if (horizontalFirst) {
+            for (int x = std::min(ax, bx); x <= std::max(ax, bx); ++x)
                 if (map.inBounds(x, ay)) map.at(x, ay) = TILE_FLOOR;
-            for (int y = std::min(ay,by); y <= std::max(ay,by); ++y)
+            for (int y = std::min(ay, by); y <= std::max(ay, by); ++y)
                 if (map.inBounds(bx, y)) map.at(bx, y) = TILE_FLOOR;
         } else {
-            for (int y = std::min(ay,by); y <= std::max(ay,by); ++y)
+            for (int y = std::min(ay, by); y <= std::max(ay, by); ++y)
                 if (map.inBounds(ax, y)) map.at(ax, y) = TILE_FLOOR;
-            for (int x = std::min(ax,bx); x <= std::max(ax,bx); ++x)
+            for (int x = std::min(ax, bx); x <= std::max(ax, bx); ++x)
                 if (map.inBounds(x, by)) map.at(x, by) = TILE_FLOOR;
         }
     }
+}
 
-    // Place stairs and props
-    if (!rooms.empty()) {
-        const Room& first = rooms.front();
-        const Room& last  = rooms.back();
-        int fcx = first.x + first.w / 2;
-        int fcy = first.y + first.h / 2;
-        int lcx = last.x  + last.w  / 2;
-        int lcy = last.y  + last.h  / 2;
-        map.at(fcx, fcy) = TILE_STAIRS_UP;
-        map.at(lcx, lcy) = TILE_STAIRS_DN;
-        map.props.push_back({"stairs_up",   fcx, fcy, "Entrance Stairs"});
-        map.props.push_back({"stairs_down", lcx, lcy, "Exit Stairs"});
+/**
+ * @brief Place STAIRS and chests — entry/exit points and dungeon rewards.
+ *
+ * TEACHING NOTE — Prop Placement in Dungeons
+ * Stairs and chests are the interactive elements that make a dungeon
+ * functional in the game engine. They are stored as both tile overrides
+ * (changing the tile ID) and props (adding a JSON prop entry for entity
+ * spawning). The engine can use whichever is more convenient.
+ */
+void addDungeonProps(TileMap& map, const std::vector<Room>& rooms, LCG& rng)
+{
+    if (rooms.empty()) return;
 
-        // Scatter chests in other rooms
-        for (size_t i = 1; i + 1 < rooms.size(); ++i) {
-            if (rng.nextFloat() < 0.4f) {
-                int cx = rooms[i].x + rng.nextInt(1, rooms[i].w - 2);
-                int cy = rooms[i].y + rng.nextInt(1, rooms[i].h - 2);
-                map.at(cx, cy) = TILE_CHEST;
-                map.props.push_back({"chest", cx, cy, "Dungeon Chest"});
-            }
+    // Stairs in the first and last room.
+    const Room& entrance = rooms.front();
+    const Room& exit     = rooms.back();
+
+    const int entX = entrance.x + entrance.w / 2;
+    const int entY = entrance.y + entrance.h / 2;
+    const int exX  = exit.x     + exit.w     / 2;
+    const int exY  = exit.y     + exit.h     / 2;
+
+    map.at(entX, entY) = TILE_STAIRS_UP;
+    map.at(exX,  exY)  = TILE_STAIRS_DOWN;
+    map.props.push_back({"stairs_up",   entX, entY, "Entrance Stairs"});
+    map.props.push_back({"stairs_down", exX,  exY,  "Exit Stairs"});
+
+    // Randomly scatter chests in the interior rooms.
+    constexpr float CHEST_PROBABILITY = 0.4f;
+    for (size_t i = 1; i + 1 < rooms.size(); ++i) {
+        if (rng.nextFloat() < CHEST_PROBABILITY) {
+            const int chestX = rooms[i].x + rng.nextInt(1, rooms[i].w - 2);
+            const int chestY = rooms[i].y + rng.nextInt(1, rooms[i].h - 2);
+            map.at(chestX, chestY) = TILE_CHEST;
+            map.props.push_back({"chest", chestX, chestY, "Dungeon Chest"});
         }
     }
 }
+
+/**
+ * @brief Full dungeon generation pipeline.
+ *
+ * Orchestrates placeRooms → connectRooms → addDungeonProps.
+ *
+ * TEACHING NOTE — Room-and-Corridor Dungeons
+ * This is one of the oldest procedural techniques in games (Rogue, 1980).
+ * The three-step pipeline (rooms → corridors → props) is modular: each step
+ * can be replaced independently. For example:
+ *   • Replace placeRooms with BSP subdivision for guaranteed coverage.
+ *   • Replace connectRooms with A* for more organic corridors.
+ *   • Replace addDungeonProps with a weighted loot table for item variety.
+ */
+void generateDungeon(TileMap& map, LCG& rng, int numRooms)
+{
+    // Step 1: Fill with WALL, then carve rooms.
+    std::fill(map.tiles.begin(), map.tiles.end(), TILE_WALL);
+    std::vector<Room> rooms;
+    placeRooms(map, rooms, rng, numRooms);
+
+    // Step 2: Connect adjacent rooms with corridors.
+    connectRooms(map, rooms, rng);
+
+    // Step 3: Add stairs, chests, and other interactive props.
+    addDungeonProps(map, rooms, rng);
+}
+
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Outdoor terrain generator
