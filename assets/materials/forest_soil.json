@@ -1,0 +1,34 @@
+{
+
+  "version": "1.0",
+  "name": "forest_soil",
+  "prompt": "forest soil",
+  "seed": 456,
+  "params": {
+
+    "baseColor": [
+
+      0.18,
+      0.14,
+      0.1
+    ],
+    "roughness": 0.9,
+    "metallic": 0,
+    "ao": 1,
+    "emissive": [
+
+      0,
+      0,
+      0
+    ]
+  },
+  "textures": {
+
+    "albedo": "forest_soil_albedo.png",
+    "normal": "forest_soil_normal.png",
+    "roughness": "forest_soil_roughness.png",
+    "metallic": "forest_soil_metallic.png",
+    "ao": "forest_soil_ao.png",
+    "emissive": ""
+  }
+}

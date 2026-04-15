@@ -1,0 +1,34 @@
+# Build outputs
+build/
+cmake-build-*/
+
+# Generated binaries
+creation-engine
+*.exe
+*.out
+
+# CMake files
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+CTestTestfile.cmake
+
+# Editor/IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# macOS
+.DS_Store
+
+# Linux object files
+*.o
+*.a
+*.so
+
+# Assets generated at runtime (leave sample JSON committed, not runtime PNGs)
+# Uncomment if you don't want to track generated PNG assets:
+# assets/textures/*.png
