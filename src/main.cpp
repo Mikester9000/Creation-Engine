@@ -8,8 +8,8 @@
  *
  *   creation-engine <command> [options]
  *
- * COMMANDS
- * ─────────
+ * PBR PIPELINE COMMANDS (AI-assisted, outputs PNG + JSON material/tilemap)
+ * ─────────────────────────────────────────────────────────────────────────
  *
  *   texture   Generate PBR-lite textures (PNG) + material JSON.
  *     --prompt   "surface description"   (default: "stone")
@@ -31,6 +31,32 @@
  *   validate  Validate all JSON files found under a directory.
  *     --dir    <directory>               (default: assets/)
  *
+ * LEGACY COMMANDS (direct type control, outputs PNG + JSON sidecar)
+ * ─────────────────────────────────────────────────────────────────
+ *
+ *   create-texture
+ *     --type    TYPE        noise|cellular|checker|stripes|gradient|radial|solid
+ *     --seed    N           integer seed (default 0)
+ *     --size    WxH         e.g. 64x64 (default 64x64)
+ *     --color   RRGGBB      primary colour hex (default ffffff)
+ *     --color2  RRGGBB      secondary colour hex (default 000000)
+ *     --scale   F           noise scale (default 32)
+ *     --octaves N           fBm octaves (default 4)
+ *     --out     PATH        output PNG file (required)
+ *
+ *   create-tileset
+ *     --from    TEXTURE     path to sprite sheet PNG
+ *     --tile    WxH         tile size in pixels (default 16x16)
+ *     --out     PATH.json   output JSON file (required)
+ *
+ *   create-map
+ *     --width   N           map width  in tiles (default 20)
+ *     --height  N           map height in tiles (default 15)
+ *     --tileSize N          tile pixel size (default 16)
+ *     --tileset PATH.json   tileset definition (auto-created if absent)
+ *     --seed    N           generation seed (default 0)
+ *     --out     PATH.json   output JSON file (required)
+ *
  *   help      Print this usage message.
  *
  * EXAMPLES
@@ -41,6 +67,8 @@
  *   creation-engine ai texture --prompt "polished gold" --seed 42
  *   creation-engine ai map     --prompt "dungeon ruins" --seed 7
  *   creation-engine validate   --dir assets/
+ *   creation-engine create-texture --type noise --seed 7 --out assets/textures/noise.png
+ *   creation-engine create-map --width 20 --height 15 --out assets/maps/world.json
  *
  * =============================================================================
  * TEACHING NOTE — CLI-First Design
@@ -67,6 +95,7 @@
 #include <vector>
 #include <algorithm>
 #include <cstdint>
+#include <cstdlib>
 
 // Windows mkdir vs POSIX mkdir
 #ifdef _WIN32
@@ -77,10 +106,17 @@
 #  define CE_MKDIR(dir) mkdir((dir), 0755)
 #endif
 
+// PBR pipeline headers (subdirectory layout)
 #include "ai/AIAssist.hpp"
 #include "texture/TextureGen.hpp"
 #include "map/MapGen.hpp"
 #include "material/Material.hpp"
+
+// Legacy flat-layout headers (stb_image-based texture/map commands)
+#include "TextureGenerator.h"
+#include "MapEditor.h"
+#include "AssetIO.h"
+#include "AIAssist.h"
 
 namespace ce {
 
@@ -113,15 +149,21 @@ Creation Engine — PBR Texture & Map Editor  v1.0
 USAGE
   creation-engine <command> [options]
 
-COMMANDS
+PBR PIPELINE COMMANDS
   texture    Generate PBR textures (PNG) + material descriptor (JSON).
   map        Generate a procedural tilemap (JSON).
   ai texture Alias for 'texture' with AI-assist framing.
   ai map     Alias for 'map'     with AI-assist framing.
   validate   Validate JSON asset files in a directory.
+
+LEGACY COMMANDS (direct type selection)
+  create-texture   Generate a single PNG texture by explicit type.
+  create-tileset   Define a tileset JSON from a sprite sheet.
+  create-map       Generate a tile map with basic terrain.
+
   help       Show this message.
 
-TEXTURE OPTIONS
+TEXTURE OPTIONS (PBR)
   --prompt  "surface description"  e.g. "wet stone", "polished gold"
   --seed    <uint>                 Seed for deterministic generation (default: 42)
   --name    <identifier>           Output file base name (default: auto)
@@ -129,55 +171,35 @@ TEXTURE OPTIONS
   --width   <pixels>               Texture width  (default: 64)
   --height  <pixels>               Texture height (default: 64)
 
-MAP OPTIONS
-  --prompt  "terrain description"  e.g. "forest with river and road"
-  --seed    <uint>                 Seed for deterministic generation (default: 42)
-  --name    <identifier>           Output file base name (default: auto)
-  --out     <directory>            Output directory (default: assets/)
-
-VALIDATE OPTIONS
-  --dir     <directory>            Directory to scan for JSON files (default: assets/)
+CREATE-TEXTURE OPTIONS (legacy)
+  --type    noise|cellular|checker|stripes|gradient|radial|solid
+  --seed    N        integer seed (default 0)
+  --size    WxH      output size  (default 64x64)
+  --color   RRGGBB   primary colour hex
+  --color2  RRGGBB   secondary colour hex
+  --scale   F        noise scale (default 32)
+  --octaves N        fBm octaves (default 4)
+  --out     PATH     output PNG path (required)
 
 EXAMPLES
   creation-engine texture --prompt "wet stone" --seed 123 --out assets/textures
-  creation-engine map     --prompt "forest with river and road" --seed 123
   creation-engine ai texture --prompt "polished gold" --seed 42
-  creation-engine ai map     --prompt "dungeon ruins" --seed 7
+  creation-engine map     --prompt "forest with river and road" --seed 123
   creation-engine validate   --dir assets/
-
-GENERATED FILES (texture command)
-  <out>/<name>_albedo.png
-  <out>/<name>_normal.png
-  <out>/<name>_roughness.png
-  <out>/<name>_metallic.png
-  <out>/<name>_ao.png
-  <out>/<name>_emissive.png    (only if emissive material)
-  <out>/<name>.json            (PBR material descriptor)
-
-GENERATED FILES (map command)
-  <out>/<name>.json            (tilemap data)
+  creation-engine create-texture --type noise --seed 7 --out assets/textures/noise.png
+  creation-engine create-map --width 20 --height 15 --out assets/maps/world.json
 
 )" << std::flush;
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Argument parser
+// PBR argument parser (vector<string> style)
 // ─────────────────────────────────────────────────────────────────────────────
 
 /**
  * @brief Find the value for a named CLI argument.
  *
  * For "--key value" style arguments. Returns an empty string if not found.
- *
- * TEACHING NOTE — Argument Parsing
- * This manual scan is easy to understand but O(n) per lookup. Production
- * parsers (getopt, CLI11, argparse) use hashed structures for O(1) lookup
- * and also handle short flags, required args, and type validation.
- *
- * @param args  Full argv vector (excluding argv[0]).
- * @param key   Flag name including "--" prefix.
- * @param def   Default value if key is absent.
- * @return      Value string following the key, or `def`.
  */
 std::string getArg(const std::vector<std::string>& args,
                    const std::string&               key,
@@ -200,25 +222,28 @@ std::string toIdent(const std::string& s)
             out += '_';
         }
     }
-    // Remove trailing underscore
+    // Trim trailing underscore
     while (!out.empty() && out.back() == '_') out.pop_back();
-    return out.empty() ? "material" : out;
+    return out.empty() ? "unnamed" : out;
 }
 
-/** @brief Ensure a directory exists (creates it if necessary). */
+/**
+ * @brief Ensure a directory exists, creating it if necessary.
+ *
+ * TEACHING NOTE — Directory Creation
+ * std::filesystem::create_directories is cleaner in C++17 but adds a
+ * header dependency. CE_MKDIR is a thin cross-platform macro that maps to
+ * _mkdir (Windows) or mkdir (POSIX). We don't treat "already exists" as
+ * an error since that's the common case in incremental workflows.
+ */
 void ensureDir(const std::string& dir)
 {
-    CE_MKDIR(dir.c_str());
+    if (dir.empty()) return;
+    CE_MKDIR(dir.c_str());          // ignore error: dir may already exist
 }
 
-} // anonymous namespace
-
-// =============================================================================
-// Command handlers
-// =============================================================================
-
 // ─────────────────────────────────────────────────────────────────────────────
-// texture / ai texture
+// texture / ai texture (PBR)
 // ─────────────────────────────────────────────────────────────────────────────
 
 /**
@@ -227,7 +252,7 @@ void ensureDir(const std::string& dir)
  * Workflow:
  *   1. Parse CLI arguments.
  *   2. Run AI assist to infer PBR parameters from the prompt.
- *   3. Generate texture PNG files.
+ *   3. Generate PNG textures (albedo, normal, roughness, metallic, AO, emissive).
  *   4. Export material JSON.
  *
  * @return Exit code (0 = success).
@@ -238,11 +263,11 @@ int cmdTexture(const std::vector<std::string>& args)
     const uint32_t    seed   = static_cast<uint32_t>(std::stoul(getArg(args, "--seed",
                                     std::to_string(DEFAULT_SEED))));
     const std::string outDir = getArg(args, "--out",  DEFAULT_OUTPUT_DIR);
-    std::string       name   = getArg(args, "--name", "");
     const int         width  = std::stoi(getArg(args, "--width",
                                     std::to_string(DEFAULT_TEXTURE_SIZE)));
     const int         height = std::stoi(getArg(args, "--height",
                                     std::to_string(DEFAULT_TEXTURE_SIZE)));
+    std::string       name   = getArg(args, "--name", "");
 
     if (name.empty()) name = toIdent(prompt);
 
@@ -291,7 +316,7 @@ int cmdTexture(const std::vector<std::string>& args)
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// map / ai map
+// map / ai map (PBR)
 // ─────────────────────────────────────────────────────────────────────────────
 
 /**
@@ -364,9 +389,8 @@ int cmdMap(const std::vector<std::string>& args)
  *
  * TEACHING NOTE — Validation in Asset Pipelines
  * A validation step catches malformed assets before they crash the game
- * engine at runtime. It should run automatically in CI (Continuous
- * Integration) whenever the asset directory is modified. Think of it as
- * a "type checker" for your data files.
+ * engine at runtime. It should run automatically in CI whenever the asset
+ * directory is modified.
  *
  * @return Exit code (0 = all valid, 1 = one or more failures).
  */
@@ -374,14 +398,6 @@ int cmdValidate(const std::vector<std::string>& args)
 {
     std::string dir = getArg(args, "--dir", "assets");
     std::cout << "[creation-engine] Validating assets in: " << dir << "\n";
-
-    // Collect all .json files by scanning common subdirectories
-    std::vector<std::string> subdirs = {
-        dir,
-        dir + "/textures",
-        dir + "/materials",
-        dir + "/maps",
-    };
 
     int checked = 0, failed = 0;
 
@@ -429,7 +445,204 @@ int cmdValidate(const std::vector<std::string>& args)
     return (failed > 0) ? 1 : 0;
 }
 
+} // anonymous namespace
+
 } // namespace ce
+
+// =============================================================================
+// Legacy command handlers (create-texture / create-tileset / create-map)
+// =============================================================================
+// These commands use the flat src/ modules (TextureGenerator, MapEditor,
+// AssetIO) and the stb_image back-end. They are preserved from the previous
+// implementation so existing scripts and tutorials continue to work.
+
+namespace legacy {
+
+/** Return the argument following flag, or "" if not found. */
+static std::string getArg(int argc, char* argv[], const std::string& flag) {
+    for (int i = 1; i < argc - 1; ++i) {
+        if (std::string(argv[i]) == flag) return argv[i + 1];
+    }
+    return "";
+}
+
+/** Parse "RRGGBB" hex string into a Color. Returns grey on error. */
+static Color parseHex(const std::string& hex) {
+    if (hex.size() < 6) return {128, 128, 128, 255};
+    try {
+        unsigned r = std::stoul(hex.substr(0, 2), nullptr, 16);
+        unsigned g = std::stoul(hex.substr(2, 2), nullptr, 16);
+        unsigned b = std::stoul(hex.substr(4, 2), nullptr, 16);
+        return {static_cast<uint8_t>(r), static_cast<uint8_t>(g),
+                static_cast<uint8_t>(b), 255};
+    } catch (...) {
+        return {128, 128, 128, 255};
+    }
+}
+
+/** Parse "WxH" string into w and h. Defaults to 64x64 on error. */
+static void parseSize(const std::string& s, int& w, int& h) {
+    auto pos = s.find('x');
+    if (pos == std::string::npos) { w = 64; h = 64; return; }
+    try {
+        w = std::stoi(s.substr(0, pos));
+        h = std::stoi(s.substr(pos + 1));
+    } catch (...) { w = 64; h = 64; }
+    if (w <= 0) w = 64;
+    if (h <= 0) h = 64;
+}
+
+/** Collect all --color / --color2 values from argv in order. */
+static std::vector<std::string> getColorArgs(int argc, char* argv[]) {
+    std::vector<std::string> out;
+    for (int i = 1; i < argc - 1; ++i) {
+        std::string s(argv[i]);
+        if (s == "--color" || s == "--color2") out.push_back(argv[i + 1]);
+    }
+    return out;
+}
+
+/** Ensure output directory exists. */
+static void ensureOutputDir(const std::string& outPath) {
+    auto sep = outPath.find_last_of("/\\");
+    if (sep != std::string::npos) {
+        std::string dir = outPath.substr(0, sep);
+        if (!dir.empty()) AssetIO::ensureDirectory(dir);
+    }
+}
+
+/** Build a minimal default tileset definition. */
+static TilesetDef defaultTileset() {
+    TilesetDef ts;
+    ts.texturePath = "assets/textures/default_tileset.png";
+    ts.tileWidth   = 16;
+    ts.tileHeight  = 16;
+    ts.tiles = {
+        {0, "empty",  false},
+        {1, "ground", false},
+        {2, "wall",   true },
+        {3, "water",  false},
+        {4, "bwall",  true },
+        {5, "bfloor", false}
+    };
+    return ts;
+}
+
+/** Return tilesetPath, creating a default JSON file if the path does not exist. */
+static std::string ensureTileset(const std::string& tilesetPath) {
+    if (tilesetPath.empty()) {
+        std::string def = "assets/maps/default.tileset.json";
+        std::ifstream test(def);
+        if (!test.is_open()) {
+            AssetIO::ensureDirectory("assets/maps");
+            AssetIO::saveTileset(def, defaultTileset());
+        }
+        return def;
+    }
+    std::ifstream test(tilesetPath);
+    if (!test.is_open()) {
+        ensureOutputDir(tilesetPath);
+        AssetIO::saveTileset(tilesetPath, defaultTileset());
+    }
+    return tilesetPath;
+}
+
+static int cmdCreateTexture(int argc, char* argv[]) {
+    std::string type     = getArg(argc, argv, "--type");
+    std::string seedStr  = getArg(argc, argv, "--seed");
+    std::string sizeStr  = getArg(argc, argv, "--size");
+    std::string outPath  = getArg(argc, argv, "--out");
+    std::string scaleStr = getArg(argc, argv, "--scale");
+    std::string octStr   = getArg(argc, argv, "--octaves");
+
+    if (type.empty())    type    = "noise";
+    if (outPath.empty()) { std::cerr << "Error: --out is required\n"; return 1; }
+
+    uint32_t seed    = seedStr.empty()  ? 0u    : static_cast<uint32_t>(std::stoul(seedStr));
+    float    scale   = scaleStr.empty() ? 32.0f : std::stof(scaleStr);
+    int      octaves = octStr.empty()   ? 4     : std::stoi(octStr);
+
+    int w = 64, h = 64;
+    if (!sizeStr.empty()) parseSize(sizeStr, w, h);
+
+    auto colors = getColorArgs(argc, argv);
+    Color c1 = colors.size() > 0 ? parseHex(colors[0]) : Color{255, 255, 255, 255};
+    Color c2 = colors.size() > 1 ? parseHex(colors[1]) : Color{  0,   0,   0, 255};
+
+    Texture tex;
+    if      (type == "noise"    ) tex = TextureGenerator::perlinNoise(w, h, seed, octaves, scale, c1);
+    else if (type == "cellular" ) tex = TextureGenerator::cellular(w, h, seed, scale, c1, c2);
+    else if (type == "checker"  ) tex = TextureGenerator::checkerboard(w, h, c1, c2, 8);
+    else if (type == "stripes"  ) tex = TextureGenerator::stripes(w, h, c1, c2, 8, false);
+    else if (type == "gradient" ) tex = TextureGenerator::gradient(w, h, c1, c2, 90.0f);
+    else if (type == "radial"   ) tex = TextureGenerator::radialGradient(w, h, c1, c2);
+    else if (type == "solid"    ) tex = TextureGenerator::solidColor(w, h, c1);
+    else {
+        std::cerr << "Unknown texture type: " << type
+                  << "\n  Valid types: noise cellular checker stripes gradient radial solid\n";
+        return 1;
+    }
+
+    ensureOutputDir(outPath);
+    if (!AssetIO::savePNG(outPath, tex)) return 1;
+    AssetIO::saveTextureMetadata(outPath + ".meta.json", outPath, w, h, type, seed);
+
+    std::cout << "Texture saved: " << outPath << "  (" << w << "x" << h << ")\n";
+    return 0;
+}
+
+static int cmdCreateTileset(int argc, char* argv[]) {
+    std::string fromPath = getArg(argc, argv, "--from");
+    std::string tileStr  = getArg(argc, argv, "--tile");
+    std::string outPath  = getArg(argc, argv, "--out");
+
+    if (outPath.empty()) { std::cerr << "Error: --out is required\n"; return 1; }
+
+    int tileW = 16, tileH = 16;
+    if (!tileStr.empty()) parseSize(tileStr, tileW, tileH);
+
+    TilesetDef ts = defaultTileset();
+    if (!fromPath.empty()) ts.texturePath = fromPath;
+    ts.tileWidth  = tileW;
+    ts.tileHeight = tileH;
+
+    ensureOutputDir(outPath);
+    if (!AssetIO::saveTileset(outPath, ts)) return 1;
+    std::cout << "Tileset saved: " << outPath << "\n";
+    return 0;
+}
+
+static int cmdCreateMap(int argc, char* argv[]) {
+    std::string widthStr    = getArg(argc, argv, "--width");
+    std::string heightStr   = getArg(argc, argv, "--height");
+    std::string tileSzStr   = getArg(argc, argv, "--tileSize");
+    std::string tilesetPath = getArg(argc, argv, "--tileset");
+    std::string outPath     = getArg(argc, argv, "--out");
+    std::string seedStr     = getArg(argc, argv, "--seed");
+
+    if (outPath.empty()) { std::cerr << "Error: --out is required\n"; return 1; }
+
+    int mapW   = widthStr.empty()  ? 20 : std::stoi(widthStr);
+    int mapH   = heightStr.empty() ? 15 : std::stoi(heightStr);
+    int tileSz = tileSzStr.empty() ? 16 : std::stoi(tileSzStr);
+    uint32_t seed = seedStr.empty() ? 0u : static_cast<uint32_t>(std::stoul(seedStr));
+
+    tilesetPath = ensureTileset(tilesetPath);
+    ensureOutputDir(outPath);
+
+    GameMap map = MapEditor::createEmpty(mapW, mapH, tileSz, tileSz, tilesetPath);
+    MapEditor::generateTerrain(map, seed, 5.0f, 0.55f);
+    MapEditor::addSpawnPoint(map, "player_start",
+                              static_cast<float>(mapW / 2 * tileSz),
+                              static_cast<float>(mapH / 2 * tileSz));
+
+    if (!AssetIO::saveMap(outPath, map)) return 1;
+    std::cout << "Map saved: " << outPath
+              << "  (" << mapW << "x" << mapH << " tiles)\n";
+    return 0;
+}
+
+} // namespace legacy
 
 // =============================================================================
 // main()
@@ -453,34 +666,38 @@ int cmdValidate(const std::vector<std::string>& args)
  */
 int main(int argc, char* argv[])
 {
-    // Collect all arguments (excluding argv[0] = program name)
-    std::vector<std::string> args;
-    for (int i = 1; i < argc; ++i) args.emplace_back(argv[i]);
-
-    if (args.empty()) {
+    if (argc < 2) {
         ce::printHelp();
         return 0;
     }
 
-    // Dispatch on first argument (command name)
-    std::string cmd = args[0];
+    std::string cmd = argv[1];
+
+    // ── Legacy commands (create-texture / create-tileset / create-map) ───────
+    if (cmd == "create-texture") return legacy::cmdCreateTexture(argc, argv);
+    if (cmd == "create-tileset") return legacy::cmdCreateTileset(argc, argv);
+    if (cmd == "create-map")     return legacy::cmdCreateMap(argc, argv);
+
+    // ── PBR pipeline commands ─────────────────────────────────────────────────
+    // Collect all arguments (excluding argv[0] = program name)
+    std::vector<std::string> args;
+    for (int i = 1; i < argc; ++i) args.emplace_back(argv[i]);
 
     // Support "ai texture" and "ai map" as two-word commands
-    if (cmd == "ai" && args.size() >= 2) {
-        cmd = "ai_" + args[1];
-        args.erase(args.begin(), args.begin() + 2);  // remove "ai" + subcommand
-    } else {
-        args.erase(args.begin());  // remove command word
+    if (cmd == "ai" && argc >= 3) {
+        std::string sub = argv[2];
+        args.erase(args.begin(), args.begin() + 2);   // remove "ai" + subcommand
+        if (sub == "texture") return ce::cmdTexture(args);
+        if (sub == "map")     return ce::cmdMap(args);
+        std::cerr << "[ERROR] Unknown ai sub-command: '" << sub << "'\n";
+        return 1;
     }
 
-    if (cmd == "texture" || cmd == "ai_texture")
-        return ce::cmdTexture(args);
+    args.erase(args.begin());   // remove command word
 
-    if (cmd == "map"     || cmd == "ai_map")
-        return ce::cmdMap(args);
-
-    if (cmd == "validate")
-        return ce::cmdValidate(args);
+    if (cmd == "texture")  return ce::cmdTexture(args);
+    if (cmd == "map")      return ce::cmdMap(args);
+    if (cmd == "validate") return ce::cmdValidate(args);
 
     if (cmd == "help" || cmd == "--help" || cmd == "-h") {
         ce::printHelp();

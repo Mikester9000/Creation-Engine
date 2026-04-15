@@ -14,7 +14,7 @@
 #
 # Out-of-source builds keep generated files out of the source tree.
 
-cmake_minimum_required(VERSION 3.16)
+cmake_minimum_required(VERSION 3.14)
 project(CreationEngine VERSION 1.0 LANGUAGES CXX)
 
 # ---------------------------------------------------------------------------
@@ -49,16 +49,30 @@ message(STATUS "Build type: ${CMAKE_BUILD_TYPE}")
 # ---------------------------------------------------------------------------
 # Sources
 # ---------------------------------------------------------------------------
+# PBR pipeline modules (subdirectory layout)
 set(SOURCES
     src/main.cpp
     src/texture/TextureGen.cpp
     src/map/MapGen.cpp
     src/ai/AIAssist.cpp
+    # Legacy flat-layout modules (stb_image-based create-texture/map commands)
+    src/TextureGenerator.cpp
+    src/MapEditor.cpp
+    src/AssetIO.cpp
+    src/Noise.cpp
 )
 
 add_executable(creation-engine ${SOURCES})
 
-target_include_directories(creation-engine PRIVATE src/)
+# Include paths:
+#   src/        — our own headers (both flat and subdirectory)
+#   vendor/     — stb_image / stb_image_write (header-only, used by AssetIO)
+target_include_directories(creation-engine PRIVATE src/ vendor/)
+
+# Link math library (required on some Linux distros for std::sqrt etc.)
+target_link_libraries(creation-engine m)
+
+install(TARGETS creation-engine DESTINATION bin)
 
 # ---------------------------------------------------------------------------
 # Print configuration summary
