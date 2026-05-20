@@ -41,7 +41,7 @@ def _generate_cpp(cpp_bin: Path, prompt: str, width: int, height: int, seed: int
             "--prompt",
             prompt,
             "--seed",
-            str(seed or 42),
+            str(42 if seed is None else seed),
             "--out",
             tmpdir,
             "--width",
@@ -68,8 +68,9 @@ def _generate_cpp(cpp_bin: Path, prompt: str, width: int, height: int, seed: int
 
 def _generate_python_fallback(prompt: str, width: int, height: int, seed: int | None):
     del prompt
-    np.random.seed(seed or 42)
-    tiles = np.random.randint(0, 5, size=(height, width))
+    seed_value = 42 if seed is None else seed
+    rng = np.random.default_rng(seed_value)
+    tiles = rng.integers(0, 5, size=(height, width))
     return {
         "tiles": tiles,
         "props": [],

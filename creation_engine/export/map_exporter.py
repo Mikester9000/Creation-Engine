@@ -40,7 +40,7 @@ def export_tilemap(
         "version": "1.0",
         "name": name,
         "prompt": prompt,
-        "seed": seed or 42,
+        "seed": 42 if seed is None else seed,
         "width": width,
         "height": height,
         "tiles": tile_rows,

@@ -49,8 +49,24 @@ def export_obj(
         if isinstance(indices, np.ndarray):
             indices = indices.reshape(-1).tolist()
 
+        if len(indices) % 3 != 0:
+            raise ValueError(
+                f"Index buffer length {len(indices)} is not a multiple of 3; "
+                "only triangulated meshes are supported."
+            )
+
+        has_uvs = uvs is not None
+        has_normals = normals is not None
+
         for i in range(0, len(indices), 3):
             i1, i2, i3 = indices[i] + 1, indices[i + 1] + 1, indices[i + 2] + 1
-            f.write(f"f {i1} {i2} {i3}\n")
+            if has_uvs and has_normals:
+                f.write(f"f {i1}/{i1}/{i1} {i2}/{i2}/{i2} {i3}/{i3}/{i3}\n")
+            elif has_normals:
+                f.write(f"f {i1}//{i1} {i2}//{i2} {i3}//{i3}\n")
+            elif has_uvs:
+                f.write(f"f {i1}/{i1} {i2}/{i2} {i3}/{i3}\n")
+            else:
+                f.write(f"f {i1} {i2} {i3}\n")
 
     return path

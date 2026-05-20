@@ -80,7 +80,6 @@ def main(argv: list[str] | None = None) -> int:
         )
     else:
         parser.error(f"Unknown command: {args.command}")
-        return 2
 
     print(path)
     return 0

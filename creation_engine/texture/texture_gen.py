@@ -60,7 +60,8 @@ def _generate_cpp(
             path = Path(tmpdir) / f"{output_name}_{channel}.png"
             if not path.exists():
                 return _generate_python_fallback(prompt, width, height, seed)
-            generated[channel] = np.array(Image.open(path))
+            with Image.open(path) as img:
+                generated[channel] = np.array(img)
 
         return generated
 
