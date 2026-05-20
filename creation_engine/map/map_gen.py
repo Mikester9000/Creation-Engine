@@ -5,6 +5,8 @@ import subprocess
 from pathlib import Path
 
 import numpy as np
+from creation_engine.map.tileset_specs import THEME_ALIASES, TILESET_SPECS
+from creation_engine.prompting import tokenize_prompt
 
 
 def generate_tilemap(
@@ -57,22 +59,165 @@ def _generate_cpp(cpp_bin: Path, prompt: str, width: int, height: int, seed: int
         if json_files:
             with open(json_files[0], encoding="utf-8") as f:
                 data = json.load(f)
+            theme = _pick_theme(prompt)
+            tileset_name = data.get("tileset", TILESET_SPECS[theme]["id"])
             return {
                 "tiles": np.array(data["tiles"]),
                 "props": data.get("props", []),
-                "tileset": data.get("tileset", "default"),
+                "tileset": tileset_name,
+                "theme": theme,
+                "map_family": "world",
             }
 
     return _generate_python_fallback(prompt, width, height, seed)
 
 
 def _generate_python_fallback(prompt: str, width: int, height: int, seed: int | None):
-    del prompt
     seed_value = 42 if seed is None else seed
-    rng = np.random.default_rng(seed_value)
-    tiles = rng.integers(0, 5, size=(height, width))
+    theme = _pick_theme(prompt)
+    spec = TILESET_SPECS[theme]
+    prompt_mix = sum(ord(ch) for ch in prompt.lower())
+    rng = np.random.default_rng(seed_value + prompt_mix)
+
+    if spec["style"] == "indoor":
+        tiles = _generate_indoor_layout(width, height, rng, floor_id=0, wall_id=1)
+    elif spec["style"] == "coast":
+        tiles = _generate_coast_layout(width, height, rng)
+    elif spec["style"] == "desert":
+        tiles = _generate_desert_layout(width, height, rng)
+    elif spec["style"] == "snow":
+        tiles = _generate_snow_layout(width, height, rng)
+    elif spec["style"] == "forest":
+        tiles = _generate_forest_layout(width, height, rng)
+    elif spec["style"] == "town":
+        tiles = _generate_town_layout(width, height, rng)
+    elif spec["style"] == "ruins":
+        tiles = _generate_ruins_layout(width, height, rng)
+    else:
+        tiles = _generate_overworld_layout(width, height, rng)
+
     return {
         "tiles": tiles,
-        "props": [],
-        "tileset": "default",
+        "props": _generate_props(theme, width, height, rng),
+        "tileset": spec["id"],
+        "theme": theme,
+        "map_family": "world",
     }
+
+
+def _pick_theme(prompt: str) -> str:
+    tokens = tokenize_prompt(prompt)
+    for token in tokens:
+        if token in THEME_ALIASES:
+            return THEME_ALIASES[token]
+    return "overworld"
+
+
+def _generate_overworld_layout(width: int, height: int, rng: np.random.Generator) -> np.ndarray:
+    noise = rng.random((height, width))
+    tiles = np.full((height, width), 3, dtype=np.int32)
+    tiles[noise < 0.12] = 2
+    tiles[noise > 0.82] = 5
+    tiles[(noise > 0.48) & (noise < 0.54)] = 7
+    return tiles
+
+
+def _generate_forest_layout(width: int, height: int, rng: np.random.Generator) -> np.ndarray:
+    noise = rng.random((height, width))
+    tiles = np.full((height, width), 3, dtype=np.int32)
+    tiles[noise > 0.55] = 5
+    stream_col = int(rng.integers(0, max(1, width)))
+    tiles[:, max(0, stream_col - 1) : min(width, stream_col + 1)] = 2
+    return tiles
+
+
+def _generate_desert_layout(width: int, height: int, rng: np.random.Generator) -> np.ndarray:
+    noise = rng.random((height, width))
+    tiles = np.full((height, width), 4, dtype=np.int32)
+    tiles[(noise > 0.58) & (noise < 0.73)] = 0
+    road_row = int(rng.integers(0, max(1, height)))
+    tiles[max(0, road_row - 1) : min(height, road_row + 1), :] = 7
+    return tiles
+
+
+def _generate_coast_layout(width: int, height: int, rng: np.random.Generator) -> np.ndarray:
+    noise = rng.random((height, width))
+    shoreline = int(width * 0.35) + int(rng.integers(-2, 3))
+    tiles = np.full((height, width), 4, dtype=np.int32)
+    tiles[:, : max(1, shoreline)] = 2
+    tiles[(noise > 0.70) & (np.arange(width)[None, :] > shoreline)] = 3
+    return tiles
+
+
+def _generate_snow_layout(width: int, height: int, rng: np.random.Generator) -> np.ndarray:
+    noise = rng.random((height, width))
+    tiles = np.full((height, width), 6, dtype=np.int32)
+    tiles[noise < 0.10] = 2
+    tiles[(noise > 0.42) & (noise < 0.49)] = 7
+    return tiles
+
+
+def _generate_town_layout(width: int, height: int, rng: np.random.Generator) -> np.ndarray:
+    tiles = np.full((height, width), 0, dtype=np.int32)
+    tiles[::4, :] = 7
+    tiles[:, ::6] = 7
+    for _ in range(max(2, width * height // 200)):
+        x = int(rng.integers(1, max(2, width - 3)))
+        y = int(rng.integers(1, max(2, height - 3)))
+        tiles[y : y + 2, x : x + 3] = 1
+    return tiles
+
+
+def _generate_ruins_layout(width: int, height: int, rng: np.random.Generator) -> np.ndarray:
+    tiles = _generate_indoor_layout(width, height, rng, floor_id=0, wall_id=1)
+    rubble = rng.random((height, width)) > 0.88
+    tiles[rubble] = 4
+    return tiles
+
+
+def _generate_indoor_layout(
+    width: int,
+    height: int,
+    rng: np.random.Generator,
+    floor_id: int,
+    wall_id: int,
+) -> np.ndarray:
+    tiles = np.full((height, width), floor_id, dtype=np.int32)
+    tiles[0, :] = wall_id
+    tiles[-1, :] = wall_id
+    tiles[:, 0] = wall_id
+    tiles[:, -1] = wall_id
+    for _ in range(max(2, width // 8)):
+        x = int(rng.integers(2, max(3, width - 2)))
+        tiles[:, x : x + 1] = wall_id
+    for _ in range(max(2, height // 8)):
+        y = int(rng.integers(2, max(3, height - 2)))
+        tiles[y : y + 1, :] = wall_id
+    return tiles
+
+
+def _generate_props(theme: str, width: int, height: int, rng: np.random.Generator) -> list[dict[str, int | str]]:
+    templates = {
+        "overworld": ["save_point", "chest"],
+        "forest": ["chest", "campfire"],
+        "desert": ["chest", "obelisk"],
+        "coast": ["boat_marker", "chest"],
+        "snowfield": ["save_point", "ice_crystal"],
+        "town": ["shop_marker", "inn_marker"],
+        "dungeon": ["chest", "enemy_spawn"],
+        "ruins": ["chest", "shrine_marker"],
+        "temple": ["save_point", "shrine_marker"],
+        "cave": ["chest", "enemy_spawn"],
+        "castle": ["save_point", "chest"],
+    }
+    types = templates.get(theme, ["chest"])
+    props: list[dict[str, int | str]] = []
+    for prop_type in types:
+        props.append(
+            {
+                "type": prop_type,
+                "x": int(rng.integers(1, max(2, width - 1))),
+                "y": int(rng.integers(1, max(2, height - 1))),
+            }
+        )
+    return props

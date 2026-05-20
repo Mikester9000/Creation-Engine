@@ -29,6 +29,13 @@ def test_engine_generates_assets(tmp_path):
     map_file = engine.generate_map("forest", width=8, height=8)
     assert map_file.exists()
     assert map_file.name == "forest.json"
+    with open(map_file, encoding="utf-8") as f:
+        map_manifest = json.load(f)
+    assert map_manifest["map_family"] == "world"
+    assert map_manifest["theme"] == "forest"
+    assert map_manifest["tileset_meta"]["id"] == map_manifest["tileset"]
+    assert map_manifest["content_target"]["world"] == "Content/World"
+    assert map_manifest["summary"]["prop_count"] >= 0
 
     mesh_file = engine.generate_mesh("pillar", complexity="low")
     assert mesh_file.exists()
