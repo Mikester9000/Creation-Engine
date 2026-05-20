@@ -1,0 +1,32 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "creation-engine"
+version = "2.0.0"
+description = "Asset generation factory for GameRewritten engine"
+authors = [{name = "Mikester9000"}]
+license = {text = "MIT"}
+requires-python = ">=3.9"
+dependencies = [
+    "numpy>=1.24",
+    "pillow>=10.0",
+]
+
+[project.optional-dependencies]
+mesh = ["assimp>=5.2", "trimesh>=3.21"]
+shader = ["scipy>=1.10"]
+dev = ["pytest>=7.0", "black", "ruff"]
+
+[project.scripts]
+creation-engine = "creation_engine.cli:main"
+
+[tool.black]
+line-length = 100
+
+[tool.ruff]
+line-length = 100
+
+[tool.setuptools.packages.find]
+include = ["creation_engine*"]

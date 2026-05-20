@@ -29,6 +29,12 @@ CTestTestfile.cmake
 *.a
 *.so
 
+# Python artifacts
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+
 # Assets generated at runtime (leave sample JSON committed, not runtime PNGs)
 # Uncomment if you don't want to track generated PNG assets:
 # assets/textures/*.png
