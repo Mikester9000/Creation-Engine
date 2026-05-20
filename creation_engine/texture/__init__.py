@@ -1,0 +1,1 @@
+"""Texture generation bridge module."""

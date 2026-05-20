@@ -1,0 +1,1 @@
+"""Map generation bridge module."""
