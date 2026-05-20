@@ -67,7 +67,7 @@ namespace ce {
 // =============================================================================
 
 /// JSON format version — increment when the schema changes.
-constexpr const char* MATERIAL_FORMAT_VERSION = "1.0";
+constexpr const char* MATERIAL_FORMAT_VERSION = "1.1";
 
 /**
  * @struct Material
@@ -81,6 +81,7 @@ struct Material {
     // ── Identity ──────────────────────────────────────────────────────────────
     std::string name;               ///< Identifier (e.g., "wet_stone").
     std::string version = MATERIAL_FORMAT_VERSION;  ///< JSON format version.
+    std::string shader  = "Shaders/basic3d";        ///< Target shader path for runtime material binding.
 
     // ── Scalar PBR parameters ─────────────────────────────────────────────────
     // These values are used when the corresponding texture is absent, and also
@@ -116,12 +117,14 @@ struct Material {
  * Output format (asset spec):
  * @code
  * {
- *   "version": "1.0",
+ *   "version": "1.1",
  *   "name": "wet_stone",
+ *   "shader": "Shaders/basic3d",
  *   "prompt": "wet stone",
  *   "seed": 123,
  *   "params": {
- *     "baseColor": [0.22, 0.22, 0.22],
+ *     "color":     [0.22, 0.22, 0.22, 1.0],
+ *     "baseColor": [0.22, 0.22, 0.22, 1.0],
  *     "roughness": 0.45,
  *     "metallic": 0.0,
  *     "ao": 1.0,
@@ -137,6 +140,11 @@ struct Material {
  *   }
  * }
  * @endcode
+ * Teaching note: `shader` identifies which runtime shader should render this
+ * material in engines such as GameRewritten. Version bumped to "1.1" to reflect
+ * the schema change (added `shader`; renamed color key to `color`). Both
+ * `params.color` (new canonical key) and `params.baseColor` (legacy alias) are
+ * emitted so older consumers remain compatible without a migration step.
  *
  * @param mat  Material to serialise.
  * @return     Pretty-printed JSON string.
@@ -148,6 +156,7 @@ inline std::string materialToJson(const Material& mat)
 
     j.keyString("version", mat.version);
     j.keyString("name",    mat.name);
+    j.keyString("shader",  mat.shader);
     j.keyString("prompt",  mat.prompt);
     j.keyInt   ("seed",    static_cast<int64_t>(mat.seed));
 
@@ -155,11 +164,21 @@ inline std::string materialToJson(const Material& mat)
     j.writeKey("params");
     j.beginObject();
 
+        j.writeKey("color");
+        j.beginArray();
+            j.writeFloat(mat.baseColor[0]);
+            j.writeFloat(mat.baseColor[1]);
+            j.writeFloat(mat.baseColor[2]);
+            j.writeFloat(1.0f);
+        j.endArray();
+
+        // Legacy alias — consumers that still read "baseColor" remain compatible.
         j.writeKey("baseColor");
         j.beginArray();
             j.writeFloat(mat.baseColor[0]);
             j.writeFloat(mat.baseColor[1]);
             j.writeFloat(mat.baseColor[2]);
+            j.writeFloat(1.0f);
         j.endArray();
 
         j.keyFloat("roughness", mat.roughness);
