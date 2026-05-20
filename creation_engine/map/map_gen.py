@@ -22,6 +22,9 @@ def generate_tilemap(
     dict
         Keys: tiles (2D array), props (list), tileset (str)
     """
+    if width < 1 or height < 1:
+        raise ValueError("width and height must be >= 1")
+
     cpp_bin = Path(__file__).resolve().parents[2] / "build" / "creation-engine"
 
     if cpp_bin.exists():
@@ -143,8 +146,9 @@ def _generate_desert_layout(width: int, height: int, rng: np.random.Generator) -
 def _generate_coast_layout(width: int, height: int, rng: np.random.Generator) -> np.ndarray:
     noise = rng.random((height, width))
     shoreline = int(width * 0.35) + int(rng.integers(-2, 3))
+    shoreline = min(max(1, shoreline), width - 1) if width > 1 else 1
     tiles = np.full((height, width), 4, dtype=np.int32)
-    tiles[:, : max(1, shoreline)] = 2
+    tiles[:, :shoreline] = 2
     tiles[(noise > 0.70) & (np.arange(width)[None, :] > shoreline)] = 3
     return tiles
 
@@ -196,7 +200,9 @@ def _generate_indoor_layout(
     return tiles
 
 
-def _generate_props(theme: str, width: int, height: int, rng: np.random.Generator) -> list[dict[str, int | str]]:
+def _generate_props(
+    theme: str, width: int, height: int, rng: np.random.Generator
+) -> list[dict[str, int | str]]:
     templates = {
         "overworld": ["save_point", "chest"],
         "forest": ["chest", "campfire"],

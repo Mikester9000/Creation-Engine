@@ -39,10 +39,11 @@ def export_tilemap(
     width = len(tile_rows[0]) if tile_rows else 0
 
     theme = map_data.get("theme", "overworld")
-    tileset_id = map_data.get("tileset", TILESET_SPECS[theme]["id"])
+    resolved_theme_spec = TILESET_SPECS.get(theme, TILESET_SPECS["overworld"])
+    tileset_id = map_data.get("tileset", resolved_theme_spec["id"])
     tileset_spec = next(
         (spec for spec in TILESET_SPECS.values() if spec["id"] == tileset_id),
-        TILESET_SPECS.get(theme, TILESET_SPECS["overworld"]),
+        resolved_theme_spec,
     )
 
     tile_counts: dict[str, int] = {}

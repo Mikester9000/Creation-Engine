@@ -97,6 +97,7 @@ THEME_ALIASES = {
     "town": "town",
     "city": "town",
     "dungeon": "dungeon",
+    "ruin": "ruins",
     "ruins": "ruins",
     "coast": "coast",
     "coastal": "coast",
@@ -108,4 +109,3 @@ THEME_ALIASES = {
     "cave": "cave",
     "castle": "castle",
 }
-

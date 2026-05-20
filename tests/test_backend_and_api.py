@@ -1,7 +1,12 @@
 import json
 
+import numpy as np
+import pytest
 from creation_engine.backend import BackendRegistry, ProceduralBackend
 from creation_engine.engine import CreationEngine
+from creation_engine.export.map_exporter import export_tilemap
+from creation_engine.map.map_gen import _generate_coast_layout, _pick_theme, generate_tilemap
+from creation_engine.map.tileset_specs import TILESET_SPECS
 
 
 def test_backend_registry_procedural_available():
@@ -40,3 +45,37 @@ def test_engine_generates_assets(tmp_path):
     mesh_file = engine.generate_mesh("pillar", complexity="low")
     assert mesh_file.exists()
     assert mesh_file.suffix == ".obj"
+
+
+def test_export_tilemap_unknown_theme_falls_back_to_overworld_tileset(tmp_path):
+    map_file = export_tilemap(
+        map_data={"tiles": np.array([[1, 2], [3, 4]], dtype=np.int32), "theme": "unknown_theme"},
+        output_dir=tmp_path,
+        name="unknown_theme_map",
+        prompt="unknown",
+        seed=1,
+    )
+    with open(map_file, encoding="utf-8") as f:
+        exported = json.load(f)
+    assert exported["tileset"] == TILESET_SPECS["overworld"]["id"]
+
+
+def test_generate_tilemap_rejects_non_positive_dimensions():
+    with pytest.raises(ValueError, match="width and height must be >= 1"):
+        generate_tilemap("forest", width=0, height=8, seed=1)
+
+
+def test_coast_layout_clamps_shoreline_before_grass_mask():
+    class StubRng:
+        def random(self, shape):
+            return np.full(shape, 0.9)
+
+        def integers(self, low, high):
+            return -2
+
+    tiles = _generate_coast_layout(width=3, height=2, rng=StubRng())
+    assert np.all(tiles[:, 0] == 2)
+
+
+def test_pick_theme_maps_ruin_to_ruins():
+    assert _pick_theme("ruin") == "ruins"
