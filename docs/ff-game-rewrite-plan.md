@@ -43,6 +43,7 @@ Included scope:
 - static enemy and NPC placeholder meshes
 - manifests / catalogs / bundle metadata
 - validation for all exported asset families
+- GameRewritten-compatible relative paths and schema fields for all exported non-audio/non-animation assets
 
 ---
 
@@ -122,6 +123,8 @@ Use these rules for every task below.
 10. After each task, run only the smallest relevant test or command.
 11. If a task creates a new file, do not also edit another file in that same task.
 12. If later tasks need symbols from new files, do that in the later planned file-specific task.
+13. Every exported asset must include enough metadata to map into `GameRewritten/Content/*` without manual schema guessing.
+14. Keep compatibility targets focused on static assets only (no animation and no audio).
 
 Validation command already used by this repo:
 
@@ -171,6 +174,20 @@ python -m pytest tests/test_backend_and_api.py tests/test_cli.py
 - per-pack manifest
 - bundle manifest
 - validation schema fields shared by all exporters
+- GameRewritten compatibility report per bundle
+
+---
+
+## GameRewritten Compatibility Contract
+
+All tasks that export files must satisfy this compatibility contract:
+
+- Material metadata must include `name`, `shader`, `textures`, and `params.color` (RGBA) so it can map to GameRewritten material loaders.
+- Texture and material references must be exported as deterministic relative paths that can be remapped into `Content/Textures` and `Content/Materials`.
+- Map exports must include deterministic dimensions, tile payload, and tileset/theme metadata needed for GameRewritten world import adapters.
+- Mesh exports must include deterministic model metadata and material slot references for placement in `Content/Models` and `Content/Materials`.
+- UI exports (icons, panels, portraits) must include metadata that can be mapped to `Content/UI`.
+- Bundle metadata must include a full file manifest with family labels and target `Content/*` destination hints.
 
 ---
 
@@ -327,9 +344,11 @@ REQUIREMENTS:
 - Keep existing PNG writing.
 - Add material metadata JSON beside the PNGs.
 - Include family, prompt, seed, width, height, channels, and relative file names.
+- Include GameRewritten material compatibility fields (`shader`, `params.color` RGBA, and deterministic texture path hints).
 - Return the main output directory path like today.
 DONE_WHEN:
 - A texture export produces both image files and one manifest JSON.
+- Exported metadata is directly mappable into `GameRewritten/Content/Materials` and `GameRewritten/Content/Textures`.
 ```
 
 ### TASK 08 — Create tileset specification library
@@ -392,8 +411,10 @@ REQUIREMENTS:
 - Add map family, theme, tileset metadata, and summary counts.
 - Keep tiles and props fields.
 - Make exported JSON easy to validate later.
+- Add destination hints for GameRewritten world ingestion under `Content/World`.
 DONE_WHEN:
 - Map exports contain enough metadata to be cataloged in bundles.
+- Map metadata can be consumed by a deterministic adapter without ambiguous field inference.
 ```
 
 ### TASK 11 — Create static mesh family library
@@ -477,9 +498,11 @@ REQUIREMENTS:
 - Keep OBJ export.
 - Add MTL output.
 - Add JSON sidecar manifest with family, prompt, seed, material slots, and file references.
+- Include destination hints for `GameRewritten/Content/Models` and linked material records in `Content/Materials`.
 - Keep triangulated validation.
 DONE_WHEN:
 - One mesh export writes OBJ, MTL, and manifest consistently.
+- Mesh manifest fields are sufficient for direct GameRewritten importer wiring.
 ```
 
 ### TASK 15 — Create shared manifest exporter
@@ -497,6 +520,7 @@ READ_LINES_3: 1-160
 GOAL: Create one shared helper to write normalized manifest JSON for all asset families.
 REQUIREMENTS:
 - Include version, asset family, prompt, seed, files, tags, and source generator.
+- Include per-file `content_target` hints for GameRewritten `Content/*` directories.
 - Keep file writing centralized.
 - Do not add schema validation libraries.
 DONE_WHEN:
@@ -661,6 +685,7 @@ REQUIREMENTS:
 - List which asset packs are mandatory.
 - List prompts or themes per pack.
 - Exclude animation and audio explicitly.
+- Define expected `Content/*` destination mapping for every included asset family.
 - Keep bundle recipe data-only.
 DONE_WHEN:
 - Engine and CLI can build the full bundle from one deterministic recipe source.
@@ -683,6 +708,7 @@ GOAL: Wire the bundle recipe into engine-level full-bundle generation and manife
 MAX_EXISTING_LINES_TO_MODIFY: 120
 DONE_WHEN:
 - The engine can build a full GameRewritten static asset bundle and write a top-level bundle manifest.
+- The top-level bundle manifest contains destination mapping for all files and a compatibility summary block.
 ```
 
 ### TASK 25 — Add validation tests for richer asset outputs
@@ -702,6 +728,7 @@ REQUIREMENTS:
 - Keep current tests.
 - Add assertions for sidecar manifests.
 - Add assertions for one pack-level generation method.
+- Add assertions that exported manifests include GameRewritten compatibility fields and `content_target` hints.
 DONE_WHEN:
 - Tests validate the expanded asset pipeline at API level.
 ```
@@ -721,6 +748,7 @@ GOAL: Add CLI test coverage for at least one UI command and one full-pack comman
 MAX_EXISTING_LINES_TO_MODIFY: 25
 DONE_WHEN:
 - CLI tests prove new command routing works and produces files in expected locations.
+- CLI tests verify compatibility metadata exists in generated outputs.
 ```
 
 ### TASK 27 — Update README with full asset-bundle workflow
@@ -832,10 +860,13 @@ The project is done when all statements below are true:
 - Creation-Engine can generate all GameRewritten static asset families listed in this plan.
 - Animation is still excluded.
 - Audio is still excluded.
+- Rigging and skeletal animation data remain excluded from scope.
 - Existing texture, map, and mesh commands still work.
 - New asset-family commands exist.
 - A full GameRewritten bundle command exists.
 - Every exported asset family writes metadata manifests.
+- Every exported asset family includes deterministic destination hints for `GameRewritten/Content/*`.
+- Bundle output includes a compatibility summary proving all non-audio/non-animation families were generated.
 - README, format spec, and tutorial match the implementation.
 - Tests cover both API and CLI paths for the new static asset pipeline.
 
