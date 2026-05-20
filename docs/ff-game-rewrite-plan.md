@@ -182,7 +182,7 @@ python -m pytest tests/test_backend_and_api.py tests/test_cli.py
 
 All tasks that export files must satisfy this compatibility contract:
 
-- Material metadata must include `name`, `shader`, `textures`, and `params.color` (RGBA) so it can map to GameRewritten material loaders.
+- Material metadata must include `name`, `shader`, `textures`, `params.color` (RGBA, canonical), and `params.baseColor` (RGBA, legacy alias) so it can map to both new and old GameRewritten material loaders. Format version must be `1.1` or higher to signal the schema change.
 - Texture and material references must be exported as deterministic relative paths that can be remapped into `Content/Textures` and `Content/Materials`.
 - Map exports must include deterministic dimensions, tile payload, and tileset/theme metadata needed for GameRewritten world import adapters.
 - Mesh exports must include deterministic model metadata and material slot references for placement in `Content/Models` and `Content/Materials`.

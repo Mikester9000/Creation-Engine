@@ -79,13 +79,14 @@ Output: `assets/<name>.json`
 
 ```json
 {
-  "version": "1.0",
+  "version": "1.1",
   "name": "wet_stone",
   "shader": "Shaders/basic3d",
   "prompt": "wet stone",
   "seed": 123,
   "params": {
-    "color": [0.256, 0.24, 0.224, 1.0],
+    "color":     [0.256, 0.24, 0.224, 1.0],
+    "baseColor": [0.256, 0.24, 0.224, 1.0],
     "roughness": 0.3825,
     "metallic": 0,
     "ao": 1,
@@ -102,7 +103,7 @@ Output: `assets/<name>.json`
 }
 ```
 
-Materials now include a GameRewritten-compatible `shader` field and RGBA `params.color`, while retaining legacy traceability and extra PBR fields for backward compatibility.
+Materials now include a GameRewritten-compatible `shader` field and RGBA `params.color`. The legacy `params.baseColor` key is also emitted with identical values so that existing tooling continues to work without modification. The format version has been bumped to `1.1` to signal the schema change (added `shader`; canonical color key renamed to `color`).
 
 **PBR channel descriptions:**
 
