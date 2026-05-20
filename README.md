@@ -1,6 +1,6 @@
 # Creation Engine
 
-Texture + Map Editor for [Game Engine for Teaching](https://github.com/Mikester9000/Game-Engine-for-Teaching-)
+Texture + Map Editor for [Game Engine for Teaching](https://github.com/Mikester9000/Game-Engine-for-Teaching-) with material export compatibility for [GameRewritten](https://github.com/Mikester9000/GameRewritten)
 
 Produces **PBR-lite PNG textures** and **JSON tilemaps** designed around a
 practical FFXV-like look, with a fully **offline, deterministic AI-assist**
@@ -81,10 +81,11 @@ Output: `assets/<name>.json`
 {
   "version": "1.0",
   "name": "wet_stone",
+  "shader": "Shaders/basic3d",
   "prompt": "wet stone",
   "seed": 123,
   "params": {
-    "baseColor": [0.256, 0.24, 0.224],
+    "color": [0.256, 0.24, 0.224, 1.0],
     "roughness": 0.3825,
     "metallic": 0,
     "ao": 1,
@@ -100,6 +101,8 @@ Output: `assets/<name>.json`
   }
 }
 ```
+
+Materials now include a GameRewritten-compatible `shader` field and RGBA `params.color`, while retaining legacy traceability and extra PBR fields for backward compatibility.
 
 **PBR channel descriptions:**
 
@@ -302,4 +305,3 @@ Creation-Engine/
   1. Load `wet_stone.json` in Python and print its `params.roughness`.
   2. Write a shell script that generates 10 materials with seeds 1–10.
   3. Add the `validate` command to a CI pipeline and break it intentionally.
-

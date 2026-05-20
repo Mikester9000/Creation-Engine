@@ -81,6 +81,7 @@ struct Material {
     // ── Identity ──────────────────────────────────────────────────────────────
     std::string name;               ///< Identifier (e.g., "wet_stone").
     std::string version = MATERIAL_FORMAT_VERSION;  ///< JSON format version.
+    std::string shader  = "Shaders/basic3d";        ///< Target shader path for runtime material binding.
 
     // ── Scalar PBR parameters ─────────────────────────────────────────────────
     // These values are used when the corresponding texture is absent, and also
@@ -118,10 +119,11 @@ struct Material {
  * {
  *   "version": "1.0",
  *   "name": "wet_stone",
+ *   "shader": "Shaders/basic3d",
  *   "prompt": "wet stone",
  *   "seed": 123,
  *   "params": {
- *     "baseColor": [0.22, 0.22, 0.22],
+ *     "color": [0.22, 0.22, 0.22, 1.0],
  *     "roughness": 0.45,
  *     "metallic": 0.0,
  *     "ao": 1.0,
@@ -137,6 +139,9 @@ struct Material {
  *   }
  * }
  * @endcode
+ * Teaching note: `shader` identifies which runtime shader should render this
+ * material in engines such as GameRewritten. We keep `version`, `prompt`, and
+ * `seed` for backward-compatible traceability of generated assets.
  *
  * @param mat  Material to serialise.
  * @return     Pretty-printed JSON string.
@@ -148,6 +153,7 @@ inline std::string materialToJson(const Material& mat)
 
     j.keyString("version", mat.version);
     j.keyString("name",    mat.name);
+    j.keyString("shader",  mat.shader);
     j.keyString("prompt",  mat.prompt);
     j.keyInt   ("seed",    static_cast<int64_t>(mat.seed));
 
@@ -155,11 +161,12 @@ inline std::string materialToJson(const Material& mat)
     j.writeKey("params");
     j.beginObject();
 
-        j.writeKey("baseColor");
+        j.writeKey("color");
         j.beginArray();
             j.writeFloat(mat.baseColor[0]);
             j.writeFloat(mat.baseColor[1]);
             j.writeFloat(mat.baseColor[2]);
+            j.writeFloat(1.0f);
         j.endArray();
 
         j.keyFloat("roughness", mat.roughness);
