@@ -5,6 +5,7 @@ from pathlib import Path
 from typing import Any
 
 from creation_engine.backend import AssetBackend, BackendRegistry
+from creation_engine.prompting import classify_prompt
 from creation_engine.export.map_exporter import export_tilemap
 from creation_engine.export.mesh_exporter import export_obj
 from creation_engine.export.texture_exporter import export_pbr_textures
@@ -44,7 +45,17 @@ class CreationEngine:
             seed=seed,
             **kwargs,
         )
-        return export_pbr_textures(texture_data=texture_data, output_dir=out_dir, name=asset_name)
+        parsed = classify_prompt(prompt)
+        return export_pbr_textures(
+            texture_data=texture_data,
+            output_dir=out_dir,
+            name=asset_name,
+            prompt=prompt,
+            seed=seed,
+            family=str(parsed["family"]),
+            width=width,
+            height=height,
+        )
 
     def generate_map(
         self,

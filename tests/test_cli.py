@@ -1,3 +1,5 @@
+import json
+
 from creation_engine.cli import main
 
 
@@ -22,3 +24,7 @@ def test_texture_command(tmp_path):
     )
     assert rc == 0
     assert (tmp_path / "stone_albedo.png").exists()
+    with open(tmp_path / "stone.json", encoding="utf-8") as f:
+        manifest = json.load(f)
+    assert manifest["family"] == "props"
+    assert manifest["content_target"]["textures"] == "Content/Textures"
