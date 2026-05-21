@@ -121,3 +121,10 @@ def resolve_tileset_theme(prompt: str) -> str:
 
 def tileset_spec_for_theme(theme: str) -> dict:
     return TILESET_SPECS.get(theme, TILESET_SPECS["overworld"])
+
+
+def tileset_spec_for_id(tileset_id: str) -> dict | None:
+    for spec in TILESET_SPECS.values():
+        if spec["id"] == tileset_id:
+            return spec
+    return None

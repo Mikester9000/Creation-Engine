@@ -64,7 +64,7 @@ Output: `assets/<name>_albedo.png`, `_normal.png`, `_roughness.png`,
 
 Output: `assets/<name>.json` for maps, `assets/<name>.obj` for meshes.
 
-### Validate assets
+### Generate additional static assets
 
 ```bash
 ./creation-engine ui-icon --prompt "quest icon" --seed 7 --output assets

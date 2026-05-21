@@ -287,7 +287,7 @@ class CreationEngine:
         return self._generate_texture_pack(
             pack_name="decal_pack",
             asset_family=ASSET_FAMILY_DECALS,
-            prompts=GAME_REWRITTEN_BUNDLE_RECIPE["prompts"]["decal"],
+            prompts=GAME_REWRITTEN_BUNDLE_RECIPE["prompts"]["decals"],
             output_dir=output_dir,
             seed=seed,
         )

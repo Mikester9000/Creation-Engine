@@ -7,10 +7,10 @@ The Creation Engine produces static asset files and bundle manifests:
 | File Type | Extension | Format |
 |-----------|-----------|--------|
 | Texture image | `.png` | PNG (RGBA, 4 bytes/pixel) |
-| Texture metadata | `.png.meta.json` | JSON |
+| Texture metadata | `.json` | JSON |
 | Mesh metadata | `.json` | JSON |
 | Tileset definition | `.tileset.json` | JSON |
-| Map / level | `.map.json` | JSON |
+| Map / level | `.json` | JSON |
 | Pack manifest | `.json` | JSON |
 | Bundle manifest | `.json` | JSON |
 

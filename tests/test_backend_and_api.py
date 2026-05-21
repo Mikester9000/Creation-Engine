@@ -80,6 +80,25 @@ def test_export_tilemap_unknown_theme_falls_back_to_overworld_tileset(tmp_path):
     assert exported["tileset"] == TILESET_SPECS["overworld"]["id"]
 
 
+def test_export_tilemap_uses_explicit_tileset_metadata_when_known(tmp_path):
+    explicit_tileset_id = TILESET_SPECS["dungeon"]["id"]
+    map_file = export_tilemap(
+        map_data={
+            "tiles": np.array([[1, 2], [3, 4]], dtype=np.int32),
+            "theme": "forest",
+            "tileset": explicit_tileset_id,
+        },
+        output_dir=tmp_path,
+        name="explicit_tileset_map",
+        prompt="explicit tileset",
+        seed=1,
+    )
+    with open(map_file, encoding="utf-8") as f:
+        exported = json.load(f)
+    assert exported["tileset"] == explicit_tileset_id
+    assert exported["tileset_meta"]["id"] == explicit_tileset_id
+
+
 def test_generate_tilemap_rejects_non_positive_dimensions():
     with pytest.raises(ValueError, match="width and height must be >= 1"):
         generate_tilemap("forest", width=0, height=8, seed=1)

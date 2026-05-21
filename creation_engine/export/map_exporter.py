@@ -2,7 +2,7 @@ import json
 from pathlib import Path
 
 from creation_engine.export.manifest_exporter import DEFAULT_STYLE_PROFILE
-from creation_engine.map.tileset_specs import tileset_spec_for_theme
+from creation_engine.map.tileset_specs import tileset_spec_for_id, tileset_spec_for_theme
 
 
 def export_tilemap(
@@ -21,8 +21,9 @@ def export_tilemap(
     width = len(tile_rows[0]) if tile_rows else 0
 
     theme = map_data.get("theme", "overworld")
-    tileset_spec = tileset_spec_for_theme(theme)
-    tileset_id = map_data.get("tileset", tileset_spec["id"])
+    default_tileset_spec = tileset_spec_for_theme(theme)
+    tileset_id = map_data.get("tileset", default_tileset_spec["id"])
+    tileset_spec = tileset_spec_for_id(tileset_id) or default_tileset_spec
 
     tile_counts: dict[str, int] = {}
     for row in tile_rows:
