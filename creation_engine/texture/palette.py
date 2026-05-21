@@ -15,11 +15,39 @@ PALETTE_FAMILIES = {
     "shadow": ((16, 18, 28), (34, 38, 56), (58, 64, 88), (102, 110, 138)),
     "town": ((88, 64, 44), (126, 90, 62), (174, 128, 92), (216, 178, 132)),
     "royal": ((62, 46, 110), (100, 76, 160), (148, 120, 198), (216, 192, 240)),
+    "imperial": ((68, 72, 84), (98, 108, 128), (148, 156, 170), (210, 198, 182)),
+    "rebel": ((64, 52, 38), (110, 86, 60), (168, 126, 84), (222, 188, 122)),
+    "sacred": ((128, 114, 72), (176, 160, 102), (224, 210, 148), (250, 244, 202)),
+    "corrupted": ((34, 24, 46), (58, 40, 78), (92, 62, 116), (148, 102, 172)),
+    "village": ((92, 70, 50), (130, 98, 70), (178, 140, 100), (224, 186, 134)),
+    "underworld": ((22, 20, 30), (44, 40, 58), (72, 66, 90), (118, 108, 142)),
+    "highlands": ((72, 92, 66), (110, 132, 94), (154, 170, 118), (206, 214, 160)),
+    "volcanic": ((76, 34, 24), (126, 52, 32), (178, 80, 42), (228, 132, 58)),
+    "wasteland": ((86, 76, 62), (126, 112, 90), (170, 152, 122), (208, 190, 152)),
+}
+
+_PALETTE_ALIASES = {
+    "ruins": "ruin",
+    "holy": "sacred",
+    "city": "imperial",
+    "capital": "imperial",
+    "port": "coast",
+    "coastal": "coast",
+    "harbor": "coast",
+    "village": "village",
+    "rebel": "rebel",
+    "imperial": "imperial",
+    "corrupted": "corrupted",
+    "underworld": "underworld",
+    "highlands": "highlands",
+    "volcanic": "volcanic",
+    "wasteland": "wasteland",
 }
 
 
 def select_palette(family: str, seed: int) -> np.ndarray:
-    colors = PALETTE_FAMILIES.get(family, PALETTE_FAMILIES["town"])
+    family_key = _PALETTE_ALIASES.get(family, family)
+    colors = PALETTE_FAMILIES.get(family_key, PALETTE_FAMILIES["town"])
     base = np.array(colors, dtype=np.float32)
     rng = np.random.default_rng(seed)
     jitter = rng.integers(-12, 13, size=base.shape, dtype=np.int16).astype(np.float32)
@@ -30,4 +58,7 @@ def pick_palette_family(tokens: list[str]) -> str:
     for token in tokens:
         if token in PALETTE_FAMILIES:
             return token
+        alias = _PALETTE_ALIASES.get(token)
+        if alias in PALETTE_FAMILIES:
+            return alias
     return "town"
