@@ -4,6 +4,7 @@ from abc import ABC, abstractmethod
 from typing import Any
 
 import numpy as np
+from creation_engine.mesh.mesh_builder import build_mesh_from_prompt
 
 
 class AssetBackend(ABC):
@@ -60,86 +61,9 @@ class ProceduralBackend(AssetBackend):
         complexity: str,
         **kwargs: Any,
     ) -> dict[str, Any]:
-        del prompt
-        detail = {"low": 1.0, "medium": 1.5, "high": 2.0}.get(complexity, 1.5)
-        size = detail
-
-        vertices = np.array(
-            [
-                [-size, -size, -size],
-                [size, -size, -size],
-                [size, size, -size],
-                [-size, size, -size],
-                [-size, -size, size],
-                [size, -size, size],
-                [size, size, size],
-                [-size, size, size],
-            ],
-            dtype=np.float32,
-        )
-        indices = np.array(
-            [
-                0,
-                1,
-                2,
-                0,
-                2,
-                3,
-                4,
-                6,
-                5,
-                4,
-                7,
-                6,
-                0,
-                4,
-                5,
-                0,
-                5,
-                1,
-                1,
-                5,
-                6,
-                1,
-                6,
-                2,
-                2,
-                6,
-                7,
-                2,
-                7,
-                3,
-                3,
-                7,
-                4,
-                3,
-                4,
-                0,
-            ],
-            dtype=np.int32,
-        )
-
-        normals = vertices / np.clip(np.linalg.norm(vertices, axis=1, keepdims=True), 1e-6, None)
-        uvs = np.array(
-            [
-                [0.0, 0.0],
-                [1.0, 0.0],
-                [1.0, 1.0],
-                [0.0, 1.0],
-                [0.0, 0.0],
-                [1.0, 0.0],
-                [1.0, 1.0],
-                [0.0, 1.0],
-            ],
-            dtype=np.float32,
-        )
-
-        return {
-            "vertices": vertices,
-            "indices": indices,
-            "normals": normals,
-            "uvs": uvs,
-        }
+        seed_value = kwargs.get("seed", self.seed)
+        seed = int(42 if seed_value is None else seed_value)
+        return build_mesh_from_prompt(prompt=prompt, complexity=complexity, seed=seed)
 
     def generate_map(
         self,

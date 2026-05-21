@@ -1,35 +1,42 @@
-# Creation Engine Quick-Start Tutorial
+# Creation Engine Static Asset Tutorial
 
 ## 1. Build
 ```bash
 make
 ```
 
-## 2. Generate textures
+## 2. Generate one texture family
 ```bash
-./creation-engine create-texture --type noise --seed 42 --size 64x64 --color ffffff --out assets/textures/ground.png
-./creation-engine create-texture --type checker --seed 0 --size 64x64 --out assets/textures/checker.png
-./creation-engine ai texture --prompt "lava rock" --seed 123 --size 64x64 --out assets/textures/lava.png
+./creation-engine texture --prompt "wet stone" --seed 42 --output assets
 ```
 
-## 3. Create a tileset
+## 3. Generate one map
 ```bash
-./creation-engine create-tileset --from assets/textures/ground.png --tile 16x16 --out assets/maps/level1.tileset.json
+./creation-engine map --prompt "forest with river and road" --seed 42 --output assets
 ```
 
-## 4. Generate a map
+## 4. Generate one static mesh
 ```bash
-./creation-engine create-map --width 30 --height 20 --tileSize 16 --tileset assets/maps/level1.tileset.json --out assets/maps/level1.json
-./creation-engine ai map --prompt "forest with river" --width 30 --height 20 --tileSize 16 --seed 7 --out assets/maps/forest.json
+./creation-engine mesh --prompt "stone pillar" --seed 42 --output assets
 ```
 
-## 5. Texture types
-| Type | Description |
-|------|-------------|
-| noise | Perlin fBm noise |
-| cellular | Worley/Voronoi noise |
-| checker | Checkerboard |
-| stripes | Alternating bands |
-| gradient | Linear gradient |
-| radial | Radial gradient |
-| solid | Solid colour |
+## 5. Generate one UI asset
+```bash
+./creation-engine ui-icon --prompt "quest icon" --seed 42 --output assets
+```
+
+## 6. Generate a material pack
+```bash
+./creation-engine material-pack --seed 42 --output assets
+```
+
+## 7. Generate the full static bundle
+```bash
+./creation-engine full-bundle --seed 42 --output assets
+```
+
+## 8. Rules
+- Keep animation out of scope.
+- Keep audio out of scope.
+- Use the same seed for repeatable output.
+- Generate one family at a time when debugging.

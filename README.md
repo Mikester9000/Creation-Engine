@@ -47,15 +47,8 @@ make -j4
 ### Generate textures
 
 ```bash
-# Basic (uses AI assist to map prompt → PBR parameters)
-./creation-engine texture --prompt "wet stone" --seed 123
-
-# With explicit output directory and resolution
-./creation-engine texture --prompt "polished gold" --seed 42 \
-  --out assets/materials --width 128 --height 128
-
-# AI assist alias (identical behaviour)
-./creation-engine ai texture --prompt "ancient mossy brick" --seed 7
+./creation-engine texture --prompt "wet stone" --seed 123 --output assets
+./creation-engine texture --prompt "polished gold" --seed 42 --output assets --width 128 --height 128
 ```
 
 Output: `assets/<name>_albedo.png`, `_normal.png`, `_roughness.png`,
@@ -64,23 +57,30 @@ Output: `assets/<name>_albedo.png`, `_normal.png`, `_roughness.png`,
 ### Generate tilemaps
 
 ```bash
-# Outdoor map with river + road
-./creation-engine map --prompt "forest with river and road" --seed 123
-
-# Dungeon
-./creation-engine map --prompt "dungeon ruins" --seed 42
-
-# AI assist alias
-./creation-engine ai map --prompt "coastal desert with road" --seed 99
+./creation-engine map --prompt "forest with river and road" --seed 123 --output assets
+./creation-engine map --prompt "dungeon ruins" --seed 42 --output assets
+./creation-engine mesh --prompt "stone pillar" --seed 7 --output assets
 ```
 
-Output: `assets/<name>.json`
+Output: `assets/<name>.json` for maps, `assets/<name>.obj` for meshes.
 
 ### Validate assets
 
 ```bash
-./creation-engine validate --dir assets/
+./creation-engine ui-icon --prompt "quest icon" --seed 7 --output assets
+./creation-engine material-pack --seed 11 --output assets
+./creation-engine full-bundle --seed 101 --output assets
 ```
+
+### GameRewritten static asset families
+
+```bash
+./creation-engine ui-icon --prompt "quest icon" --seed 7
+./creation-engine material-pack --seed 11
+./creation-engine full-bundle --seed 101
+```
+
+These workflows generate only static assets. Animation, rigging, skeletal data, audio, music, voice, and sound effects stay out of scope.
 
 ---
 
@@ -178,9 +178,11 @@ creation-engine <command> [options]
 Commands:
   texture    Generate PBR textures + material JSON
   map        Generate a procedural tilemap JSON
-  ai texture (alias for texture)
-  ai map     (alias for map)
-  validate   Check JSON assets for required fields
+  mesh       Generate a static mesh package
+  ui-icon    Generate a UI icon PNG + manifest
+  ui-panel   Generate a UI panel PNG + manifest
+  portrait   Generate a portrait card PNG + manifest
+  material-pack / biome-pack / tileset-pack / prop-pack / architecture-pack / foliage-pack / item-pack / decal-pack / character-static-pack / enemy-static-pack / full-bundle
   help       Show this message
 
 Texture options:
@@ -254,7 +256,7 @@ Creation-Engine/
 │   ├── materials/          Sample PNG + JSON outputs (wet_stone, forest_soil, polished_gold)
 │   └── maps/               Sample tilemap JSONs (forest_river, dungeon_ruins)
 └── src/
-    ├── main.cpp            CLI entry point (texture/map/ai/validate commands)
+    ├── main.cpp            CLI entry point (texture/map/mesh/ui/bundle commands)
     ├── ai/
     │   ├── AIAssist.hpp    Prompt → PBR parameter inference interface
     │   └── AIAssist.cpp    Keyword tables, preset lookup, modifier application

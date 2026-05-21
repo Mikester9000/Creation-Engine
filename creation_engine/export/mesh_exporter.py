@@ -1,6 +1,15 @@
+from __future__ import annotations
+
+import hashlib
 from pathlib import Path
 
 import numpy as np
+
+from creation_engine.export.manifest_exporter import (
+    DEFAULT_STYLE_PROFILE,
+    build_manifest,
+    write_manifest_json,
+)
 
 
 def export_obj(
@@ -8,28 +17,16 @@ def export_obj(
     output_dir: Path,
     name: str,
 ) -> Path:
-    """Export mesh to Wavefront OBJ format.
-
-    Parameters
-    ----------
-    mesh_data:
-        Dict with keys: vertices, indices, normals, uvs
-    output_dir:
-        Output directory
-    name:
-        Asset name
-
-    Returns
-    -------
-    Path
-        Written OBJ file path
-    """
+    """Export mesh to Wavefront OBJ, MTL, and JSON manifest."""
     output_dir.mkdir(parents=True, exist_ok=True)
 
     path = output_dir / f"{name}.obj"
+    mtl_path = output_dir / f"{name}.mtl"
+    material_slots = list(mesh_data.get("material_slots") or [mesh_data.get("family", "material")])
 
     with open(path, "w", encoding="utf-8") as f:
         f.write(f"# {name}\n")
+        f.write(f"mtllib {mtl_path.name}\n")
 
         vertices = mesh_data["vertices"]
         for v in vertices:
@@ -57,7 +54,7 @@ def export_obj(
 
         has_uvs = uvs is not None
         has_normals = normals is not None
-
+        f.write(f"usemtl {material_slots[0]}\n")
         for i in range(0, len(indices), 3):
             i1, i2, i3 = indices[i] + 1, indices[i + 1] + 1, indices[i + 2] + 1
             if has_uvs and has_normals:
@@ -69,4 +66,44 @@ def export_obj(
             else:
                 f.write(f"f {i1} {i2} {i3}\n")
 
+    _write_mtl(mtl_path, material_slots, mesh_data)
+
+    manifest = build_manifest(
+        asset_family=str(mesh_data.get("family", "meshes")),
+        prompt=str(mesh_data.get("prompt", "")),
+        seed=mesh_data.get("seed", 42),
+        files={
+            "obj": path.name,
+            "mtl": mtl_path.name,
+            "manifest": f"{name}.json",
+        },
+        source_generator=str(
+            mesh_data.get(
+                "source_generator", "creation_engine.backend.ProceduralBackend.generate_mesh"
+            )
+        ),
+        tags=[str(mesh_data.get("family", "meshes")), str(mesh_data.get("variant", ""))],
+        content_target=mesh_data.get(
+            "content_target",
+            {"model": "Content/Models", "materials": "Content/Materials"},
+        ),
+        name=name,
+        style_profile=str(mesh_data.get("style_profile", DEFAULT_STYLE_PROFILE)),
+        material_slots=material_slots,
+    )
+    write_manifest_json(output_dir, name, manifest)
+
     return path
+
+
+def _write_mtl(mtl_path: Path, material_slots: list[str], mesh_data: dict) -> None:
+    with open(mtl_path, "w", encoding="utf-8") as file:
+        for slot in material_slots:
+            digest = hashlib.sha1(f"{slot}:{mesh_data.get('variant', '')}".encode("utf-8")).digest()
+            r, g, b = (component / 255.0 for component in digest[:3])
+            file.write(f"newmtl {slot}\n")
+            file.write("Ka 0.100 0.100 0.100\n")
+            file.write(f"Kd {r:.3f} {g:.3f} {b:.3f}\n")
+            file.write("Ks 0.000 0.000 0.000\n")
+            file.write("d 1.000\n")
+            file.write("illum 2\n\n")

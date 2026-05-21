@@ -109,3 +109,15 @@ THEME_ALIASES = {
     "cave": "cave",
     "castle": "castle",
 }
+
+
+def resolve_tileset_theme(prompt: str) -> str:
+    tokens = prompt.lower().split()
+    for token in tokens:
+        if token in THEME_ALIASES:
+            return THEME_ALIASES[token]
+    return "overworld"
+
+
+def tileset_spec_for_theme(theme: str) -> dict:
+    return TILESET_SPECS.get(theme, TILESET_SPECS["overworld"])
