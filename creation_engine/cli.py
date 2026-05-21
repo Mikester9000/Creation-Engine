@@ -4,6 +4,7 @@ import argparse
 
 from creation_engine.backend import BackendRegistry
 from creation_engine.engine import CreationEngine
+from creation_engine.quality_check import run_quality_check
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -57,6 +58,13 @@ def build_parser() -> argparse.ArgumentParser:
         pack.add_argument("--seed", type=int, default=42)
         pack.add_argument("--output", default="assets")
 
+    quality_check = subparsers.add_parser(
+        "quality-check",
+        help="Validate generated assets for GameRewritten compatibility quality",
+    )
+    quality_check.add_argument("--output", default="assets")
+    quality_check.add_argument("--min-png-size", type=int, default=64)
+
     subparsers.add_parser("list-backends", help="List available backends")
 
     return parser
@@ -83,6 +91,15 @@ def main(argv: list[str] | None = None) -> int:
         for backend_name in BackendRegistry.available():
             print(backend_name)
         return 0
+    if args.command == "quality-check":
+        result = run_quality_check(args.output, min_png_size=args.min_png_size)
+        if result.ok:
+            print(f"Quality check passed ({result.checked_manifests} manifests validated)")
+            return 0
+        print("Quality check failed:")
+        for error in result.errors:
+            print(f"- {error}")
+        return 1
 
     if args.command in {"texture", "map", "mesh"}:
         engine = CreationEngine(backend=args.backend, seed=args.seed, output_dir=args.output)

@@ -59,3 +59,29 @@ def test_ui_icon_and_pack_commands(tmp_path):
         pack_manifest = json.load(f)
     assert pack_manifest["destination_map"]
     assert pack_manifest["style_profile"] == "ps2_ff7_ff12_highest_quality_ps2"
+
+
+def test_quality_check_command_passes_on_generated_bundle(tmp_path, capsys):
+    rc = main(["full-bundle", "--seed", "13", "--output", str(tmp_path)])
+    assert rc == 0
+    rc = main(["quality-check", "--output", str(tmp_path)])
+    out = capsys.readouterr().out
+    assert rc == 0
+    assert "Quality check passed" in out
+
+
+def test_quality_check_command_fails_on_bad_style_profile(tmp_path, capsys):
+    rc = main(["texture", "--prompt", "stone", "--seed", "42", "--output", str(tmp_path)])
+    assert rc == 0
+    manifest_path = tmp_path / "stone.json"
+    with open(manifest_path, encoding="utf-8") as f:
+        manifest = json.load(f)
+    manifest["style_profile"] = "bad_style"
+    with open(manifest_path, "w", encoding="utf-8") as f:
+        json.dump(manifest, f, indent=2)
+
+    rc = main(["quality-check", "--output", str(tmp_path)])
+    out = capsys.readouterr().out
+    assert rc == 1
+    assert "Quality check failed:" in out
+    assert "style_profile" in out
