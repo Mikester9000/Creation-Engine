@@ -10,6 +10,13 @@ from creation_engine.export.manifest_exporter import (
     build_manifest,
     write_manifest_json,
 )
+from creation_engine.narrative_tags import (
+    extract_narrative_tags,
+    infer_exploration_intent,
+    infer_placement_intent,
+    infer_world_region_id,
+)
+from creation_engine.prompting import tokenize_prompt
 
 
 def export_obj(
@@ -67,10 +74,12 @@ def export_obj(
                 f.write(f"f {i1} {i2} {i3}\n")
 
     _write_mtl(mtl_path, material_slots, mesh_data)
+    prompt_text = str(mesh_data.get("prompt", ""))
+    narrative_tags = extract_narrative_tags(tokenize_prompt(prompt_text))
 
     manifest = build_manifest(
         asset_family=str(mesh_data.get("family", "meshes")),
-        prompt=str(mesh_data.get("prompt", "")),
+        prompt=prompt_text,
         seed=mesh_data.get("seed", 42),
         files={
             "obj": path.name,
@@ -90,6 +99,15 @@ def export_obj(
         name=name,
         style_profile=str(mesh_data.get("style_profile", DEFAULT_STYLE_PROFILE)),
         material_slots=material_slots,
+        narrative_tags=narrative_tags,
+        world_region_id=mesh_data.get("world_region_id", infer_world_region_id(narrative_tags)),
+        exploration_intent=mesh_data.get(
+            "exploration_intent", infer_exploration_intent(narrative_tags)
+        ),
+        placement_intent=mesh_data.get(
+            "placement_intent",
+            infer_placement_intent(str(mesh_data.get("family", "meshes")), narrative_tags),
+        ),
     )
     write_manifest_json(output_dir, name, manifest)
 

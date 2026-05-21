@@ -20,7 +20,7 @@ def generate_ui_portrait(prompt: str, seed: int = 42, size: int = 96) -> np.ndar
     if family in {"knight", "cleric"}:
         image[face & (yy < cy)] = palette[2]
     elif family == "mage":
-        image[yy < size * 0.34] = palette[2]
+        image[: int(size * 0.34), :, :] = palette[2]
     elif family == "rogue":
         image[(xx < cx) & (yy > size * 0.2) & (yy < size * 0.8)] = palette[2]
     elif family == "beast":

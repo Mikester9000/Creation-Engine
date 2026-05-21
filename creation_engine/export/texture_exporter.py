@@ -8,6 +8,8 @@ from creation_engine.export.manifest_exporter import (
     build_manifest,
     write_manifest_json,
 )
+from creation_engine.narrative_tags import infer_placement_intent
+from creation_engine.prompting import classify_prompt
 
 
 def export_pbr_textures(
@@ -49,6 +51,8 @@ def export_pbr_textures(
         mean = np.mean(albedo.astype(np.float32) / 255.0, axis=(0, 1))
         color = [round(float(mean[0]), 4), round(float(mean[1]), 4), round(float(mean[2]), 4), 1.0]
 
+    parsed_prompt = classify_prompt(prompt)
+    narrative_tags = parsed_prompt["narrative_tags"]
     manifest = build_manifest(
         asset_family=family,
         prompt=prompt,
@@ -72,6 +76,10 @@ def export_pbr_textures(
             "color": color,
             "baseColor": list(color),
         },
+        narrative_tags=narrative_tags,
+        world_region_id=parsed_prompt["world_region_id"],
+        exploration_intent=parsed_prompt["exploration_intent"],
+        placement_intent=infer_placement_intent(family, narrative_tags),
     )
     write_manifest_json(output_dir, name, manifest)
 

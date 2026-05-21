@@ -5,6 +5,11 @@ import subprocess
 from pathlib import Path
 
 import numpy as np
+from creation_engine.narrative_tags import (
+    extract_narrative_tags,
+    infer_exploration_intent,
+    infer_world_region_id,
+)
 from creation_engine.map.tileset_specs import THEME_ALIASES, TILESET_SPECS
 from creation_engine.prompting import tokenize_prompt
 
@@ -14,6 +19,9 @@ def generate_tilemap(
     width: int = 64,
     height: int = 64,
     seed: int | None = None,
+    region_id: str | None = None,
+    chunk_x: int = 0,
+    chunk_y: int = 0,
 ) -> dict:
     """Generate tilemap using C++ backend or fallback.
 
@@ -29,14 +37,41 @@ def generate_tilemap(
 
     if cpp_bin.exists():
         try:
-            return _generate_cpp(cpp_bin, prompt, width, height, seed)
+            return _generate_cpp(
+                cpp_bin,
+                prompt,
+                width,
+                height,
+                seed,
+                region_id=region_id,
+                chunk_x=chunk_x,
+                chunk_y=chunk_y,
+            )
         except (subprocess.SubprocessError, OSError, FileNotFoundError, json.JSONDecodeError):
             pass
 
-    return _generate_python_fallback(prompt, width, height, seed)
+    return _generate_python_fallback(
+        prompt,
+        width,
+        height,
+        seed,
+        region_id=region_id,
+        chunk_x=chunk_x,
+        chunk_y=chunk_y,
+    )
 
 
-def _generate_cpp(cpp_bin: Path, prompt: str, width: int, height: int, seed: int | None):
+def _generate_cpp(
+    cpp_bin: Path,
+    prompt: str,
+    width: int,
+    height: int,
+    seed: int | None,
+    *,
+    region_id: str | None,
+    chunk_x: int,
+    chunk_y: int,
+):
     import tempfile
 
     with tempfile.TemporaryDirectory() as tmpdir:
@@ -63,6 +98,8 @@ def _generate_cpp(cpp_bin: Path, prompt: str, width: int, height: int, seed: int
             with open(json_files[0], encoding="utf-8") as f:
                 data = json.load(f)
             theme = _pick_theme(prompt)
+            narrative_tags = extract_narrative_tags(tokenize_prompt(prompt))
+            world_region_id = region_id or infer_world_region_id(narrative_tags)
             tileset_name = data.get("tileset", TILESET_SPECS[theme]["id"])
             return {
                 "tiles": np.array(data["tiles"]),
@@ -70,17 +107,43 @@ def _generate_cpp(cpp_bin: Path, prompt: str, width: int, height: int, seed: int
                 "tileset": tileset_name,
                 "theme": theme,
                 "map_family": "world",
+                "narrative_tags": narrative_tags,
+                "world_region_id": world_region_id,
+                "chunk": {"x": int(chunk_x), "y": int(chunk_y)},
+                "exploration_intent": infer_exploration_intent(narrative_tags),
             }
 
-    return _generate_python_fallback(prompt, width, height, seed)
+    return _generate_python_fallback(
+        prompt,
+        width,
+        height,
+        seed,
+        region_id=region_id,
+        chunk_x=chunk_x,
+        chunk_y=chunk_y,
+    )
 
 
-def _generate_python_fallback(prompt: str, width: int, height: int, seed: int | None):
+def _generate_python_fallback(
+    prompt: str,
+    width: int,
+    height: int,
+    seed: int | None,
+    *,
+    region_id: str | None,
+    chunk_x: int,
+    chunk_y: int,
+):
     seed_value = 42 if seed is None else seed
+    tokens = tokenize_prompt(prompt)
+    narrative_tags = extract_narrative_tags(tokens)
+    world_region_id = region_id or infer_world_region_id(narrative_tags)
+    region_mix = sum(ord(ch) for ch in world_region_id)
+    chunk_mix = int(chunk_x) * 73856093 + int(chunk_y) * 19349663
     theme = _pick_theme(prompt)
     spec = TILESET_SPECS[theme]
     prompt_mix = sum(ord(ch) for ch in prompt.lower())
-    rng = np.random.default_rng(seed_value + prompt_mix)
+    rng = np.random.default_rng(seed_value + prompt_mix + region_mix + chunk_mix)
 
     if spec["style"] == "indoor":
         tiles = _generate_indoor_layout(width, height, rng, floor_id=0, wall_id=1)
@@ -99,12 +162,21 @@ def _generate_python_fallback(prompt: str, width: int, height: int, seed: int | 
     else:
         tiles = _generate_overworld_layout(width, height, rng)
 
+    if spec["style"] in {"outdoor", "forest", "desert", "coast", "snow", "town"}:
+        neighbor_theme = _choose_neighbor_theme(theme, chunk_x, chunk_y)
+        neighbor_style = TILESET_SPECS[neighbor_theme]["style"]
+        tiles = _blend_neighbor_theme(tiles, neighbor_style, rng)
+
     return {
         "tiles": tiles,
         "props": _generate_props(theme, width, height, rng),
         "tileset": spec["id"],
         "theme": theme,
         "map_family": "world",
+        "narrative_tags": narrative_tags,
+        "world_region_id": world_region_id,
+        "chunk": {"x": int(chunk_x), "y": int(chunk_y)},
+        "exploration_intent": infer_exploration_intent(narrative_tags),
     }
 
 
@@ -114,6 +186,28 @@ def _pick_theme(prompt: str) -> str:
         if token in THEME_ALIASES:
             return THEME_ALIASES[token]
     return "overworld"
+
+
+def _choose_neighbor_theme(theme: str, chunk_x: int, chunk_y: int) -> str:
+    themed_neighbors = {
+        "overworld": ["forest", "coast", "highlands"],
+        "forest": ["overworld", "ruins", "highlands"],
+        "desert": ["wasteland", "volcanic", "overworld"],
+        "coast": ["port_city", "overworld", "forest"],
+        "snowfield": ["highlands", "overworld", "temple"],
+        "town": ["overworld", "forest", "coast"],
+        "capital_city": ["overworld", "imperial_fortress", "town"],
+        "port_city": ["coast", "town", "overworld"],
+        "highlands": ["forest", "snowfield", "overworld"],
+        "volcanic": ["wasteland", "desert", "ruins"],
+        "wasteland": ["desert", "volcanic", "ruins"],
+        "ruins": ["forest", "desert", "sacred_ruins"],
+        "sacred_ruins": ["ruins", "temple", "forest"],
+        "temple": ["sacred_ruins", "forest", "overworld"],
+    }
+    options = themed_neighbors.get(theme, ["overworld"])
+    idx = abs(int(chunk_x) * 31 + int(chunk_y) * 17) % len(options)
+    return options[idx]
 
 
 def _generate_overworld_layout(width: int, height: int, rng: np.random.Generator) -> np.ndarray:
@@ -215,6 +309,13 @@ def _generate_props(
         "temple": ["save_point", "shrine_marker"],
         "cave": ["chest", "enemy_spawn"],
         "castle": ["save_point", "chest"],
+        "capital_city": ["shop_marker", "inn_marker", "save_point"],
+        "port_city": ["boat_marker", "shop_marker"],
+        "highlands": ["campfire", "chest"],
+        "volcanic": ["enemy_spawn", "shrine_marker"],
+        "sacred_ruins": ["save_point", "shrine_marker"],
+        "imperial_fortress": ["enemy_spawn", "chest"],
+        "wasteland": ["enemy_spawn", "chest"],
     }
     types = templates.get(theme, ["chest"])
     props: list[dict[str, int | str]] = []
@@ -227,3 +328,37 @@ def _generate_props(
             }
         )
     return props
+
+
+def _blend_neighbor_theme(
+    base_tiles: np.ndarray, neighbor_style: str, rng: np.random.Generator
+) -> np.ndarray:
+    height, width = base_tiles.shape
+    out = base_tiles.copy()
+    blend_mode = int(rng.integers(0, 3))
+    mask = np.zeros((height, width), dtype=bool)
+    if blend_mode == 0:
+        split = max(1, width // 4)
+        mask[:, :split] = True
+    elif blend_mode == 1:
+        split = max(1, height // 4)
+        mask[:split, :] = True
+    else:
+        noise = rng.random((height, width))
+        mask = noise > 0.84
+
+    if neighbor_style == "coast":
+        out[mask] = 2
+    elif neighbor_style == "desert":
+        out[mask] = 4
+    elif neighbor_style == "snow":
+        out[mask] = 6
+    elif neighbor_style == "forest":
+        out[mask] = 5
+    elif neighbor_style == "town":
+        out[mask] = 7
+    elif neighbor_style == "ruins":
+        out[mask] = 1
+    else:
+        out[mask] = 3
+    return out

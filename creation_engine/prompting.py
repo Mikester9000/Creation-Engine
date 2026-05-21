@@ -11,6 +11,11 @@ from creation_engine.asset_catalog import (
     ASSET_FAMILY_UI_PANELS,
     ASSET_FAMILY_UI_PORTRAITS,
 )
+from creation_engine.narrative_tags import (
+    extract_narrative_tags,
+    infer_exploration_intent,
+    infer_world_region_id,
+)
 
 _TOKEN_RE = re.compile(r"[a-z0-9]+")
 _TAG_KEYWORDS = {
@@ -40,8 +45,9 @@ def extract_prompt_tags(prompt: str) -> dict[str, list[str]]:
     return {tag: sorted(tokens.intersection(words)) for tag, words in _TAG_KEYWORDS.items()}
 
 
-def classify_prompt(prompt: str) -> dict[str, str | list[str]]:
+def classify_prompt(prompt: str) -> dict[str, object]:
     tags = extract_prompt_tags(prompt)
+    tokens = tokenize_prompt(prompt)
     family = ASSET_FAMILY_PROPS
     if tags["portrait"]:
         family = ASSET_FAMILY_UI_PORTRAITS
@@ -55,9 +61,13 @@ def classify_prompt(prompt: str) -> dict[str, str | list[str]]:
         family = ASSET_FAMILY_ENEMIES_STATIC
     elif tags["item"]:
         family = ASSET_FAMILY_ITEMS
+    narrative_tags = extract_narrative_tags(tokens)
     return {
         "normalized_prompt": normalize_prompt(prompt),
-        "tokens": tokenize_prompt(prompt),
+        "tokens": tokens,
         "family": family,
         "tags": tags,
+        "narrative_tags": narrative_tags,
+        "world_region_id": infer_world_region_id(narrative_tags),
+        "exploration_intent": infer_exploration_intent(narrative_tags),
     }
