@@ -222,20 +222,54 @@ Pack manifests summarize one family of assets and include a destination map for 
 }
 ```
 
-### 4.4 Bundle Manifest (`full_static.json`)
+### 4.5 UI Manifest (`<name>.json`)
 
-Bundle manifests list every pack and every file target in one place.
+UI icons, panels, and portraits each write a manifest beside the PNG.
 
 ```json
 {
-  "name": "full_static",
-  "required_packs": ["material_pack", "biome_pack"],
-  "destination_map": {
-    "wet_stone.json": "Content/Materials"
+  "version": "1.0",
+  "asset_family": "ui_icons",
+  "family": "ui_icons",
+  "name": "quest_icon",
+  "prompt": "quest icon",
+  "seed": 7,
+  "files": {
+    "image": "quest_icon.png",
+    "manifest": "quest_icon.json"
   },
-  "compatibility_summary": {
-    "style_profile": "ps2_ff7_ff12_highest_quality_ps2",
-    "excluded": ["animation", "audio"]
-  }
+  "content_target": {
+    "ui": "Content/UI"
+  },
+  "style_profile": "ps2_ff7_ff12_highest_quality_ps2",
+  "width": 64,
+  "height": 64,
+  "channels": ["image"]
 }
 ```
+
+| Field          | Type   | Description                                          |
+|----------------|--------|------------------------------------------------------|
+| `asset_family` | string | `"ui_icons"`, `"ui_panels"`, or `"ui_portraits"`     |
+| `width`        | int    | Image width in pixels                                |
+| `height`       | int    | Image height in pixels                               |
+| `channels`     | array  | Always `["image"]` for single-layer UI outputs       |
+| `content_target.ui` | string | GameRewritten destination: `"Content/UI"`      |
+
+---
+
+## 5. Quality Check Validation Rules
+
+Run `creation-engine quality-check --output <dir>` to verify generated assets.
+
+Each JSON file with an `asset_family` field is treated as an asset manifest and checked against these rules:
+
+| Rule | Description |
+|------|-------------|
+| `style_profile` | Must equal `"ps2_ff7_ff12_highest_quality_ps2"` |
+| `content_target` | Must be a non-empty dict mapping family names to `Content/*` paths |
+| `files` | Must be a non-empty dict (except for `maps` and `tilesets` families) |
+| Referenced files | Every value in `files` must exist on disk relative to the manifest location or anywhere under the output root |
+| PNG minimum size | Every `.png` listed in `files` must be at least `--min-png-size` bytes (default 64) |
+
+Exit codes: `0` = all checks passed, `1` = one or more checks failed.
