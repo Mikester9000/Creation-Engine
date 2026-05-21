@@ -2,14 +2,17 @@
 
 ## Overview
 
-The Creation Engine produces three types of asset files:
+The Creation Engine produces static asset files and bundle manifests:
 
 | File Type | Extension | Format |
 |-----------|-----------|--------|
 | Texture image | `.png` | PNG (RGBA, 4 bytes/pixel) |
-| Texture metadata | `.png.meta.json` | JSON |
+| Texture metadata | `.json` | JSON |
+| Mesh metadata | `.json` | JSON |
 | Tileset definition | `.tileset.json` | JSON |
-| Map / level | `.map.json` | JSON |
+| Map / level | `.json` | JSON |
+| Pack manifest | `.json` | JSON |
+| Bundle manifest | `.json` | JSON |
 
 ---
 
@@ -153,3 +156,86 @@ Element at position `(x, y)` is `tiles[y * width + x]`.
 | 3  | Water / river   | No   |
 | 4  | Building wall   | Yes  |
 | 5  | Building floor  | No   |
+
+---
+
+## 4. Static GameRewritten Asset Manifests
+
+All static GameRewritten outputs now write JSON sidecars with deterministic destination hints and the shared PS2-era style profile.
+
+### 4.1 Texture Manifest (`<name>.json`)
+
+```json
+{
+  "version": "1.1",
+  "asset_family": "materials",
+  "family": "materials",
+  "name": "wet_stone",
+  "prompt": "wet stone",
+  "seed": 42,
+  "files": {
+    "albedo": "wet_stone_albedo.png",
+    "normal": "wet_stone_normal.png"
+  },
+  "content_target": {
+    "material": "Content/Materials",
+    "textures": "Content/Textures"
+  },
+  "style_profile": "ps2_ff7_ff12_highest_quality_ps2"
+}
+```
+
+### 4.2 Mesh Manifest (`<name>.json`)
+
+```json
+{
+  "version": "1.0",
+  "asset_family": "props",
+  "name": "stone_pillar",
+  "files": {
+    "obj": "stone_pillar.obj",
+    "mtl": "stone_pillar.mtl",
+    "manifest": "stone_pillar.json"
+  },
+  "content_target": {
+    "model": "Content/Models",
+    "materials": "Content/Materials"
+  },
+  "style_profile": "ps2_ff7_ff12_highest_quality_ps2"
+}
+```
+
+### 4.3 Pack Manifest (`<pack>.json`)
+
+Pack manifests summarize one family of assets and include a destination map for every generated file.
+
+```json
+{
+  "name": "material_pack",
+  "files": {
+    "wet_stone": "wet_stone.json"
+  },
+  "destination_map": {
+    "wet_stone.json": "Content/Materials"
+  },
+  "style_profile": "ps2_ff7_ff12_highest_quality_ps2"
+}
+```
+
+### 4.4 Bundle Manifest (`full_static.json`)
+
+Bundle manifests list every pack and every file target in one place.
+
+```json
+{
+  "name": "full_static",
+  "required_packs": ["material_pack", "biome_pack"],
+  "destination_map": {
+    "wet_stone.json": "Content/Materials"
+  },
+  "compatibility_summary": {
+    "style_profile": "ps2_ff7_ff12_highest_quality_ps2",
+    "excluded": ["animation", "audio"]
+  }
+}
+```

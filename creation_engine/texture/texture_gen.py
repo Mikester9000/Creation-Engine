@@ -88,7 +88,9 @@ def _generate_python_fallback(
         material["base_color"] = tuple(
             int(np.clip(channel * mod["brightness"], 0, 255)) for channel in material["base_color"]
         )
-        material["roughness"] = float(np.clip(material["roughness"] + mod["roughness_add"], 0.02, 0.98))
+        material["roughness"] = float(
+            np.clip(material["roughness"] + mod["roughness_add"], 0.02, 0.98)
+        )
         material["metallic"] = float(np.clip(material["metallic"] * mod["metallic_mul"], 0.0, 1.0))
 
     prompt_mix = sum(ord(ch) for ch in parsed["normalized_prompt"])
@@ -135,13 +137,15 @@ def _generate_python_fallback(
         255,
     ).astype(np.uint8)
     ao_center = int(material["ao"] * 255)
-    ao = np.clip(ao_center + rng.integers(-8, 9, size=(height, width), dtype=np.int16), 0, 255).astype(
-        np.uint8
-    )
+    ao = np.clip(
+        ao_center + rng.integers(-8, 9, size=(height, width), dtype=np.int16), 0, 255
+    ).astype(np.uint8)
 
     emissive = np.zeros((height, width, 3), dtype=np.uint8)
     if any(token in {"lava", "rune", "holy", "cursed", "fire"} for token in tokens):
-        glow = np.clip(rng.integers(0, 56, size=(height, width), dtype=np.int16), 0, 255).astype(np.uint8)
+        glow = np.clip(rng.integers(0, 56, size=(height, width), dtype=np.int16), 0, 255).astype(
+            np.uint8
+        )
         emissive[..., 0] = glow
         emissive[..., 1] = (glow // 2).astype(np.uint8)
 
@@ -173,7 +177,9 @@ def _generate_panel_pattern(image: np.ndarray, palette: np.ndarray) -> np.ndarra
     return out
 
 
-def _generate_portrait_pattern(image: np.ndarray, palette: np.ndarray, rng: np.random.Generator) -> np.ndarray:
+def _generate_portrait_pattern(
+    image: np.ndarray, palette: np.ndarray, rng: np.random.Generator
+) -> np.ndarray:
     out = image.copy()
     h, w = out.shape[0], out.shape[1]
     cx, cy = w // 2, h // 2

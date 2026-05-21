@@ -30,6 +30,8 @@ def test_engine_generates_assets(tmp_path):
     assert "baseColor" in manifest["params"]
     assert manifest["content_target"]["material"] == "Content/Materials"
     assert manifest["content_target"]["textures"] == "Content/Textures"
+    assert manifest["style_profile"] == "ps2_ff7_ff12_highest_quality_ps2"
+    assert manifest["asset_family"] == manifest["family"]
 
     map_file = engine.generate_map("forest", width=8, height=8)
     assert map_file.exists()
@@ -45,6 +47,24 @@ def test_engine_generates_assets(tmp_path):
     mesh_file = engine.generate_mesh("pillar", complexity="low")
     assert mesh_file.exists()
     assert mesh_file.suffix == ".obj"
+    assert (mesh_file.parent / "pillar.mtl").exists()
+    assert (mesh_file.parent / "pillar.json").exists()
+    with open(mesh_file.parent / "pillar.json", encoding="utf-8") as f:
+        mesh_manifest = json.load(f)
+    assert mesh_manifest["content_target"]["model"] == "Content/Models"
+    assert mesh_manifest["style_profile"] == "ps2_ff7_ff12_highest_quality_ps2"
+
+
+def test_engine_pack_generation(tmp_path):
+    engine = CreationEngine(output_dir=tmp_path)
+    pack_manifest = engine.generate_material_pack(seed=7)
+    assert pack_manifest.exists()
+    with open(pack_manifest, encoding="utf-8") as f:
+        manifest = json.load(f)
+    assert manifest["assets"]
+    assert manifest["destination_map"]
+    assert manifest["content_target"]["materials"] == "Content/Materials"
+    assert manifest["style_profile"] == "ps2_ff7_ff12_highest_quality_ps2"
 
 
 def test_export_tilemap_unknown_theme_falls_back_to_overworld_tileset(tmp_path):
@@ -58,6 +78,25 @@ def test_export_tilemap_unknown_theme_falls_back_to_overworld_tileset(tmp_path):
     with open(map_file, encoding="utf-8") as f:
         exported = json.load(f)
     assert exported["tileset"] == TILESET_SPECS["overworld"]["id"]
+
+
+def test_export_tilemap_uses_explicit_tileset_metadata_when_known(tmp_path):
+    explicit_tileset_id = TILESET_SPECS["dungeon"]["id"]
+    map_file = export_tilemap(
+        map_data={
+            "tiles": np.array([[1, 2], [3, 4]], dtype=np.int32),
+            "theme": "forest",
+            "tileset": explicit_tileset_id,
+        },
+        output_dir=tmp_path,
+        name="explicit_tileset_map",
+        prompt="explicit tileset",
+        seed=1,
+    )
+    with open(map_file, encoding="utf-8") as f:
+        exported = json.load(f)
+    assert exported["tileset"] == explicit_tileset_id
+    assert exported["tileset_meta"]["id"] == explicit_tileset_id
 
 
 def test_generate_tilemap_rejects_non_positive_dimensions():

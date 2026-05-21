@@ -28,3 +28,34 @@ def test_texture_command(tmp_path):
         manifest = json.load(f)
     assert manifest["family"] == "props"
     assert manifest["content_target"]["textures"] == "Content/Textures"
+    assert manifest["style_profile"] == "ps2_ff7_ff12_highest_quality_ps2"
+
+
+def test_ui_icon_and_pack_commands(tmp_path):
+    rc = main(
+        [
+            "ui-icon",
+            "--prompt",
+            "quest icon",
+            "--seed",
+            "7",
+            "--output",
+            str(tmp_path),
+        ]
+    )
+    assert rc == 0
+    assert (tmp_path / "quest_icon.png").exists()
+    with open(tmp_path / "quest_icon.json", encoding="utf-8") as f:
+        icon_manifest = json.load(f)
+    assert icon_manifest["content_target"]["ui"] == "Content/UI"
+    assert icon_manifest["style_profile"] == "ps2_ff7_ff12_highest_quality_ps2"
+
+    pack_dir = tmp_path / "pack"
+    rc = main(["material-pack", "--seed", "11", "--output", str(pack_dir)])
+    assert rc == 0
+    pack_manifest_path = pack_dir / "materials" / "material_pack.json"
+    assert pack_manifest_path.exists()
+    with open(pack_manifest_path, encoding="utf-8") as f:
+        pack_manifest = json.load(f)
+    assert pack_manifest["destination_map"]
+    assert pack_manifest["style_profile"] == "ps2_ff7_ff12_highest_quality_ps2"

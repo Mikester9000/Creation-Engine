@@ -36,9 +36,43 @@ def build_parser() -> argparse.ArgumentParser:
     mesh.add_argument("--complexity", default="medium", choices=["low", "medium", "high"])
     mesh.add_argument("--name")
 
+    _add_prompted_image_command(subparsers, "ui-icon", "Generate UI icon", "--prompt")
+    _add_prompted_image_command(subparsers, "ui-panel", "Generate UI panel", "--prompt")
+    _add_prompted_image_command(subparsers, "portrait", "Generate portrait card", "--prompt")
+
+    for command, help_text in [
+        ("material-pack", "Generate material pack"),
+        ("biome-pack", "Generate biome pack"),
+        ("tileset-pack", "Generate tileset pack"),
+        ("prop-pack", "Generate prop pack"),
+        ("architecture-pack", "Generate architecture pack"),
+        ("foliage-pack", "Generate foliage pack"),
+        ("item-pack", "Generate item pack"),
+        ("decal-pack", "Generate decal pack"),
+        ("character-static-pack", "Generate static character pack"),
+        ("enemy-static-pack", "Generate static enemy pack"),
+        ("full-bundle", "Generate full GameRewritten bundle"),
+    ]:
+        pack = subparsers.add_parser(command, help=help_text)
+        pack.add_argument("--seed", type=int, default=42)
+        pack.add_argument("--output", default="assets")
+
     subparsers.add_parser("list-backends", help="List available backends")
 
     return parser
+
+
+def _add_prompted_image_command(
+    subparsers: argparse._SubParsersAction[argparse.ArgumentParser],
+    command: str,
+    help_text: str,
+    prompt_flag: str,
+) -> None:
+    parser = subparsers.add_parser(command, help=help_text)
+    parser.add_argument(prompt_flag, dest="prompt", required=True)
+    parser.add_argument("--seed", type=int, default=42)
+    parser.add_argument("--output", default="assets")
+    parser.add_argument("--name")
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -50,7 +84,10 @@ def main(argv: list[str] | None = None) -> int:
             print(backend_name)
         return 0
 
-    engine = CreationEngine(backend=args.backend, seed=args.seed, output_dir=args.output)
+    if args.command in {"texture", "map", "mesh"}:
+        engine = CreationEngine(backend=args.backend, seed=args.seed, output_dir=args.output)
+    else:
+        engine = CreationEngine(seed=args.seed, output_dir=args.output)
 
     if args.command == "texture":
         path = engine.generate_texture(
@@ -78,6 +115,40 @@ def main(argv: list[str] | None = None) -> int:
             name=args.name,
             seed=args.seed,
         )
+    elif args.command == "ui-icon":
+        path = engine.generate_ui_icon(
+            prompt=args.prompt, seed=args.seed, output_dir=args.output, name=args.name
+        )
+    elif args.command == "ui-panel":
+        path = engine.generate_ui_panel(
+            prompt=args.prompt, seed=args.seed, output_dir=args.output, name=args.name
+        )
+    elif args.command == "portrait":
+        path = engine.generate_portrait(
+            prompt=args.prompt, seed=args.seed, output_dir=args.output, name=args.name
+        )
+    elif args.command == "material-pack":
+        path = engine.generate_material_pack(seed=args.seed, output_dir=args.output)
+    elif args.command == "biome-pack":
+        path = engine.generate_terrain_pack(seed=args.seed, output_dir=args.output)
+    elif args.command == "tileset-pack":
+        path = engine.generate_tileset_pack(seed=args.seed, output_dir=args.output)
+    elif args.command == "prop-pack":
+        path = engine.generate_prop_pack(seed=args.seed, output_dir=args.output)
+    elif args.command == "architecture-pack":
+        path = engine.generate_architecture_pack(seed=args.seed, output_dir=args.output)
+    elif args.command == "foliage-pack":
+        path = engine.generate_foliage_pack(seed=args.seed, output_dir=args.output)
+    elif args.command == "item-pack":
+        path = engine.generate_item_pack(seed=args.seed, output_dir=args.output)
+    elif args.command == "decal-pack":
+        path = engine.generate_decal_pack(seed=args.seed, output_dir=args.output)
+    elif args.command == "character-static-pack":
+        path = engine.generate_character_static_pack(seed=args.seed, output_dir=args.output)
+    elif args.command == "enemy-static-pack":
+        path = engine.generate_enemy_static_pack(seed=args.seed, output_dir=args.output)
+    elif args.command == "full-bundle":
+        path = engine.generate_full_bundle(seed=args.seed, output_dir=args.output)
     else:
         parser.error(f"Unknown command: {args.command}")
 

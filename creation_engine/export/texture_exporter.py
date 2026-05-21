@@ -1,8 +1,13 @@
-import json
 from pathlib import Path
 
 import numpy as np
 from PIL import Image
+
+from creation_engine.export.manifest_exporter import (
+    DEFAULT_STYLE_PROFILE,
+    build_manifest,
+    write_manifest_json,
+)
 
 
 def export_pbr_textures(
@@ -15,22 +20,7 @@ def export_pbr_textures(
     width: int | None = None,
     height: int | None = None,
 ) -> Path:
-    """Export PBR texture maps to PNG files.
-
-    Parameters
-    ----------
-    texture_data:
-        Dict with keys: albedo, normal, roughness, metallic, ao, emissive
-    output_dir:
-        Output directory
-    name:
-        Asset name prefix
-
-    Returns
-    -------
-    Path
-        Output directory path
-    """
+    """Export PBR texture maps to PNG files."""
     output_dir.mkdir(parents=True, exist_ok=True)
 
     files: dict[str, str] = {}
@@ -59,27 +49,30 @@ def export_pbr_textures(
         mean = np.mean(albedo.astype(np.float32) / 255.0, axis=(0, 1))
         color = [round(float(mean[0]), 4), round(float(mean[1]), 4), round(float(mean[2]), 4), 1.0]
 
-    manifest = {
-        "version": "1.1",
-        "name": name,
-        "family": family,
-        "prompt": prompt,
-        "seed": 42 if seed is None else int(seed),
-        "width": int(width),
-        "height": int(height),
-        "shader": "Shaders/basic3d",
-        "channels": sorted(files.keys()),
-        "textures": files,
-        "params": {
-            "color": color,
-            "baseColor": list(color),
-        },
-        "content_target": {
+    manifest = build_manifest(
+        asset_family=family,
+        prompt=prompt,
+        seed=seed,
+        files=files,
+        source_generator="creation_engine.texture.texture_gen.generate_pbr_textures",
+        tags=[],
+        content_target={
             "material": "Content/Materials",
             "textures": "Content/Textures",
         },
-    }
-    with open(output_dir / f"{name}.json", "w", encoding="utf-8") as file:
-        json.dump(manifest, file, indent=2)
+        name=name,
+        style_profile=DEFAULT_STYLE_PROFILE,
+        version="1.1",
+        shader="Shaders/basic3d",
+        width=int(width),
+        height=int(height),
+        channels=sorted(files.keys()),
+        textures=files,
+        params={
+            "color": color,
+            "baseColor": list(color),
+        },
+    )
+    write_manifest_json(output_dir, name, manifest)
 
     return output_dir
