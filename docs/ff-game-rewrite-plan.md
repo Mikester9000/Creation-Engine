@@ -47,6 +47,17 @@ Included scope:
 
 ---
 
+## Visual Art Direction Contract (Required)
+
+All planned outputs in this file must align to the following target:
+
+- Visual reference range: **FF7-FF12 era Final Fantasy style** (`FF7`, `FF8`, `FF9`, `FF10`, `FF11`, `FF12`).
+- Quality bar: highest quality that still fits **PlayStation 2-era runtime constraints**.
+- Gameplay compatibility: assets must remain readable for modern feature density (open-world JRPG expectations similar to `FFVII Remake` / `FFXV` gameplay complexity), but **visual rendering style stays PS1/PS2-era**.
+- Future prompts, presets, bundle recipes, and acceptance checks must reject photoreal / modern-AAA visual drift.
+
+---
+
 ## Current Repo Baseline
 
 Current Python entry points and generators already present:
@@ -125,6 +136,8 @@ Use these rules for every task below.
 12. If later tasks need symbols from new files, do that in the later planned file-specific task.
 13. Every exported asset must include enough metadata to map into `GameRewritten/Content/*` without manual schema guessing.
 14. Keep compatibility targets focused on static assets only (no animation and no audio).
+15. New prompts and presets must explicitly target PS2-era JRPG visual output and avoid modern photoreal style drift.
+16. Planned bundle examples must include style language that reinforces FF7-FF12-era visual constraints.
 
 Validation command already used by this repo:
 
@@ -188,6 +201,7 @@ All tasks that export files must satisfy this compatibility contract:
 - Mesh exports must include deterministic model metadata and material slot references for placement in `Content/Models` and `Content/Materials`.
 - UI exports (icons, panels, portraits) must include metadata that can be mapped to `Content/UI`.
 - Bundle metadata must include a full file manifest with family labels and target `Content/*` destination hints.
+- Bundle and per-asset manifests must include a deterministic `style_profile` value set exactly to `ps2_ff7_ff12_highest_quality_ps2` so art direction can be audited automatically.
 
 ---
 
@@ -837,19 +851,19 @@ The first full GameRewritten bundle should include at minimum:
 
 Use a fixed seed set such as `101, 102, 103, 104` and fixed prompts like:
 
-- `forest shrine stone`
-- `desert ruin sandstone`
-- `coastal fishing town wood`
-- `snow temple marble`
-- `volcanic cave basalt`
-- `royal castle polished stone`
-- `merchant wagon prop`
-- `save crystal prop`
-- `healing potion item`
-- `knight hero portrait`
-- `wolf enemy static`
-- `quest icon`
-- `inventory panel`
+- `ps2 jrpg ff10 style forest shrine stone hand-painted`
+- `ps2 jrpg ff12 style desert ruin sandstone low-poly readable silhouettes`
+- `ps2 jrpg ff9 style coastal fishing town wood diffuse-first shading`
+- `ps2 jrpg ff10 style snow temple marble baked-light look`
+- `ps2 jrpg ff7 style volcanic cave basalt stylized contrast`
+- `ps2 jrpg ff12 style royal castle polished stone tileable 256 texture feel`
+- `ps2 jrpg merchant wagon prop low-poly clean silhouette`
+- `ps2 jrpg save crystal prop bright readable landmark`
+- `ps2 jrpg healing potion item icon-friendly silhouette`
+- `ps2 jrpg knight hero portrait painted ps2-era palette`
+- `ps2 jrpg wolf enemy static low-poly readable combat shape`
+- `ps2 jrpg quest icon bold shape low-resolution readability`
+- `ps2 jrpg inventory panel ff10-era ui framing`
 
 ---
 
@@ -867,6 +881,8 @@ The project is done when all statements below are true:
 - Every exported asset family writes metadata manifests.
 - Every exported asset family includes deterministic destination hints for `GameRewritten/Content/*`.
 - Bundle output includes a compatibility summary proving all non-audio/non-animation families were generated.
+- Planned outputs and generated bundle metadata include explicit PS2-era FF7-FF12 style profile tags.
+- Prompt families and presets used for generation explicitly enforce PS2-era visuals while supporting modern gameplay readability.
 - README, format spec, and tutorial match the implementation.
 - Tests cover both API and CLI paths for the new static asset pipeline.
 
