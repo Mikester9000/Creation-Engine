@@ -64,23 +64,44 @@ Output: `assets/<name>_albedo.png`, `_normal.png`, `_roughness.png`,
 
 Output: `assets/<name>.json` for maps, `assets/<name>.obj` for meshes.
 
-### Generate additional static assets
+### Generate UI assets
 
 ```bash
 ./creation-engine ui-icon --prompt "quest icon" --seed 7 --output assets
-./creation-engine material-pack --seed 11 --output assets
+./creation-engine ui-panel --prompt "inventory panel" --seed 7 --output assets
+./creation-engine portrait --prompt "hero portrait" --seed 7 --output assets
+```
+
+### Generate prop and environment packs
+
+```bash
+./creation-engine prop-pack --seed 11 --output assets
+./creation-engine architecture-pack --seed 11 --output assets
+./creation-engine foliage-pack --seed 11 --output assets
+./creation-engine item-pack --seed 11 --output assets
+./creation-engine decal-pack --seed 11 --output assets
+./creation-engine biome-pack --seed 11 --output assets
+./creation-engine tileset-pack --seed 11 --output assets
+./creation-engine character-static-pack --seed 11 --output assets
+./creation-engine enemy-static-pack --seed 11 --output assets
+```
+
+### Generate the full GameRewritten static bundle
+
+```bash
+./creation-engine material-pack --seed 101 --output assets
 ./creation-engine full-bundle --seed 101 --output assets
 ```
 
-### GameRewritten static asset families
+These workflows generate only static assets. Animation, rigging, skeletal data, audio, music, voice, and sound effects stay out of scope.
+
+### Validate output quality
 
 ```bash
-./creation-engine ui-icon --prompt "quest icon" --seed 7
-./creation-engine material-pack --seed 11
-./creation-engine full-bundle --seed 101
+./creation-engine quality-check --output assets
 ```
 
-These workflows generate only static assets. Animation, rigging, skeletal data, audio, music, voice, and sound effects stay out of scope.
+Checks every manifest in `assets/` for required GameRewritten compatibility fields (`style_profile`, `content_target`, referenced files). Exits 0 on pass, 1 on any failure.
 
 ---
 
@@ -176,20 +197,31 @@ Materials now include a GameRewritten-compatible `shader` field and RGBA `params
 creation-engine <command> [options]
 
 Commands:
-  texture    Generate PBR textures + material JSON
-  map        Generate a procedural tilemap JSON
-  mesh       Generate a static mesh package
-  ui-icon    Generate a UI icon PNG + manifest
-  ui-panel   Generate a UI panel PNG + manifest
-  portrait   Generate a portrait card PNG + manifest
-  material-pack / biome-pack / tileset-pack / prop-pack / architecture-pack / foliage-pack / item-pack / decal-pack / character-static-pack / enemy-static-pack / full-bundle
-  help       Show this message
+  texture                 Generate PBR textures + material JSON
+  map                     Generate a procedural tilemap JSON
+  mesh                    Generate a static mesh OBJ + manifest
+  ui-icon                 Generate a UI icon PNG + manifest
+  ui-panel                Generate a UI panel PNG + manifest
+  portrait                Generate a portrait card PNG + manifest
+  material-pack           Generate all core material sets
+  biome-pack              Generate terrain/biome material sets
+  tileset-pack            Generate tileset metadata packs
+  prop-pack               Generate static prop mesh packs
+  architecture-pack       Generate architecture mesh packs
+  foliage-pack            Generate foliage mesh packs
+  item-pack               Generate item mesh packs
+  decal-pack              Generate decal texture packs
+  character-static-pack   Generate static NPC placeholder meshes
+  enemy-static-pack       Generate static enemy placeholder meshes
+  full-bundle             Generate the full GameRewritten static bundle
+  quality-check           Validate generated assets for GameRewritten compatibility
+  list-backends           List available generation backends
 
 Texture options:
   --prompt  "description"   Surface description (default: "stone")
   --seed    <uint>          Determinism seed    (default: 42)
   --name    <ident>         Output file prefix  (default: auto)
-  --out     <dir>           Output directory    (default: assets/)
+  --output  <dir>           Output directory    (default: assets/)
   --width   <px>            Texture width       (default: 64)
   --height  <px>            Texture height      (default: 64)
 
@@ -197,10 +229,15 @@ Map options:
   --prompt  "description"   Terrain description (default: "grass field")
   --seed    <uint>          Determinism seed    (default: 42)
   --name    <ident>         Output file prefix  (default: auto)
-  --out     <dir>           Output directory    (default: assets/)
+  --output  <dir>           Output directory    (default: assets/)
 
-Validate options:
-  --dir     <dir>           Directory to scan   (default: assets/)
+Pack / bundle options:
+  --seed    <uint>          Determinism seed    (default: 42)
+  --output  <dir>           Output directory    (default: assets/)
+
+Quality-check options:
+  --output       <dir>    Directory to scan    (default: assets/)
+  --min-png-size <bytes>  Minimum PNG file size threshold (default: 64)
 ```
 
 ---
@@ -255,23 +292,35 @@ Creation-Engine/
 ├── assets/
 │   ├── materials/          Sample PNG + JSON outputs (wet_stone, forest_soil, polished_gold)
 │   └── maps/               Sample tilemap JSONs (forest_river, dungeon_ruins)
-└── src/
-    ├── main.cpp            CLI entry point (texture/map/mesh/ui/bundle commands)
-    ├── ai/
-    │   ├── AIAssist.hpp    Prompt → PBR parameter inference interface
-    │   └── AIAssist.cpp    Keyword tables, preset lookup, modifier application
-    ├── material/
-    │   └── Material.hpp    PBR material struct + JSON serialisation
-    ├── map/
-    │   ├── MapGen.hpp      TileMap struct + generator interface
-    │   └── MapGen.cpp      Heightmap terrain, dungeon, river, road generation
+└── creation_engine/        Python package (primary asset pipeline)
+    ├── cli.py              CLI entry point
+    ├── engine.py           CreationEngine API
+    ├── backend.py          Backend registry + ProceduralBackend
+    ├── asset_catalog.py    Asset family constants and build order
+    ├── prompting.py        Prompt classification helpers
+    ├── pack_builder.py     Pack + bundle manifest helpers
+    ├── game_rewritten_bundle.py  Full bundle recipe
+    ├── quality_check.py    GameRewritten compatibility validator
     ├── texture/
-    │   ├── TextureGen.hpp  PBR texture generator interface
-    │   └── TextureGen.cpp  Albedo/normal/roughness/metallic/AO/emissive generation
-    └── util/
-        ├── Noise.hpp       Seeded value noise + fBm + ridged fBm
-        ├── PNGWriter.hpp   Zero-dependency PNG encoder (uncompressed deflate)
-        └── JsonWriter.hpp  Minimal JSON builder (comma-before-element design)
+    │   ├── texture_gen.py  PBR texture generator
+    │   ├── material_presets.py  Material preset tables
+    │   └── palette.py      Color palette helpers
+    ├── map/
+    │   ├── map_gen.py      Tilemap generator
+    │   └── tileset_specs.py  Tileset theme specs
+    ├── mesh/
+    │   ├── mesh_builder.py Mesh composition helper
+    │   └── mesh_family_specs.py  Mesh family definitions
+    ├── ui/
+    │   ├── icon_gen.py     UI icon generator
+    │   ├── panel_gen.py    UI panel generator
+    │   ├── portrait_gen.py Portrait card generator
+    │   └── ui_specs.py     UI spec tables
+    └── export/
+        ├── texture_exporter.py  PNG + manifest export
+        ├── map_exporter.py      Tilemap JSON export
+        ├── mesh_exporter.py     OBJ + MTL + manifest export
+        └── manifest_exporter.py Shared manifest writer
 ```
 
 ---
