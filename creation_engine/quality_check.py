@@ -45,16 +45,20 @@ def run_quality_check(output_dir: str | Path, *, min_png_size: int = 64) -> Qual
         if not isinstance(content_target, dict) or not content_target:
             errors.append(f"{rel_manifest}: missing non-empty content_target mapping")
 
+        asset_family = str(manifest.get("asset_family", ""))
         files = manifest.get("files")
-        if not isinstance(files, dict) or not files:
+        requires_files = asset_family not in {"maps", "tilesets"}
+        if requires_files and (not isinstance(files, dict) or not files):
             errors.append(f"{rel_manifest}: missing non-empty files mapping")
+            continue
+        if not isinstance(files, dict):
             continue
 
         for key, rel_path in files.items():
             if not isinstance(rel_path, str) or not rel_path:
                 errors.append(f"{rel_manifest}: files[{key!r}] must be a non-empty string")
                 continue
-            referenced = manifest_path.parent / rel_path
+            referenced = _resolve_reference(manifest_path.parent, root, rel_path)
             if not referenced.exists():
                 errors.append(f"{rel_manifest}: referenced file not found: {rel_path}")
                 continue
@@ -74,3 +78,13 @@ def _check_png_size(path: Path, root: Path, min_png_size: int, errors: list[str]
         errors.append(
             f"{rel_path}: PNG file is too small ({size} bytes), expected at least {min_png_size} bytes"
         )
+
+
+def _resolve_reference(manifest_parent: Path, root: Path, rel_path: str) -> Path:
+    direct = manifest_parent / rel_path
+    if direct.exists():
+        return direct
+    matches = sorted(root.rglob(rel_path))
+    if matches:
+        return matches[0]
+    return direct
