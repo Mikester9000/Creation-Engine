@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import glob
 import json
 from dataclasses import dataclass
 from pathlib import Path
@@ -16,8 +17,16 @@ class QualityCheckResult:
 
 def run_quality_check(output_dir: str | Path, *, min_png_size: int = 64) -> QualityCheckResult:
     root = Path(output_dir)
+    if min_png_size < 0:
+        return QualityCheckResult(
+            ok=False,
+            errors=[f"Minimum PNG size must be non-negative, got {min_png_size}"],
+            checked_manifests=0,
+        )
     if not root.exists():
         return QualityCheckResult(ok=False, errors=[f"Output directory does not exist: {root}"], checked_manifests=0)
+    if not root.is_dir():
+        return QualityCheckResult(ok=False, errors=[f"Output path is not a directory: {root}"], checked_manifests=0)
 
     manifest_paths = sorted(path for path in root.rglob("*.json") if path.is_file())
     errors: list[str] = []
@@ -31,7 +40,7 @@ def run_quality_check(output_dir: str | Path, *, min_png_size: int = 64) -> Qual
             errors.append(f"{manifest_path}: invalid JSON ({exc})")
             continue
 
-        if "asset_family" not in manifest:
+        if not isinstance(manifest, dict) or "asset_family" not in manifest:
             continue
 
         checked += 1
@@ -58,9 +67,15 @@ def run_quality_check(output_dir: str | Path, *, min_png_size: int = 64) -> Qual
             if not isinstance(rel_path, str) or not rel_path:
                 errors.append(f"{rel_manifest}: files[{key!r}] must be a non-empty string")
                 continue
-            referenced = _resolve_reference(manifest_path.parent, root, rel_path)
-            if not referenced.exists():
+            referenced, resolution_error = _resolve_reference(manifest_path.parent, root, rel_path)
+            if resolution_error is not None:
+                errors.append(f"{rel_manifest}: {resolution_error}: {rel_path}")
+                continue
+            if referenced is None or not referenced.exists():
                 errors.append(f"{rel_manifest}: referenced file not found: {rel_path}")
+                continue
+            if not referenced.is_file():
+                errors.append(f"{rel_manifest}: referenced path is not a file: {rel_path}")
                 continue
             if referenced.suffix.lower() == ".png":
                 _check_png_size(referenced, root, min_png_size, errors)
@@ -80,11 +95,30 @@ def _check_png_size(path: Path, root: Path, min_png_size: int, errors: list[str]
         )
 
 
-def _resolve_reference(manifest_parent: Path, root: Path, rel_path: str) -> Path:
-    direct = manifest_parent / rel_path
+def _resolve_reference(manifest_parent: Path, root: Path, rel_path: str) -> tuple[Path | None, str | None]:
+    if any(char in rel_path for char in "*?[]"):
+        return None, "referenced file path must not contain glob metacharacters"
+
+    root_resolved = root.resolve()
+    direct = (manifest_parent / rel_path).resolve(strict=False)
+    if not _is_within_root(direct, root_resolved):
+        return None, "referenced file must stay within output directory"
     if direct.exists():
-        return direct
-    matches = sorted(root.rglob(rel_path))
+        return direct, None
+
+    rooted = (root / rel_path).resolve(strict=False)
+    if _is_within_root(rooted, root_resolved) and rooted.exists():
+        return rooted, None
+
+    matches = sorted(path.resolve() for path in root.rglob(glob.escape(rel_path)) if path.exists())
     if matches:
-        return matches[0]
-    return direct
+        return matches[0], None
+    return direct, None
+
+
+def _is_within_root(path: Path, root: Path) -> bool:
+    try:
+        path.relative_to(root)
+    except ValueError:
+        return False
+    return True

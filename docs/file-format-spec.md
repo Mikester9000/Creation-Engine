@@ -222,7 +222,7 @@ Pack manifests summarize one family of assets and include a destination map for 
 }
 ```
 
-### 4.5 UI Manifest (`<name>.json`)
+### 4.4 UI Manifest (`<name>.json`)
 
 UI icons, panels, and portraits each write a manifest beside the PNG.
 

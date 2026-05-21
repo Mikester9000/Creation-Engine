@@ -1,6 +1,7 @@
 import json
 
 from creation_engine.cli import main
+from creation_engine.quality_check import run_quality_check
 
 
 def test_list_backends(capsys):
@@ -85,3 +86,56 @@ def test_quality_check_command_fails_on_bad_style_profile(tmp_path, capsys):
     assert rc == 1
     assert "Quality check failed:" in out
     assert "style_profile" in out
+
+
+def test_quality_check_rejects_non_directory_output(tmp_path):
+    output_file = tmp_path / "not_a_directory"
+    output_file.write_text("x", encoding="utf-8")
+
+    result = run_quality_check(output_file)
+
+    assert result.ok is False
+    assert result.checked_manifests == 0
+    assert result.errors == [f"Output path is not a directory: {output_file}"]
+
+
+def test_quality_check_skips_non_object_json(tmp_path):
+    (tmp_path / "manifest.json").write_text('["asset_family"]', encoding="utf-8")
+
+    result = run_quality_check(tmp_path)
+
+    assert result.ok is False
+    assert result.checked_manifests == 0
+    assert result.errors == ["No asset manifests found (no JSON file with asset_family field)."]
+
+
+def test_quality_check_rejects_unsafe_references_and_negative_png_size(tmp_path):
+    rc = main(["texture", "--prompt", "stone", "--seed", "42", "--output", str(tmp_path)])
+    assert rc == 0
+
+    manifest_path = tmp_path / "stone.json"
+    with open(manifest_path, encoding="utf-8") as f:
+        manifest = json.load(f)
+
+    outside_path = tmp_path.parent / "outside.png"
+    outside_path.write_bytes(b"\x89PNG\r\n\x1a\n" + b"x" * 64)
+
+    manifest["files"]["albedo"] = "../outside.png"
+    with open(manifest_path, "w", encoding="utf-8") as f:
+        json.dump(manifest, f, indent=2)
+
+    result = run_quality_check(tmp_path)
+    assert result.ok is False
+    assert any("referenced file must stay within output directory" in error for error in result.errors)
+
+    manifest["files"]["albedo"] = "*.png"
+    with open(manifest_path, "w", encoding="utf-8") as f:
+        json.dump(manifest, f, indent=2)
+
+    result = run_quality_check(tmp_path)
+    assert result.ok is False
+    assert any("must not contain glob metacharacters" in error for error in result.errors)
+
+    result = run_quality_check(tmp_path, min_png_size=-1)
+    assert result.ok is False
+    assert result.errors == ["Minimum PNG size must be non-negative, got -1"]
