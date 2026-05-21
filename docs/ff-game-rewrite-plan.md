@@ -51,9 +51,9 @@ Included scope:
 
 All planned outputs in this file must align to the following target:
 
-- Visual reference range: **PS2-era Final Fantasy style** (`FF7`, `FF8`, `FF9`, `FF10`, `FF12`).
+- Visual reference range: **FF7-FF12 era Final Fantasy style** (`FF7`, `FF8`, `FF9`, `FF10`, `FF11`, `FF12`).
 - Quality bar: highest quality that still fits **PlayStation 2-era runtime constraints**.
-- Gameplay compatibility: assets must remain readable for modern feature density (open-world JRPG expectations similar to `FF7 Remake` / `FF15` gameplay complexity), but **visual rendering style stays PS2-era**.
+- Gameplay compatibility: assets must remain readable for modern feature density (open-world JRPG expectations similar to `FFVII Remake` / `FFXV` gameplay complexity), but **visual rendering style stays PS1/PS2-era**.
 - Future prompts, presets, bundle recipes, and acceptance checks must reject photoreal / modern-AAA visual drift.
 
 ---
@@ -201,7 +201,7 @@ All tasks that export files must satisfy this compatibility contract:
 - Mesh exports must include deterministic model metadata and material slot references for placement in `Content/Models` and `Content/Materials`.
 - UI exports (icons, panels, portraits) must include metadata that can be mapped to `Content/UI`.
 - Bundle metadata must include a full file manifest with family labels and target `Content/*` destination hints.
-- Bundle and per-asset manifests must include a deterministic `style_profile` value set to `ps2_ff7_ff12_highest_quality_ps2` (or a strict equivalent identifier) so art direction can be audited automatically.
+- Bundle and per-asset manifests must include a deterministic `style_profile` value set exactly to `ps2_ff7_ff12_highest_quality_ps2` so art direction can be audited automatically.
 
 ---
 

@@ -3,7 +3,7 @@
 Texture + Map Editor for [Game Engine for Teaching](https://github.com/Mikester9000/Game-Engine-for-Teaching-) with material export compatibility for [GameRewritten](https://github.com/Mikester9000/GameRewritten)
 
 Produces **PBR-lite PNG textures** and **JSON tilemaps** designed around a
-high-end **PS2-era JRPG look** (Final Fantasy VII–XII era target), with a
+high-end **FF7–FF12 era JRPG look** (PS1/PS2-era target), with a
 fully **offline, deterministic AI-assist** module that turns a text prompt
 into generator parameters.
 
@@ -26,8 +26,8 @@ into generator parameters.
 
 All future generated content should target:
 
-- **Visual style:** PS2-era JRPG art direction (FF7/FF8/FF9/FF10/FF12 reference range), aiming for the highest quality that can still run on PlayStation 2 class constraints.
-- **Gameplay support:** asset readability suitable for modern large-scale JRPG gameplay expectations (FF7 Remake / FF15 style feature density), while keeping visuals in the PS2-era look.
+- **Visual style:** FF7–FF12 era JRPG art direction (FF7/FF8/FF9/FF10/FF11/FF12 reference range), aiming for the highest quality that can still run on PlayStation 2 class constraints.
+- **Gameplay support:** asset readability suitable for modern large-scale JRPG gameplay expectations (FFVII Remake / FFXV style feature density), while keeping visuals in the PS1/PS2-era look.
 - **Consistency rule:** avoid photoreal AAA-modern material calibration in new presets, prompts, and planned bundle outputs.
 
 ---
