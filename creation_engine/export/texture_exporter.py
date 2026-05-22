@@ -8,6 +8,8 @@ from creation_engine.export.manifest_exporter import (
     build_manifest,
     write_manifest_json,
 )
+from creation_engine.narrative_tags import infer_placement_intent
+from creation_engine.prompting import classify_prompt
 
 
 def export_pbr_textures(
@@ -19,6 +21,7 @@ def export_pbr_textures(
     family: str = "materials",
     width: int | None = None,
     height: int | None = None,
+    parsed_prompt: dict[str, object] | None = None,
 ) -> Path:
     """Export PBR texture maps to PNG files."""
     output_dir.mkdir(parents=True, exist_ok=True)
@@ -49,6 +52,8 @@ def export_pbr_textures(
         mean = np.mean(albedo.astype(np.float32) / 255.0, axis=(0, 1))
         color = [round(float(mean[0]), 4), round(float(mean[1]), 4), round(float(mean[2]), 4), 1.0]
 
+    parsed = parsed_prompt or classify_prompt(prompt)
+    narrative_tags = parsed["narrative_tags"]
     manifest = build_manifest(
         asset_family=family,
         prompt=prompt,
@@ -72,6 +77,10 @@ def export_pbr_textures(
             "color": color,
             "baseColor": list(color),
         },
+        narrative_tags=narrative_tags,
+        world_region_id=parsed["world_region_id"],
+        exploration_intent=parsed["exploration_intent"],
+        placement_intent=infer_placement_intent(family, narrative_tags),
     )
     write_manifest_json(output_dir, name, manifest)
 

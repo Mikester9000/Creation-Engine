@@ -89,6 +89,55 @@ TILESET_SPECS = {
         "style": "forest",
         "tiles": BASE_TILE_DEFS,
     },
+    "capital_city": {
+        "id": "capital_city_tileset_v1",
+        "name": "Capital City",
+        "tile_size": 64,
+        "style": "town",
+        "tiles": BASE_TILE_DEFS,
+    },
+    "port_city": {
+        "id": "port_city_tileset_v1",
+        "name": "Port City",
+        "tile_size": 64,
+        "style": "town",
+        "tiles": BASE_TILE_DEFS,
+    },
+    "highlands": {
+        "id": "highlands_tileset_v1",
+        "name": "Highlands",
+        "tile_size": 64,
+        "style": "forest",
+        "tiles": BASE_TILE_DEFS,
+    },
+    "volcanic": {
+        "id": "volcanic_tileset_v1",
+        "name": "Volcanic Zone",
+        "tile_size": 64,
+        "style": "desert",
+        "tiles": BASE_TILE_DEFS,
+    },
+    "sacred_ruins": {
+        "id": "sacred_ruins_tileset_v1",
+        "name": "Sacred Ruins",
+        "tile_size": 64,
+        "style": "ruins",
+        "tiles": BASE_TILE_DEFS,
+    },
+    "imperial_fortress": {
+        "id": "imperial_fortress_tileset_v1",
+        "name": "Imperial Fortress",
+        "tile_size": 64,
+        "style": "indoor",
+        "tiles": BASE_TILE_DEFS,
+    },
+    "wasteland": {
+        "id": "wasteland_tileset_v1",
+        "name": "Wasteland",
+        "tile_size": 64,
+        "style": "desert",
+        "tiles": BASE_TILE_DEFS,
+    },
 }
 
 THEME_ALIASES = {
@@ -108,6 +157,17 @@ THEME_ALIASES = {
     "temple": "temple",
     "cave": "cave",
     "castle": "castle",
+    "capital": "capital_city",
+    "port": "port_city",
+    "harbor": "port_city",
+    "highland": "highlands",
+    "highlands": "highlands",
+    "volcanic": "volcanic",
+    "lava": "volcanic",
+    "sacred": "sacred_ruins",
+    "fortress": "imperial_fortress",
+    "imperial": "imperial_fortress",
+    "wasteland": "wasteland",
 }
 
 

@@ -5,8 +5,10 @@ import pytest
 from creation_engine.backend import BackendRegistry, ProceduralBackend
 from creation_engine.engine import CreationEngine
 from creation_engine.export.map_exporter import export_tilemap
+from creation_engine.narrative_tags import extract_narrative_tags
 from creation_engine.map.map_gen import _generate_coast_layout, _pick_theme, generate_tilemap
 from creation_engine.map.tileset_specs import TILESET_SPECS
+from creation_engine.texture.palette import select_palette
 
 
 def test_backend_registry_procedural_available():
@@ -43,6 +45,7 @@ def test_engine_generates_assets(tmp_path):
     assert map_manifest["tileset_meta"]["id"] == map_manifest["tileset"]
     assert map_manifest["content_target"]["world"] == "Content/World"
     assert map_manifest["summary"]["prop_count"] >= 0
+    assert map_manifest["chunk"] == {"x": 0, "y": 0}
 
     mesh_file = engine.generate_mesh("pillar", complexity="low")
     assert mesh_file.exists()
@@ -53,6 +56,10 @@ def test_engine_generates_assets(tmp_path):
         mesh_manifest = json.load(f)
     assert mesh_manifest["content_target"]["model"] == "Content/Models"
     assert mesh_manifest["style_profile"] == "ps2_ff7_ff12_highest_quality_ps2"
+    assert "lod_policy" in mesh_manifest
+    assert mesh_manifest["complexity"] == "low"
+    assert isinstance(mesh_manifest["vertex_count"], int)
+    assert isinstance(mesh_manifest["triangle_count"], int)
 
 
 def test_engine_pack_generation(tmp_path):
@@ -118,3 +125,43 @@ def test_coast_layout_clamps_shoreline_before_grass_mask():
 
 def test_pick_theme_maps_ruin_to_ruins():
     assert _pick_theme("ruin") == "ruins"
+
+
+def test_extract_narrative_tags_is_stable_for_duplicate_family_tokens():
+    tokens = ["coast", "forest", "desert", "royal"]
+    assert extract_narrative_tags(tokens)["region"] == "coast"
+
+
+def test_export_tilemap_prefers_existing_narrative_metadata(tmp_path):
+    provided_tags = {
+        "region": "temple",
+        "faction": "rebel",
+        "era": "ancient",
+        "story_phase": "endgame",
+        "culture_theme": "sacred",
+    }
+    map_file = export_tilemap(
+        map_data={
+            "tiles": np.array([[1, 2], [3, 4]], dtype=np.int32),
+            "narrative_tags": provided_tags,
+            "world_region_id": "custom_region",
+            "exploration_intent": "dungeon_exploration",
+            "chunk": {"x": 2, "y": -1},
+        },
+        output_dir=tmp_path,
+        name="narrative_map",
+        prompt="forest map",
+        seed=1,
+    )
+    with open(map_file, encoding="utf-8") as f:
+        exported = json.load(f)
+    assert exported["narrative_tags"] == provided_tags
+    assert exported["world_region_id"] == "custom_region"
+    assert exported["exploration_intent"] == "dungeon_exploration"
+    assert exported["chunk"] == {"x": 2, "y": -1}
+
+
+def test_select_palette_holy_uses_holy_family():
+    holy_palette = select_palette("holy", 7)
+    sacred_palette = select_palette("sacred", 7)
+    assert not np.array_equal(holy_palette, sacred_palette)

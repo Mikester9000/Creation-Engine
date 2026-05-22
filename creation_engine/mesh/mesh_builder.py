@@ -13,6 +13,19 @@ from creation_engine.mesh.mesh_family_specs import (
 from creation_engine.prompting import tokenize_prompt
 
 _COMPLEXITY_SCALE = {"low": 0.85, "medium": 1.0, "high": 1.2}
+_LOD_POLICY = {
+    "props": {"lod0": 0, "lod1": 15, "lod2": 30},
+    "architecture": {"lod0": 0, "lod1": 20, "lod2": 45},
+    "foliage": {"lod0": 0, "lod1": 18, "lod2": 35},
+    "items": {"lod0": 0, "lod1": 12, "lod2": 24},
+    "characters_static": {"lod0": 0, "lod1": 16, "lod2": 32},
+    "enemies_static": {"lod0": 0, "lod1": 16, "lod2": 32},
+}
+_COMPLEXITY_BUDGET = {
+    "low": {"vertex_budget": 256, "part_jitter": 0.02},
+    "medium": {"vertex_budget": 512, "part_jitter": 0.04},
+    "high": {"vertex_budget": 1024, "part_jitter": 0.06},
+}
 
 
 def build_mesh_from_prompt(
@@ -32,6 +45,7 @@ def build_mesh_from_variant(
 ) -> dict[str, Any]:
     spec = MESH_VARIANT_SPECS[variant]
     scale = _COMPLEXITY_SCALE.get(complexity, 1.0)
+    complexity_policy = _COMPLEXITY_BUDGET.get(complexity, _COMPLEXITY_BUDGET["medium"])
     rng = np.random.default_rng(seed + sum(ord(ch) for ch in prompt.lower()) + len(variant) * 17)
 
     vertices: list[np.ndarray] = []
@@ -41,7 +55,12 @@ def build_mesh_from_variant(
     vertex_offset = 0
 
     for part in spec["parts"]:
-        part_mesh = _make_primitive_mesh(part, scale=scale, rng=rng)
+        part_mesh = _make_primitive_mesh(
+            part,
+            scale=scale,
+            rng=rng,
+            jitter_scale=float(complexity_policy["part_jitter"]),
+        )
         part_vertices = part_mesh["vertices"]
         part_indices = part_mesh["indices"] + vertex_offset
         vertices.append(part_vertices)
@@ -70,16 +89,24 @@ def build_mesh_from_variant(
             "model": "Content/Models",
             "materials": "Content/Materials",
         },
+        "lod_policy": _LOD_POLICY.get(spec["family"], {"lod0": 0, "lod1": 18, "lod2": 36}),
+        "complexity": complexity,
+        "complexity_policy": complexity_policy,
+        "vertex_count": int(mesh_vertices.shape[0]),
+        "triangle_count": int(mesh_indices.shape[0] // 3),
     }
 
 
 def _make_primitive_mesh(
-    part: dict[str, Any], scale: float, rng: np.random.Generator
+    part: dict[str, Any],
+    scale: float,
+    rng: np.random.Generator,
+    jitter_scale: float = 0.04,
 ) -> dict[str, np.ndarray]:
     kind = part["kind"]
     offset = np.array(part.get("offset", (0.0, 0.0, 0.0)), dtype=np.float32)
     part_scale = np.array(part.get("scale", (1.0, 1.0, 1.0)), dtype=np.float32) * scale
-    jitter = rng.uniform(-0.04, 0.04, size=3).astype(np.float32)
+    jitter = rng.uniform(-jitter_scale, jitter_scale, size=3).astype(np.float32)
     offset = offset + jitter
 
     if kind == "box":
