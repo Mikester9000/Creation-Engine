@@ -142,14 +142,14 @@ Use these rules for every task below.
 Validation command already used by this repo:
 
 ```bash
-cd /home/runner/work/Creation-Engine/Creation-Engine
+cd <repo-root>
 python -m pytest tests/test_backend_and_api.py tests/test_cli.py
 ```
 
 Production gate commands:
 
 ```bash
-cd /home/runner/work/Creation-Engine/Creation-Engine
+cd <repo-root>
 creation-engine full-bundle --seed 101 --output assets
 creation-engine quality-check --output assets
 creation-engine bundle-audit --output assets

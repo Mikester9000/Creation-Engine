@@ -22,6 +22,7 @@ from creation_engine.asset_catalog import (
 )
 from creation_engine.export.manifest_exporter import DEFAULT_STYLE_PROFILE
 from creation_engine.narrative_tags import NARRATIVE_TAG_KEYS, NARRATIVE_TAG_VALUES
+from creation_engine.prompting import normalize_prompt
 
 _BANNED_PROMPT_TERMS = (
     "photoreal",
@@ -266,7 +267,7 @@ def _validate_aesthetic_prompt(manifest: dict, rel_manifest: Path, errors: list[
     if not isinstance(prompt, str) or not prompt.strip():
         errors.append(f"{rel_manifest}: prompt must be a non-empty string")
         return
-    normalized_prompt = prompt.lower()
+    normalized_prompt = normalize_prompt(prompt)
     for term in _BANNED_PROMPT_TERMS:
         if term in normalized_prompt:
             errors.append(f"{rel_manifest}: prompt contains banned style term {term!r}")

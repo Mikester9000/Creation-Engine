@@ -5,7 +5,7 @@ Use this checklist exactly in order before handing Creation-Engine output to Gam
 ## 1) Build the deterministic full bundle
 
 ```bash
-cd /home/runner/work/Creation-Engine/Creation-Engine
+cd <repo-root>
 creation-engine full-bundle --seed 101 --output assets
 ```
 
