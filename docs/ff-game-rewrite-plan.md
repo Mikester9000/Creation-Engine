@@ -146,6 +146,22 @@ cd /home/runner/work/Creation-Engine/Creation-Engine
 python -m pytest tests/test_backend_and_api.py tests/test_cli.py
 ```
 
+Production gate commands:
+
+```bash
+cd /home/runner/work/Creation-Engine/Creation-Engine
+creation-engine full-bundle --seed 101 --output assets
+creation-engine quality-check --output assets
+creation-engine bundle-audit --output assets
+python -m pytest tests/test_backend_and_api.py tests/test_cli.py
+```
+
+Release gate policy:
+
+- `quality-check` is a hard fail gate for style profile, banned prompt drift, required FF descriptors, narrative metadata fields, and safe file references.
+- `bundle-audit` is a hard fail gate for per-family counts, narrative coverage, and FF aesthetic compliance status.
+- Full-bundle manifest must include a completeness matrix proving required packs, minimum counts, and content destination coverage.
+
 ---
 
 ## Asset Families To Deliver

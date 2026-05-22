@@ -88,6 +88,39 @@ def test_quality_check_command_fails_on_bad_style_profile(tmp_path, capsys):
     assert "style_profile" in out
 
 
+def test_quality_check_rejects_banned_prompt_terms(tmp_path):
+    rc = main(
+        [
+            "texture",
+            "--prompt",
+            "ps2 jrpg photoreal stone",
+            "--seed",
+            "42",
+            "--output",
+            str(tmp_path),
+        ]
+    )
+    assert rc == 0
+
+    result = run_quality_check(tmp_path)
+    assert result.ok is False
+    assert any("banned style term" in error for error in result.errors)
+
+
+def test_bundle_audit_reports_coverage_and_pass(tmp_path, capsys):
+    rc = main(["full-bundle", "--seed", "13", "--output", str(tmp_path)])
+    assert rc == 0
+
+    rc = main(["bundle-audit", "--output", str(tmp_path)])
+    out = capsys.readouterr().out
+
+    assert rc == 0
+    assert "Bundle audit checked manifests:" in out
+    assert "Narrative coverage:" in out
+    assert "Style coverage:" in out
+    assert "FF aesthetic compliance: PASS" in out
+
+
 def test_quality_check_rejects_non_directory_output(tmp_path):
     output_file = tmp_path / "not_a_directory"
     output_file.write_text("x", encoding="utf-8")

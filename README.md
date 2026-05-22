@@ -99,9 +99,11 @@ These workflows generate only static assets. Animation, rigging, skeletal data, 
 
 ```bash
 ./creation-engine quality-check --output assets
+./creation-engine bundle-audit --output assets
 ```
 
 Checks every manifest in `assets/` for required GameRewritten compatibility fields (`style_profile`, `content_target`, referenced files). Exits 0 on pass, 1 on any failure.
+`bundle-audit` prints per-family counts, narrative metadata coverage, and FF-style compliance status for release readiness.
 
 ---
 
@@ -215,6 +217,7 @@ Commands:
   enemy-static-pack       Generate static enemy placeholder meshes
   full-bundle             Generate the full GameRewritten static bundle
   quality-check           Validate generated assets for GameRewritten compatibility
+  bundle-audit            Summarize bundle counts, narrative coverage, and FF compliance
   list-backends           List available generation backends
 
 Texture options:
@@ -239,6 +242,24 @@ Quality-check options:
   --output       <dir>    Directory to scan    (default: assets/)
   --min-png-size <bytes>  Minimum PNG file size threshold (default: 64)
 ```
+
+---
+
+## Production Completion Workflow
+
+Run this deterministic release path for non-audio/non-animation asset delivery:
+
+```bash
+./creation-engine full-bundle --seed 101 --output assets
+./creation-engine quality-check --output assets
+./creation-engine bundle-audit --output assets
+python -m pytest tests/test_backend_and_api.py tests/test_cli.py
+```
+
+Acceptance gates:
+- `quality-check` must pass with no style, prompt, metadata, or file-reference errors.
+- `bundle-audit` must report `FF aesthetic compliance: PASS` and full narrative/style coverage.
+- test suite must pass before handoff into GameRewritten import flows.
 
 ---
 
