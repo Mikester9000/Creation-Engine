@@ -26,7 +26,7 @@ def render_material_preview(manifest: dict[str, Any], manifest_path: Path) -> Im
 
     width = int(manifest.get("width", 256))
     height = int(manifest.get("height", 256))
-    size = (max(32, width), max(32, height))
+    size = (max(1, width), max(1, height))
     albedo = _read_image_array(albedo_path, size)
 
     roughness = np.ones((size[1], size[0]), dtype=np.float32) * 0.6
@@ -78,6 +78,13 @@ def render_map_preview(map_data: dict[str, Any], tile_px: int = 10) -> Image.Ima
     height = int(map_data.get("height", 0))
     if not isinstance(raw_tiles, list) or width < 1 or height < 1:
         raise ValueError("Map JSON missing width, height, or tile data.")
+    if raw_tiles and isinstance(raw_tiles[0], list):
+        flattened: list[int] = []
+        for row in raw_tiles:
+            if not isinstance(row, list):
+                raise ValueError("Map tile rows must be arrays of tile IDs.")
+            flattened.extend(int(tile) for tile in row)
+        raw_tiles = flattened
     if len(raw_tiles) != width * height:
         raise ValueError("Map tile data length does not match width*height.")
 
@@ -126,7 +133,7 @@ class CreationEngineGuiApp:
         root.title("Creation Engine GUI")
         root.geometry("1200x760")
 
-        from tkinter import BOTH, LEFT, RIGHT, TOP, X, Y, Button, Frame, Label, PanedWindow, Text
+        from tkinter import BOTH, LEFT, TOP, X, Button, Frame, Label, PanedWindow, Text
         from tkinter.scrolledtext import ScrolledText
 
         toolbar = Frame(root)
