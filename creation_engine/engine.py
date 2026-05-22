@@ -38,10 +38,41 @@ from creation_engine.map.tileset_specs import (
     resolve_tileset_theme,
     tileset_spec_for_theme,
 )
-from creation_engine.prompting import classify_prompt
+from creation_engine.narrative_tags import (
+    extract_narrative_tags,
+    infer_exploration_intent,
+    infer_placement_intent,
+    infer_world_region_id,
+)
+from creation_engine.prompting import classify_prompt, tokenize_prompt
 from creation_engine.ui.icon_gen import generate_ui_icon as build_ui_icon_image
 from creation_engine.ui.panel_gen import generate_ui_panel as build_ui_panel_image
 from creation_engine.ui.portrait_gen import generate_ui_portrait as build_ui_portrait_image
+
+_BUNDLE_PROMPT_KEY_BY_PACK = {
+    "material_pack": "materials",
+    "biome_pack": "terrain",
+    "tileset_pack": "tilesets",
+    "prop_pack": "props",
+    "architecture_pack": "architecture",
+    "foliage_pack": "foliage",
+    "item_pack": "items",
+    "decal_pack": "decals",
+    "ui_icon_pack": "ui_icons",
+    "ui_panel_pack": "ui_panels",
+    "ui_portrait_pack": "ui_portraits",
+    "character_static_pack": "characters_static",
+    "enemy_static_pack": "enemies_static",
+}
+_BUNDLE_MIN_COUNTS_BY_PACK = {
+    pack_name: len(GAME_REWRITTEN_BUNDLE_RECIPE["prompts"][prompt_key])
+    for pack_name, prompt_key in _BUNDLE_PROMPT_KEY_BY_PACK.items()
+}
+_REQUIRED_BUNDLE_DESTINATION_TARGETS = {
+    target
+    for family, target in GAME_REWRITTEN_BUNDLE_RECIPE["content_targets"].items()
+    if family != ASSET_FAMILY_BUNDLES
+}
 
 
 class CreationEngine:
@@ -381,6 +412,27 @@ class CreationEngine:
             pack_manifests.append(manifest)
             for filename, target in manifest.get("destination_map", {}).items():
                 destination_map[filename] = target
+        completeness_matrix = self._build_bundle_completeness_matrix(pack_manifests, destination_map)
+        if not completeness_matrix["complete"]:
+            failures: list[str] = []
+            if completeness_matrix["missing_required_packs"]:
+                failures.append(
+                    "missing packs: " + ", ".join(completeness_matrix["missing_required_packs"])
+                )
+            if completeness_matrix["underfilled_packs"]:
+                failures.append(
+                    "underfilled packs: "
+                    + ", ".join(
+                        f"{entry['name']} ({entry['actual']}/{entry['expected_min']})"
+                        for entry in completeness_matrix["underfilled_packs"]
+                    )
+                )
+            if completeness_matrix["missing_destination_targets"]:
+                failures.append(
+                    "missing destination targets: "
+                    + ", ".join(completeness_matrix["missing_destination_targets"])
+                )
+            raise ValueError("Full bundle completeness validation failed: " + " ; ".join(failures))
 
         bundle_dir = out_root / ASSET_FAMILY_OUTPUT_DIRS[ASSET_FAMILY_BUNDLES]
         bundle_dir.mkdir(parents=True, exist_ok=True)
@@ -416,6 +468,7 @@ class CreationEngine:
                     ASSET_FAMILY_ENEMIES_STATIC,
                 ],
             },
+            completeness_matrix=completeness_matrix,
         )
         return write_manifest_json(bundle_dir, bundle_manifest["name"], bundle_manifest)
 
@@ -447,6 +500,8 @@ class CreationEngine:
         out_dir.mkdir(parents=True, exist_ok=True)
         png_path = out_dir / f"{asset_name}.png"
         Image.fromarray(image).save(png_path)
+        parsed = classify_prompt(prompt)
+        narrative_tags = parsed["narrative_tags"]
         manifest = build_manifest(
             asset_family=family,
             prompt=prompt,
@@ -460,6 +515,10 @@ class CreationEngine:
             width=width,
             height=height,
             channels=["image"],
+            narrative_tags=narrative_tags,
+            world_region_id=parsed["world_region_id"],
+            exploration_intent=parsed["exploration_intent"],
+            placement_intent=infer_placement_intent(family, narrative_tags),
         )
         write_manifest_json(out_dir, asset_name, manifest)
         return png_path
@@ -606,6 +665,7 @@ class CreationEngine:
             theme = resolve_tileset_theme(prompt)
             spec = tileset_spec_for_theme(theme)
             asset_name = self._make_name(prompt)
+            narrative_tags = extract_narrative_tags(tokenize_prompt(prompt))
             manifest = {
                 "version": "1.1",
                 "asset_family": ASSET_FAMILY_TILESETS,
@@ -622,6 +682,10 @@ class CreationEngine:
                     "style": spec["style"],
                 },
                 "tiles": spec["tiles"],
+                "narrative_tags": narrative_tags,
+                "world_region_id": infer_world_region_id(narrative_tags),
+                "exploration_intent": infer_exploration_intent(narrative_tags),
+                "placement_intent": infer_placement_intent(ASSET_FAMILY_TILESETS, narrative_tags),
                 "content_target": {"world": "Content/World"},
                 "style_profile": DEFAULT_STYLE_PROFILE,
             }
@@ -640,6 +704,52 @@ class CreationEngine:
         return self._write_pack_manifest(
             pack_name, out_dir, entries, style_profile=DEFAULT_STYLE_PROFILE
         )
+
+    def _build_bundle_completeness_matrix(
+        self, pack_manifests: list[dict[str, Any]], destination_map: dict[str, str]
+    ) -> dict[str, Any]:
+        manifests_by_name = {str(manifest.get("name", "")): manifest for manifest in pack_manifests}
+        required_packs = list(GAME_REWRITTEN_BUNDLE_RECIPE["required_packs"])
+        missing_required_packs = sorted(
+            pack_name for pack_name in required_packs if pack_name not in manifests_by_name
+        )
+
+        per_pack: dict[str, dict[str, Any]] = {}
+        underfilled_packs: list[dict[str, Any]] = []
+        for pack_name in required_packs:
+            expected_min = int(_BUNDLE_MIN_COUNTS_BY_PACK.get(pack_name, 0))
+            manifest = manifests_by_name.get(pack_name)
+            actual = len(manifest.get("assets", [])) if isinstance(manifest, dict) else 0
+            meets_minimum = actual >= expected_min
+            per_pack[pack_name] = {
+                "expected_min": expected_min,
+                "actual": actual,
+                "meets_minimum": meets_minimum,
+            }
+            if manifest is not None and not meets_minimum:
+                underfilled_packs.append(
+                    {"name": pack_name, "expected_min": expected_min, "actual": actual}
+                )
+
+        destination_targets = set(destination_map.values())
+        missing_destination_targets = sorted(
+            target for target in _REQUIRED_BUNDLE_DESTINATION_TARGETS if target not in destination_targets
+        )
+
+        complete = (
+            not missing_required_packs
+            and not underfilled_packs
+            and not missing_destination_targets
+        )
+        return {
+            "complete": complete,
+            "required_packs": required_packs,
+            "missing_required_packs": missing_required_packs,
+            "per_pack": per_pack,
+            "underfilled_packs": underfilled_packs,
+            "required_destination_targets": sorted(_REQUIRED_BUNDLE_DESTINATION_TARGETS),
+            "missing_destination_targets": missing_destination_targets,
+        }
 
     def _write_pack_manifest(
         self, pack_name: str, output_dir: Path, entries: list[dict[str, Any]], *, style_profile: str

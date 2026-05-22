@@ -74,6 +74,32 @@ def test_engine_pack_generation(tmp_path):
     assert manifest["style_profile"] == "ps2_ff7_ff12_highest_quality_ps2"
 
 
+def test_full_bundle_manifest_includes_completeness_matrix(tmp_path):
+    engine = CreationEngine(output_dir=tmp_path)
+    bundle_manifest_path = engine.generate_full_bundle(seed=19)
+    with open(bundle_manifest_path, encoding="utf-8") as f:
+        bundle_manifest = json.load(f)
+
+    matrix = bundle_manifest["completeness_matrix"]
+    assert matrix["complete"] is True
+    assert matrix["missing_required_packs"] == []
+    assert matrix["underfilled_packs"] == []
+    assert matrix["missing_destination_targets"] == []
+    assert matrix["per_pack"]["material_pack"]["meets_minimum"] is True
+
+
+def test_ui_manifest_contains_narrative_metadata(tmp_path):
+    engine = CreationEngine(output_dir=tmp_path)
+    icon_path = engine.generate_ui_icon("ps2 jrpg imperial quest icon", seed=5)
+    with open(icon_path.with_suffix(".json"), encoding="utf-8") as f:
+        manifest = json.load(f)
+
+    assert manifest["narrative_tags"]["faction"] == "imperial"
+    assert manifest["world_region_id"]
+    assert manifest["exploration_intent"]
+    assert manifest["placement_intent"] == "ui_symbol"
+
+
 def test_export_tilemap_unknown_theme_falls_back_to_overworld_tileset(tmp_path):
     map_file = export_tilemap(
         map_data={"tiles": np.array([[1, 2], [3, 4]], dtype=np.int32), "theme": "unknown_theme"},

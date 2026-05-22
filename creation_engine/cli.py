@@ -4,7 +4,7 @@ import argparse
 
 from creation_engine.backend import BackendRegistry
 from creation_engine.engine import CreationEngine
-from creation_engine.quality_check import run_quality_check
+from creation_engine.quality_check import run_bundle_audit, run_quality_check
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -64,6 +64,11 @@ def build_parser() -> argparse.ArgumentParser:
     )
     quality_check.add_argument("--output", default="assets")
     quality_check.add_argument("--min-png-size", type=int, default=64)
+    bundle_audit = subparsers.add_parser(
+        "bundle-audit",
+        help="Summarize production bundle coverage and FF style compliance",
+    )
+    bundle_audit.add_argument("--output", default="assets")
 
     subparsers.add_parser("list-backends", help="List available backends")
 
@@ -100,6 +105,30 @@ def main(argv: list[str] | None = None) -> int:
         for error in result.errors:
             print(f"- {error}")
         return 1
+    if args.command == "bundle-audit":
+        result = run_bundle_audit(args.output)
+        print(f"Bundle audit checked manifests: {result.checked_manifests}")
+        print("Family counts:")
+        for family, count in result.family_counts.items():
+            print(f"- {family}: {count}")
+        print(
+            "Narrative coverage: "
+            f"{result.narrative_coverage['present']}/{result.narrative_coverage['required']}"
+        )
+        print(
+            "Style coverage: "
+            f"{result.style_coverage['passing']}/{result.style_coverage['required']}"
+        )
+        print(
+            "FF aesthetic compliance: "
+            + ("PASS" if result.ff_aesthetic_compliant else "FAIL")
+        )
+        if result.errors:
+            print("Bundle audit errors:")
+            for error in result.errors:
+                print(f"- {error}")
+            return 1
+        return 0
 
     if args.command in {"texture", "map", "mesh"}:
         engine = CreationEngine(backend=args.backend, seed=args.seed, output_dir=args.output)

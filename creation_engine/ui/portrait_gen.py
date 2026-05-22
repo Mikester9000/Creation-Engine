@@ -29,5 +29,5 @@ def generate_ui_portrait(prompt: str, seed: int = 42, size: int = 96) -> np.ndar
         image[face] = palette[1]
         image[(xx - cx) ** 2 + (yy - (cy - 4)) ** 2 <= (size * 0.12) ** 2] = palette[3]
     elif family == "merchant":
-        image[yy > size * 0.26] = palette[2]
+        image[int(size * 0.26) :, :] = palette[2]
     return image
