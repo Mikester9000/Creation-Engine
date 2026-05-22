@@ -159,11 +159,11 @@ _PLACEMENT_INTENT_BY_FAMILY = {
 
 
 def extract_narrative_tags(tokens: Iterable[str]) -> dict[str, str]:
-    token_set = set(tokens)
+    ordered_tokens = list(tokens)
     tags = dict(_DEFAULT_TAGS)
     for key in NARRATIVE_TAG_KEYS:
         mapping = _TOKEN_TAG_MAP[key]
-        for token in token_set:
+        for token in ordered_tokens:
             value = mapping.get(token)
             if value:
                 tags[key] = value

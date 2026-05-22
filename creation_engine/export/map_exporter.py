@@ -37,7 +37,7 @@ def export_tilemap(
         for tile in row:
             key = str(tile)
             tile_counts[key] = tile_counts.get(key, 0) + 1
-    narrative_tags = extract_narrative_tags(tokenize_prompt(prompt))
+    narrative_tags = map_data.get("narrative_tags") or extract_narrative_tags(tokenize_prompt(prompt))
     world_region_id = map_data.get("world_region_id", infer_world_region_id(narrative_tags))
     exploration_intent = map_data.get("exploration_intent", infer_exploration_intent(narrative_tags))
 
@@ -70,6 +70,8 @@ def export_tilemap(
         "content_target": {"world": "Content/World"},
         "style_profile": DEFAULT_STYLE_PROFILE,
     }
+    if "chunk" in map_data:
+        output["chunk"] = map_data["chunk"]
 
     path = output_dir / f"{name}.json"
     with open(path, "w", encoding="utf-8") as f:

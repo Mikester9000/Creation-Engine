@@ -92,6 +92,7 @@ class CreationEngine:
             family=str(parsed["family"]),
             width=width,
             height=height,
+            parsed_prompt=parsed,
         )
 
     def generate_map(

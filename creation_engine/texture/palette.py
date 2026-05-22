@@ -46,7 +46,7 @@ _PALETTE_ALIASES = {
 
 
 def select_palette(family: str, seed: int) -> np.ndarray:
-    family_key = _PALETTE_ALIASES.get(family, family)
+    family_key = family if family in PALETTE_FAMILIES else _PALETTE_ALIASES.get(family, family)
     colors = PALETTE_FAMILIES.get(family_key, PALETTE_FAMILIES["town"])
     base = np.array(colors, dtype=np.float32)
     rng = np.random.default_rng(seed)

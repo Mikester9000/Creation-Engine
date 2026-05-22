@@ -35,7 +35,8 @@ def generate_tilemap(
 
     cpp_bin = Path(__file__).resolve().parents[2] / "build" / "creation-engine"
 
-    if cpp_bin.exists():
+    can_use_cpp_backend = region_id is None and int(chunk_x) == 0 and int(chunk_y) == 0
+    if cpp_bin.exists() and can_use_cpp_backend:
         try:
             return _generate_cpp(
                 cpp_bin,
@@ -358,7 +359,7 @@ def _blend_neighbor_theme(
     elif neighbor_style == "town":
         out[mask] = 7
     elif neighbor_style == "ruins":
-        out[mask] = 1
+        out[mask] = 4
     else:
         out[mask] = 3
     return out

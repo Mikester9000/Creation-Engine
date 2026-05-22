@@ -77,6 +77,18 @@ def export_obj(
     prompt_text = str(mesh_data.get("prompt", ""))
     narrative_tags = extract_narrative_tags(tokenize_prompt(prompt_text))
 
+    extra_manifest_fields = {
+        key: mesh_data[key]
+        for key in (
+            "lod_policy",
+            "complexity",
+            "complexity_policy",
+            "vertex_count",
+            "triangle_count",
+        )
+        if key in mesh_data
+    }
+
     manifest = build_manifest(
         asset_family=str(mesh_data.get("family", "meshes")),
         prompt=prompt_text,
@@ -108,6 +120,7 @@ def export_obj(
             "placement_intent",
             infer_placement_intent(str(mesh_data.get("family", "meshes")), narrative_tags),
         ),
+        **extra_manifest_fields,
     )
     write_manifest_json(output_dir, name, manifest)
 

@@ -23,7 +23,7 @@ Increase prompt sets in every family (`materials`, `terrain`, `tilesets`, `props
 Each prompt must include PS2-era FF direction cues and avoid photoreal modern AAA wording.
 
 **File to edit/create:**
-Edit `/tmp/workspace/Mikester9000/Creation-Engine/creation_engine/game_rewritten_bundle.py`
+Edit `creation_engine/game_rewritten_bundle.py`
 
 **Line target:**
 Edit existing recipe block lines **3-52**.
@@ -43,7 +43,7 @@ Central constants allow exporters and validators to enforce consistent narrative
 Taxonomy values should map to JRPG worldbuilding archetypes (kingdom, shrine, magitek ruin, ancient civilization).
 
 **File to edit/create:**
-Create `/tmp/workspace/Mikester9000/Creation-Engine/creation_engine/narrative_tags.py`
+Create `creation_engine/narrative_tags.py`
 
 **Line target:**
 Create file lines **1-220**.
@@ -63,7 +63,7 @@ Classification output becomes the single source for manifest narrative tagging i
 Tag extraction must prioritize FF-like themes (crystal, empire, ruins, sanctum, wilderness routes, summon relics).
 
 **File to edit/create:**
-Edit `/tmp/workspace/Mikester9000/Creation-Engine/creation_engine/prompting.py`
+Edit `creation_engine/prompting.py`
 
 **Line target:**
 Edit lines **16-64**.
@@ -83,7 +83,7 @@ Texture manifests become directly sortable by region/faction/story-phase for Gam
 Ensure tags support elemental and kingdom style consistency (holy, shadow, fire, ice, forest, desert, coastal).
 
 **File to edit/create:**
-Edit `/tmp/workspace/Mikester9000/Creation-Engine/creation_engine/export/texture_exporter.py`
+Edit `creation_engine/export/texture_exporter.py`
 
 **Line target:**
 Edit lines **52-76**.
@@ -103,7 +103,7 @@ Map importer can route maps into open-world region systems and narrative progres
 Map themes should stay consistent with JRPG traversal fantasy (overworld routes, ruins, temples, towns, dungeons).
 
 **File to edit/create:**
-Edit `/tmp/workspace/Mikester9000/Creation-Engine/creation_engine/export/map_exporter.py`
+Edit `creation_engine/export/map_exporter.py`
 
 **Line target:**
 Edit lines **34-58**.
@@ -123,7 +123,7 @@ Downstream engine can place generated assets contextually by map/region/story ph
 Mesh semantic categories should reflect FF set dressing (crystal altars, shrine pieces, ruins masonry, camp assets).
 
 **File to edit/create:**
-Edit `/tmp/workspace/Mikester9000/Creation-Engine/creation_engine/export/mesh_exporter.py`
+Edit `creation_engine/export/mesh_exporter.py`
 
 **Line target:**
 Edit lines **71-94**.
@@ -143,7 +143,7 @@ Add more specialized tileset profiles (capital city, port city, highlands, volca
 Tile definitions and styles should preserve readable stylized FF PS2-era silhouettes and color pacing.
 
 **File to edit/create:**
-Edit `/tmp/workspace/Mikester9000/Creation-Engine/creation_engine/map/tileset_specs.py`
+Edit `creation_engine/map/tileset_specs.py`
 
 **Line target:**
 Edit lines **14-111**.
@@ -163,7 +163,7 @@ Add deterministic region seed mixing and multi-theme zone blending to produce co
 Generated layouts must preserve explorable JRPG readability, landmark density, and route clarity.
 
 **File to edit/create:**
-Edit `/tmp/workspace/Mikester9000/Creation-Engine/creation_engine/map/map_gen.py`
+Edit `creation_engine/map/map_gen.py`
 
 **Line target:**
 Edit lines **78-230**.
@@ -183,7 +183,7 @@ Texture generation fallback uses these tables directly, increasing output divers
 Calibrate roughness/metallic/base-color to stylized PS2-era FF look (avoid realistic PBR extremes).
 
 **File to edit/create:**
-Edit `/tmp/workspace/Mikester9000/Creation-Engine/creation_engine/texture/material_presets.py`
+Edit `creation_engine/texture/material_presets.py`
 
 **Line target:**
 Edit lines **1-260**.
@@ -203,7 +203,7 @@ All image generators reuse these palettes for consistent world style language.
 Palette rules should enforce FF-style color discipline: controlled saturation, readable accents, non-photoreal tone.
 
 **File to edit/create:**
-Edit `/tmp/workspace/Mikester9000/Creation-Engine/creation_engine/texture/palette.py`
+Edit `creation_engine/texture/palette.py`
 
 **Line target:**
 Edit lines **1-240**.
@@ -223,7 +223,7 @@ Add more variants for props/architecture/foliage/items/NPC/enemy placeholders, i
 Variant shapes and proportions must remain stylized heroic fantasy with PS2-era readable silhouettes.
 
 **File to edit/create:**
-Edit `/tmp/workspace/Mikester9000/Creation-Engine/creation_engine/mesh/mesh_family_specs.py`
+Edit `creation_engine/mesh/mesh_family_specs.py`
 
 **Line target:**
 Edit lines **12-312**.
@@ -243,7 +243,7 @@ Exported mesh metadata can be consumed by runtime importers to assign render-dis
 LOD degradation should preserve iconic silhouette and recognizable fantasy function.
 
 **File to edit/create:**
-Edit `/tmp/workspace/Mikester9000/Creation-Engine/creation_engine/mesh/mesh_builder.py`
+Edit `creation_engine/mesh/mesh_builder.py`
 
 **Line target:**
 Edit lines **18-74**.
@@ -263,7 +263,7 @@ Extend quality checks to validate style profile, banned prompt terms, required F
 Reject prompts/manifests implying modern photoreal or non-FF stylistic drift.
 
 **File to edit/create:**
-Edit `/tmp/workspace/Mikester9000/Creation-Engine/creation_engine/quality_check.py`
+Edit `creation_engine/quality_check.py`
 
 **Line target:**
 Edit lines **18-125**.
@@ -283,7 +283,7 @@ Prevents shipping under-filled bundles that technically pass file checks but fai
 Require coverage across FF-consistent content categories (town/dungeon/overworld/ruins/sanctum visual kits).
 
 **File to edit/create:**
-Edit `/tmp/workspace/Mikester9000/Creation-Engine/creation_engine/engine.py`
+Edit `creation_engine/engine.py`
 
 **Line target:**
 Edit lines **353-420**.
@@ -303,7 +303,7 @@ Provides one deterministic command for release readiness review before importing
 Audit output must include explicit FF aesthetic compliance status.
 
 **File to edit/create:**
-Edit `/tmp/workspace/Mikester9000/Creation-Engine/creation_engine/cli.py`
+Edit `creation_engine/cli.py`
 
 **Line target:**
 Edit lines **61-170**.
@@ -323,7 +323,7 @@ Locks production requirements so regressions fail fast.
 Tests must include pass/fail cases for FF style profile and banned prompt drift.
 
 **File to edit/create:**
-Edit `/tmp/workspace/Mikester9000/Creation-Engine/tests/test_cli.py`
+Edit `tests/test_cli.py`
 
 **Line target:**
 Edit lines **35-142**.
@@ -343,7 +343,7 @@ Confirms end-to-end correctness from prompt to manifest relationships.
 Assert style profile and FF-oriented metadata are always included in generated assets.
 
 **File to edit/create:**
-Edit `/tmp/workspace/Mikester9000/Creation-Engine/tests/test_backend_and_api.py`
+Edit `tests/test_backend_and_api.py`
 
 **Line target:**
 Edit lines **18-121**.
@@ -363,7 +363,7 @@ Provides deterministic human/operator runbook to produce final non-audio/non-ani
 Document explicit style guardrails and acceptance rubric tied to FF PS2-era visual targets.
 
 **File to edit/create:**
-Edit `/tmp/workspace/Mikester9000/Creation-Engine/README.md`
+Edit `README.md`
 
 **Line target:**
 Edit lines **25-241**.
@@ -383,7 +383,7 @@ Makes planning artifact authoritative and synchronized with code path to product
 Keep the FF7-FF12 visual contract and modern gameplay readability requirement as non-negotiable acceptance rules.
 
 **File to edit/create:**
-Edit `/tmp/workspace/Mikester9000/Creation-Engine/docs/ff-game-rewrite-plan.md`
+Edit `docs/ff-game-rewrite-plan.md`
 
 **Line target:**
 Edit lines **1-520** (targeted updates only; preserve structure).
@@ -403,7 +403,7 @@ Creates a deterministic final gate so completed program output is reproducible a
 Checklist must include visual review requirements for FF PS2-era styling and anti-photoreal drift.
 
 **File to edit/create:**
-Create `/tmp/workspace/Mikester9000/Creation-Engine/docs/release_static_assets_checklist.md`
+Create `docs/release_static_assets_checklist.md`
 
 **Line target:**
 Create file lines **1-260**.

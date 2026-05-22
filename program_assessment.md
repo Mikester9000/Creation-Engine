@@ -11,17 +11,17 @@ Repository reviewed deeply across:
 - Tests and docs
 
 Primary files reviewed include:
-- `/tmp/workspace/Mikester9000/Creation-Engine/creation_engine/cli.py`
-- `/tmp/workspace/Mikester9000/Creation-Engine/creation_engine/engine.py`
-- `/tmp/workspace/Mikester9000/Creation-Engine/creation_engine/backend.py`
-- `/tmp/workspace/Mikester9000/Creation-Engine/creation_engine/texture/texture_gen.py`
-- `/tmp/workspace/Mikester9000/Creation-Engine/creation_engine/map/map_gen.py`
-- `/tmp/workspace/Mikester9000/Creation-Engine/creation_engine/mesh/mesh_builder.py`
-- `/tmp/workspace/Mikester9000/Creation-Engine/creation_engine/export/*.py`
-- `/tmp/workspace/Mikester9000/Creation-Engine/creation_engine/quality_check.py`
-- `/tmp/workspace/Mikester9000/Creation-Engine/docs/ff-game-rewrite-plan.md`
-- `/tmp/workspace/Mikester9000/Creation-Engine/tests/test_backend_and_api.py`
-- `/tmp/workspace/Mikester9000/Creation-Engine/tests/test_cli.py`
+- `creation_engine/cli.py`
+- `creation_engine/engine.py`
+- `creation_engine/backend.py`
+- `creation_engine/texture/texture_gen.py`
+- `creation_engine/map/map_gen.py`
+- `creation_engine/mesh/mesh_builder.py`
+- `creation_engine/export/*.py`
+- `creation_engine/quality_check.py`
+- `docs/ff-game-rewrite-plan.md`
+- `tests/test_backend_and_api.py`
+- `tests/test_cli.py`
 
 ---
 
@@ -109,4 +109,4 @@ Proceed as:
 5. Add large regression matrix + bundle acceptance checks.
 6. Finalize delivery docs and handoff contract for GameRewritten importer.
 
-The exact one-file-at-a-time execution list is provided in `/tmp/workspace/Mikester9000/Creation-Engine/Task_List.md`.
+The exact one-file-at-a-time execution list is provided in `Task_List.md`.
