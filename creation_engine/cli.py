@@ -58,6 +58,10 @@ def build_parser() -> argparse.ArgumentParser:
         pack.add_argument("--seed", type=int, default=42)
         pack.add_argument("--output", default="assets")
 
+    gui = subparsers.add_parser("gui", help="Launch desktop GUI")
+    gui.add_argument("--output", default="assets")
+    gui.add_argument("--file")
+
     quality_check = subparsers.add_parser(
         "quality-check",
         help="Validate generated assets for GameRewritten compatibility quality",
@@ -128,6 +132,11 @@ def main(argv: list[str] | None = None) -> int:
             for error in result.errors:
                 print(f"- {error}")
             return 1
+        return 0
+    if args.command == "gui":
+        from creation_engine.gui import run_gui
+
+        run_gui(output_dir=args.output, initial_file=args.file)
         return 0
 
     if args.command in {"texture", "map", "mesh"}:

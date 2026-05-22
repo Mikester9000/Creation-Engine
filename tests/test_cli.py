@@ -1,5 +1,6 @@
 import json
 
+import creation_engine.gui
 from creation_engine.cli import main
 from creation_engine.quality_check import run_quality_check
 
@@ -172,3 +173,17 @@ def test_quality_check_rejects_unsafe_references_and_negative_png_size(tmp_path)
     result = run_quality_check(tmp_path, min_png_size=-1)
     assert result.ok is False
     assert result.errors == ["Minimum PNG size must be non-negative, got -1"]
+
+
+def test_gui_command_dispatches(monkeypatch, tmp_path):
+    called: dict[str, str] = {}
+
+    def _stub_run_gui(*, output_dir, initial_file):
+        called["output_dir"] = output_dir
+        called["initial_file"] = initial_file
+
+    monkeypatch.setattr(creation_engine.gui, "run_gui", _stub_run_gui)
+    rc = main(["gui", "--output", str(tmp_path), "--file", str(tmp_path / "stone.json")])
+    assert rc == 0
+    assert called["output_dir"] == str(tmp_path)
+    assert called["initial_file"] == str(tmp_path / "stone.json")
