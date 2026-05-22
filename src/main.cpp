@@ -96,6 +96,8 @@
 #include <algorithm>
 #include <cstdint>
 #include <cstdlib>
+#include <filesystem>
+#include <system_error>
 
 // Windows mkdir vs POSIX mkdir
 #ifdef _WIN32
@@ -137,6 +139,8 @@ constexpr uint32_t    DEFAULT_SEED           = 42u;
 // =============================================================================
 
 namespace {
+namespace fs = std::filesystem;
+
 
 /** @brief Print the usage message to stdout. */
 void printHelp()
@@ -167,9 +171,19 @@ TEXTURE OPTIONS (PBR)
   --prompt  "surface description"  e.g. "wet stone", "polished gold"
   --seed    <uint>                 Seed for deterministic generation (default: 42)
   --name    <identifier>           Output file base name (default: auto)
-  --out     <directory>            Output directory (default: assets/)
+  --out     <directory|file.png>   Output directory or explicit albedo file path
   --width   <pixels>               Texture width  (default: 64)
   --height  <pixels>               Texture height (default: 64)
+  --size    <WxH>                  Legacy size alias (used when width/height absent)
+
+MAP OPTIONS (PBR)
+  --prompt   "terrain description" e.g. "forest with river and road"
+  --seed     <uint>                Seed for deterministic generation (default: 42)
+  --name     <identifier>          Output map name (default: auto)
+  --out      <directory|file.json> Output directory or explicit JSON file path
+  --width    <tiles>               Map width in tiles (default: AI profile)
+  --height   <tiles>               Map height in tiles (default: AI profile)
+  --tileSize <pixels>              Tile pixel size metadata (default: AI profile)
 
 CREATE-TEXTURE OPTIONS (legacy)
   --type    noise|cellular|checker|stripes|gradient|radial|solid
@@ -211,6 +225,12 @@ std::string getArg(const std::vector<std::string>& args,
     return def;
 }
 
+/** @brief Return true if a CLI flag is present. */
+bool hasFlag(const std::vector<std::string>& args, const std::string& key)
+{
+    return std::find(args.begin(), args.end(), key) != args.end();
+}
+
 /** @brief Convert a string to a safe filesystem identifier (spaces → _). */
 std::string toIdent(const std::string& s)
 {
@@ -227,6 +247,52 @@ std::string toIdent(const std::string& s)
     return out.empty() ? "unnamed" : out;
 }
 
+/** @brief Parse WxH size text and return true on success. */
+bool parseSize(const std::string& text, int& outW, int& outH)
+{
+    auto xPos = text.find('x');
+    if (xPos == std::string::npos) xPos = text.find('X');
+    if (xPos == std::string::npos) return false;
+    try {
+        outW = std::stoi(text.substr(0, xPos));
+        outH = std::stoi(text.substr(xPos + 1));
+    } catch (...) {
+        return false;
+    }
+    return outW > 0 && outH > 0;
+}
+
+/** @brief Resolve output directory, base name, and optional explicit target file. */
+struct OutputTarget {
+    fs::path outDir;
+    std::string assetName;
+    fs::path explicitFilePath;
+};
+
+OutputTarget resolveOutputTarget(
+    const std::string& rawOut,
+    const std::string& requestedName,
+    const std::string& fallbackName,
+    const std::string& expectedExtension)
+{
+    OutputTarget target{};
+    std::string name = requestedName.empty() ? fallbackName : requestedName;
+    fs::path outPath(rawOut.empty() ? std::string(DEFAULT_OUTPUT_DIR) : rawOut);
+
+    if (!outPath.extension().empty() && outPath.extension() == expectedExtension) {
+        target.outDir = outPath.parent_path().empty() ? fs::path(".") : outPath.parent_path();
+        target.explicitFilePath = outPath;
+        if (requestedName.empty() && outPath.has_stem() && !outPath.stem().string().empty()) {
+            name = outPath.stem().string();
+        }
+    } else {
+        target.outDir = outPath;
+    }
+
+    target.assetName = name.empty() ? fallbackName : name;
+    return target;
+}
+
 /**
  * @brief Ensure a directory exists, creating it if necessary.
  *
@@ -239,7 +305,8 @@ std::string toIdent(const std::string& s)
 void ensureDir(const std::string& dir)
 {
     if (dir.empty()) return;
-    CE_MKDIR(dir.c_str());          // ignore error: dir may already exist
+    std::error_code ec;
+    fs::create_directories(fs::path(dir), ec);
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -262,15 +329,27 @@ int cmdTexture(const std::vector<std::string>& args)
     const std::string prompt = getArg(args, "--prompt", DEFAULT_TEXTURE_PROMPT);
     const uint32_t    seed   = static_cast<uint32_t>(std::stoul(getArg(args, "--seed",
                                     std::to_string(DEFAULT_SEED))));
-    const std::string outDir = getArg(args, "--out",  DEFAULT_OUTPUT_DIR);
-    const int         width  = std::stoi(getArg(args, "--width",
+    const std::string rawOut = getArg(args, "--out", DEFAULT_OUTPUT_DIR);
+    int               width  = std::stoi(getArg(args, "--width",
                                     std::to_string(DEFAULT_TEXTURE_SIZE)));
-    const int         height = std::stoi(getArg(args, "--height",
+    int               height = std::stoi(getArg(args, "--height",
                                     std::to_string(DEFAULT_TEXTURE_SIZE)));
     std::string       name   = getArg(args, "--name", "");
 
-    if (name.empty()) name = toIdent(prompt);
+    const std::string inferredName = toIdent(prompt);
+    if (!hasFlag(args, "--width") && !hasFlag(args, "--height")) {
+        const std::string sizeArg = getArg(args, "--size", "");
+        int parsedW = width;
+        int parsedH = height;
+        if (!sizeArg.empty() && parseSize(sizeArg, parsedW, parsedH)) {
+            width = parsedW;
+            height = parsedH;
+        }
+    }
 
+    OutputTarget output = resolveOutputTarget(rawOut, name, inferredName, ".png");
+    const std::string outDir = output.outDir.string();
+    name = output.assetName;
     ensureDir(outDir);
 
     std::cout << "[creation-engine] Generating textures for: \"" << prompt << "\"\n"
@@ -312,6 +391,19 @@ int cmdTexture(const std::vector<std::string>& args)
 
     std::cout << "[OK] Textures written to " << outDir << "/\n"
               << "[OK] Material JSON: "      << jsonPath << "\n";
+
+    if (!output.explicitFilePath.empty()) {
+        const fs::path srcAlbedo = output.outDir / (name + "_albedo.png");
+        std::error_code copyErr;
+        fs::copy_file(srcAlbedo, output.explicitFilePath, fs::copy_options::overwrite_existing, copyErr);
+        if (copyErr) {
+            std::cerr << "[ERROR] Failed to write requested output file: "
+                      << output.explicitFilePath.string() << "\n";
+            return 1;
+        }
+        std::cout << "[OK] Albedo copy: " << output.explicitFilePath.string() << "\n";
+    }
+
     return 0;
 }
 
@@ -335,10 +427,13 @@ int cmdMap(const std::vector<std::string>& args)
     const std::string prompt = getArg(args, "--prompt", DEFAULT_MAP_PROMPT);
     const uint32_t    seed   = static_cast<uint32_t>(std::stoul(getArg(args, "--seed",
                                     std::to_string(DEFAULT_SEED))));
-    const std::string outDir = getArg(args, "--out",  DEFAULT_OUTPUT_DIR);
+    const std::string rawOut = getArg(args, "--out", DEFAULT_OUTPUT_DIR);
     std::string       name   = getArg(args, "--name", "");
+    const std::string inferredName = toIdent(prompt);
 
-    if (name.empty()) name = toIdent(prompt);
+    OutputTarget output = resolveOutputTarget(rawOut, name, inferredName, ".json");
+    const std::string outDir = output.outDir.string();
+    name = output.assetName;
 
     ensureDir(outDir);
 
@@ -349,6 +444,11 @@ int cmdMap(const std::vector<std::string>& args)
 
     // ── AI assist: infer map parameters ──────────────────────────────────────
     AIMapParams params = aiInferMap(prompt, seed);
+    params.genOpts.width = std::stoi(getArg(args, "--width", std::to_string(params.genOpts.width)));
+    params.genOpts.height = std::stoi(getArg(args, "--height", std::to_string(params.genOpts.height)));
+    params.genOpts.tileSize = std::stoi(
+        getArg(args, "--tileSize", std::to_string(params.genOpts.tileSize))
+    );
 
     std::cout << "  Size   : " << params.genOpts.width << "×"
                                << params.genOpts.height << "\n"
@@ -360,7 +460,9 @@ int cmdMap(const std::vector<std::string>& args)
     TileMap map = generateMap(name, prompt, seed, params.genOpts);
 
     // ── Export map JSON ───────────────────────────────────────────────────────
-    std::string jsonPath = outDir + "/" + name + ".json";
+    const std::string jsonPath = output.explicitFilePath.empty()
+        ? (outDir + "/" + name + ".json")
+        : output.explicitFilePath.string();
     std::ofstream jsonFile(jsonPath);
     if (!jsonFile.is_open()) {
         std::cerr << "[ERROR] Cannot write map JSON: " << jsonPath << "\n";
