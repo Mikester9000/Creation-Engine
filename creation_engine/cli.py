@@ -5,7 +5,11 @@ import sys
 
 from creation_engine.backend import BackendRegistry
 from creation_engine.engine import CreationEngine
-from creation_engine.quality_check import run_bundle_audit, run_quality_check
+from creation_engine.quality_check import (
+    run_bundle_audit,
+    run_quality_check,
+    run_release_readiness_check,
+)
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -74,6 +78,12 @@ def build_parser() -> argparse.ArgumentParser:
         help="Summarize production bundle coverage and FF style compliance",
     )
     bundle_audit.add_argument("--output", default="assets")
+    release_check = subparsers.add_parser(
+        "release-check",
+        help="Run production readiness gate (quality + audit + completeness matrix checks)",
+    )
+    release_check.add_argument("--output", default="assets")
+    release_check.add_argument("--min-png-size", type=int, default=64)
 
     subparsers.add_parser("list-backends", help="List available backends")
 
@@ -134,6 +144,18 @@ def main(argv: list[str] | None = None) -> int:
                 print(f"- {error}")
             return 1
         return 0
+    if args.command == "release-check":
+        result = run_release_readiness_check(args.output, min_png_size=args.min_png_size)
+        if result.ok:
+            print(
+                "Release readiness passed "
+                f"({result.checked_manifests} manifests, {result.bundle_manifests_checked} bundle manifests)"
+            )
+            return 0
+        print("Release readiness failed:")
+        for error in result.errors:
+            print(f"- {error}")
+        return 1
     if args.command == "gui":
         from creation_engine.gui import run_gui
 

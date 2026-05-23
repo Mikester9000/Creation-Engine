@@ -112,10 +112,12 @@ These workflows generate only static assets. Animation, rigging, skeletal data, 
 ```bash
 ./creation-engine quality-check --output assets
 ./creation-engine bundle-audit --output assets
+./creation-engine release-check --output assets
 ```
 
 Checks every manifest in `assets/` for required GameRewritten compatibility fields (`style_profile`, `content_target`, referenced files). Exits 0 on pass, 1 on any failure.
 `bundle-audit` prints per-family counts, narrative metadata coverage, and FF-style compliance status for release readiness.
+`release-check` is the production gate command that combines `quality-check`, `bundle-audit`, and full-bundle completeness matrix validation.
 
 ---
 
@@ -242,6 +244,7 @@ Commands:
   full-bundle             Generate the full GameRewritten static bundle
   quality-check           Validate generated assets for GameRewritten compatibility
   bundle-audit            Summarize bundle counts, narrative coverage, and FF compliance
+  release-check           Run production readiness gate checks
   list-backends           List available generation backends
 
 Texture options:
@@ -277,12 +280,14 @@ Run this deterministic release path for non-audio/non-animation asset delivery:
 ./creation-engine full-bundle --seed 101 --output assets
 ./creation-engine quality-check --output assets
 ./creation-engine bundle-audit --output assets
+./creation-engine release-check --output assets
 python -m pytest tests/test_backend_and_api.py tests/test_cli.py
 ```
 
 Acceptance gates:
 - `quality-check` must pass with no style, prompt, metadata, or file-reference errors.
 - `bundle-audit` must report `FF aesthetic compliance: PASS` and full narrative/style coverage.
+- `release-check` must pass to confirm quality, coverage, and full-bundle completeness matrix integrity in one command.
 - test suite must pass before handoff into GameRewritten import flows.
 
 ---

@@ -68,6 +68,16 @@ class BundleAuditResult:
     errors: list[str]
 
 
+@dataclass(frozen=True)
+class ReleaseReadinessResult:
+    ok: bool
+    checked_manifests: int
+    bundle_manifests_checked: int
+    quality_check: QualityCheckResult
+    bundle_audit: BundleAuditResult
+    errors: list[str]
+
+
 def run_quality_check(output_dir: str | Path, *, min_png_size: int = 64) -> QualityCheckResult:
     root = Path(output_dir)
     root_error = _validate_root_dir(root)
@@ -213,6 +223,60 @@ def run_bundle_audit(output_dir: str | Path) -> BundleAuditResult:
     )
 
 
+def run_release_readiness_check(
+    output_dir: str | Path, *, min_png_size: int = 64
+) -> ReleaseReadinessResult:
+    quality_result = run_quality_check(output_dir, min_png_size=min_png_size)
+    audit_result = run_bundle_audit(output_dir)
+    root = Path(output_dir)
+    bundle_errors: list[str] = []
+    bundle_manifests_checked = 0
+
+    if root.exists() and root.is_dir():
+        for manifest_path in sorted(path for path in root.rglob("*.json") if path.is_file()):
+            try:
+                with open(manifest_path, encoding="utf-8") as file:
+                    manifest = json.load(file)
+            except (OSError, json.JSONDecodeError):
+                continue
+            if not isinstance(manifest, dict) or manifest.get("asset_family") != "bundles":
+                continue
+
+            bundle_manifests_checked += 1
+            rel_manifest = manifest_path.relative_to(root)
+            matrix = manifest.get("completeness_matrix")
+            if not isinstance(matrix, dict):
+                bundle_errors.append(f"{rel_manifest}: missing completeness_matrix object")
+                continue
+
+            if matrix.get("complete") is not True:
+                bundle_errors.append(f"{rel_manifest}: completeness_matrix.complete must be true")
+            for field in ("missing_required_packs", "underfilled_packs", "missing_destination_targets"):
+                value = matrix.get(field)
+                if not isinstance(value, list):
+                    bundle_errors.append(f"{rel_manifest}: completeness_matrix.{field} must be a list")
+                    continue
+                if value:
+                    bundle_errors.append(f"{rel_manifest}: completeness_matrix.{field} must be empty")
+
+            per_pack = matrix.get("per_pack")
+            if not isinstance(per_pack, dict) or not per_pack:
+                bundle_errors.append(f"{rel_manifest}: completeness_matrix.per_pack must be non-empty")
+
+    if bundle_manifests_checked == 0:
+        bundle_errors.append("No bundle manifest found (no JSON file with asset_family='bundles').")
+
+    errors = _dedupe_errors(quality_result.errors + audit_result.errors + bundle_errors)
+    return ReleaseReadinessResult(
+        ok=quality_result.ok and audit_result.ok and not bundle_errors,
+        checked_manifests=audit_result.checked_manifests,
+        bundle_manifests_checked=bundle_manifests_checked,
+        quality_check=quality_result,
+        bundle_audit=audit_result,
+        errors=errors,
+    )
+
+
 def _check_png_size(path: Path, root: Path, min_png_size: int, errors: list[str]) -> None:
     size = path.stat().st_size
     if size < min_png_size:
@@ -297,3 +361,14 @@ def _validate_narrative_metadata(manifest: dict, rel_manifest: Path, errors: lis
         value = manifest.get(field)
         if not isinstance(value, str) or not value.strip():
             errors.append(f"{rel_manifest}: missing non-empty {field}")
+
+
+def _dedupe_errors(errors: list[str]) -> list[str]:
+    seen: set[str] = set()
+    deduped: list[str] = []
+    for error in errors:
+        if error in seen:
+            continue
+        deduped.append(error)
+        seen.add(error)
+    return deduped
