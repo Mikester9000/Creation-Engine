@@ -69,6 +69,12 @@ def export_tilemap(
         "placement_intent": infer_placement_intent("maps", narrative_tags),
         "content_target": {"world": "Content/World"},
         "style_profile": DEFAULT_STYLE_PROFILE,
+        # 3D enforcement: maps are rendered in 3D space with per-tile elevation.
+        "asset_dimension": "3d",
+        "render_mode": "3d",
+        "coordinate_space": "Y_up",
+        "tile_height_scale": 1.0,
+        "height_map": map_data.get("height_map", []),
     }
     if "chunk" in map_data:
         output["chunk"] = map_data["chunk"]

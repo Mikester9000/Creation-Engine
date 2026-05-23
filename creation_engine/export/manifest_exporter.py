@@ -6,6 +6,11 @@ from typing import Any
 
 DEFAULT_STYLE_PROFILE = "ps2_ff7_ff12_highest_quality_ps2"
 
+# All assets in this engine target a full 3D game pipeline.
+ASSET_DIMENSION = "3d"
+RENDER_PIPELINE = "3d_pbr"
+COORDINATE_SPACE = "Y_up"
+
 
 def build_manifest(
     *,
@@ -33,6 +38,10 @@ def build_manifest(
         "source_generator": source_generator,
         "content_target": content_target or {},
         "style_profile": style_profile,
+        # 3D enforcement: every generated asset targets the 3D PBR pipeline.
+        "asset_dimension": ASSET_DIMENSION,
+        "render_pipeline": RENDER_PIPELINE,
+        "coordinate_space": COORDINATE_SPACE,
     }
     manifest.update(extra)
     return manifest

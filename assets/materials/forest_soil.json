@@ -1,13 +1,10 @@
 {
-
-  "version": "1.0",
+  "version": "2.0",
   "name": "forest_soil",
   "prompt": "forest soil",
   "seed": 456,
   "params": {
-
     "baseColor": [
-
       0.18,
       0.14,
       0.1
@@ -16,19 +13,29 @@
     "metallic": 0,
     "ao": 1,
     "emissive": [
-
       0,
       0,
       0
+    ],
+    "color": [
+      0.18,
+      0.14,
+      0.1
     ]
   },
   "textures": {
-
     "albedo": "forest_soil_albedo.png",
     "normal": "forest_soil_normal.png",
     "roughness": "forest_soil_roughness.png",
     "metallic": "forest_soil_metallic.png",
     "ao": "forest_soil_ao.png",
     "emissive": ""
-  }
+  },
+  "shader": "Shaders/pbr_3d",
+  "asset_dimension": "3d",
+  "render_pipeline": "3d_pbr",
+  "coordinate_space": "Y_up",
+  "mip_levels": true,
+  "wrap_mode": "repeat",
+  "filter_mode": "trilinear"
 }

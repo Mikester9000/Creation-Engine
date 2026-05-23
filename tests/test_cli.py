@@ -122,6 +122,38 @@ def test_bundle_audit_reports_coverage_and_pass(tmp_path, capsys):
     assert "FF aesthetic compliance: PASS" in out
 
 
+def test_release_check_passes_on_generated_bundle(tmp_path, capsys):
+    rc = main(["full-bundle", "--seed", "13", "--output", str(tmp_path)])
+    assert rc == 0
+
+    rc = main(["release-check", "--output", str(tmp_path)])
+    out = capsys.readouterr().out
+
+    assert rc == 0
+    assert "Release readiness passed" in out
+
+
+def test_release_check_fails_on_invalid_bundle_completeness(tmp_path, capsys):
+    rc = main(["full-bundle", "--seed", "13", "--output", str(tmp_path)])
+    assert rc == 0
+
+    bundle_manifest_path = next(
+        path
+        for path in tmp_path.rglob("*.json")
+        if json.loads(path.read_text(encoding="utf-8")).get("asset_family") == "bundles"
+    )
+    bundle_manifest = json.loads(bundle_manifest_path.read_text(encoding="utf-8"))
+    bundle_manifest["completeness_matrix"]["complete"] = False
+    bundle_manifest_path.write_text(json.dumps(bundle_manifest, indent=2), encoding="utf-8")
+
+    rc = main(["release-check", "--output", str(tmp_path)])
+    out = capsys.readouterr().out
+
+    assert rc == 1
+    assert "Release readiness failed:" in out
+    assert "completeness_matrix.complete must be true" in out
+
+
 def test_quality_check_rejects_non_directory_output(tmp_path):
     output_file = tmp_path / "not_a_directory"
     output_file.write_text("x", encoding="utf-8")

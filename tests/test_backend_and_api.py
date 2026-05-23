@@ -27,7 +27,7 @@ def test_engine_generates_assets(tmp_path):
     assert manifest_path.exists()
     with open(manifest_path, encoding="utf-8") as f:
         manifest = json.load(f)
-    assert manifest["shader"] == "Shaders/basic3d"
+    assert manifest["shader"] == "Shaders/pbr_3d"
     assert "color" in manifest["params"]
     assert "baseColor" in manifest["params"]
     assert manifest["content_target"]["material"] == "Content/Materials"

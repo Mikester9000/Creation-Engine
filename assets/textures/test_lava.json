@@ -1,21 +1,17 @@
 {
-
-  "version": "1.1",
+  "version": "2.0",
   "name": "test_lava",
-  "shader": "Shaders/basic3d",
+  "shader": "Shaders/pbr_3d",
   "prompt": "lava rock",
   "seed": 123,
   "params": {
-
     "color": [
-
       0.6,
       0.2,
       0.05,
       1
     ],
     "baseColor": [
-
       0.6,
       0.2,
       0.05,
@@ -25,19 +21,24 @@
     "metallic": 0,
     "ao": 1,
     "emissive": [
-
       1,
       0.4,
       0.05
     ]
   },
   "textures": {
-
     "albedo": "test_lava_albedo.png",
     "normal": "test_lava_normal.png",
     "roughness": "test_lava_roughness.png",
     "metallic": "test_lava_metallic.png",
     "ao": "test_lava_ao.png",
     "emissive": "test_lava_emissive.png"
-  }
+  },
+  "asset_dimension": "3d",
+  "render_pipeline": "3d_pbr",
+  "coordinate_space": "Y_up",
+  "mip_levels": true,
+  "wrap_mode": "repeat",
+  "filter_mode": "trilinear",
+  "notes": "The metallic and roughness PBR channels contain many near-zero pixel values because lava rock is a non-metallic, diffuse surface (metallic=0 means no specular reflectance). The emissive channel is non-zero only where active lava glow is present. This is expected PBR behaviour for volcanic rock: zero metallic values are physically correct, not placeholder data."
 }
