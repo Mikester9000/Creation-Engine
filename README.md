@@ -50,8 +50,10 @@ Double-click `run_creation_engine_gui.bat` (or `.\\run_creation_engine_gui.bat`)
 
 The script will:
 - create a local `.venv/`
-- install required Python dependencies
-- install Creation Engine in editable mode
+- install/upgrade runtime Python tooling (`pip`, `setuptools`, `wheel`)
+- install required GUI/runtime packages (`numpy`, `pillow`)
+- install Creation Engine locally and verify CLI imports
+- create default asset folders (`assets/materials`, `assets/maps`, `assets/meshes`, `assets/ui`)
 - launch the GUI
 
 ### Generate textures
@@ -114,6 +116,17 @@ These workflows generate only static assets. Animation, rigging, skeletal data, 
 
 Checks every manifest in `assets/` for required GameRewritten compatibility fields (`style_profile`, `content_target`, referenced files). Exits 0 on pass, 1 on any failure.
 `bundle-audit` prints per-family counts, narrative metadata coverage, and FF-style compliance status for release readiness.
+
+---
+
+
+## GUI Workflow Highlights
+
+The desktop editor now includes:
+- asset browser panel rooted at the selected `--output` directory
+- explicit file lifecycle actions: **New File**, **Load**, **Save**, **Save As**, **Delete**
+- 2D/3D preview toggle for tilemap JSON and OBJ wireframe preview for mesh silhouette checks
+- one-click in-app **Run Quality Check** status to validate export readiness
 
 ---
 
@@ -209,7 +222,7 @@ Materials now include a GameRewritten-compatible `shader` field and RGBA `params
 creation-engine <command> [options]
 
 Commands:
-  gui                     Launch desktop GUI (load/edit/save + asset preview)
+  gui                     Launch desktop GUI (file browser + create/edit/save/delete + 2D/3D previews)
   texture                 Generate PBR textures + material JSON
   map                     Generate a procedural tilemap JSON
   mesh                    Generate a static mesh OBJ + manifest
