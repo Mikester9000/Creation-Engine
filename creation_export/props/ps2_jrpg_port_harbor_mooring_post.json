@@ -1,0 +1,53 @@
+{
+  "version": "1.0",
+  "asset_family": "props",
+  "family": "props",
+  "name": "ps2_jrpg_port_harbor_mooring_post",
+  "prompt": "ps2 jrpg port harbor mooring post",
+  "seed": 107,
+  "files": {
+    "obj": "ps2_jrpg_port_harbor_mooring_post.obj",
+    "mtl": "ps2_jrpg_port_harbor_mooring_post.mtl",
+    "manifest": "ps2_jrpg_port_harbor_mooring_post.json"
+  },
+  "tags": [
+    "props",
+    "boat_marker"
+  ],
+  "source_generator": "creation_engine.mesh.mesh_builder.build_mesh_from_prompt",
+  "content_target": {
+    "model": "Content/Models",
+    "materials": "Content/Materials"
+  },
+  "style_profile": "ps2_ff7_ff12_highest_quality_ps2",
+  "asset_dimension": "3d",
+  "render_pipeline": "3d_pbr",
+  "coordinate_space": "Y_up",
+  "material_slots": [
+    "wood",
+    "cloth"
+  ],
+  "narrative_tags": {
+    "region": "port_town",
+    "faction": "neutral",
+    "era": "post_cataclysm",
+    "story_phase": "early_journey",
+    "culture_theme": "maritime"
+  },
+  "world_region_id": "port_town__maritime",
+  "exploration_intent": "settlement_navigation",
+  "placement_intent": "port_town_world_prop",
+  "lod_policy": {
+    "lod0": 0,
+    "lod1": 15,
+    "lod2": 30
+  },
+  "complexity": "medium",
+  "complexity_policy": {
+    "vertex_budget": 512,
+    "part_jitter": 0.04
+  },
+  "vertex_count": 13,
+  "triangle_count": 18,
+  "unit_scale": 1.0
+}

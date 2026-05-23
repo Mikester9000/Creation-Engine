@@ -1,0 +1,53 @@
+{
+  "version": "1.0",
+  "asset_family": "items",
+  "family": "items",
+  "name": "ps2_jrpg_phoenix_relic_token",
+  "prompt": "ps2 jrpg phoenix relic token",
+  "seed": 103,
+  "files": {
+    "obj": "ps2_jrpg_phoenix_relic_token.obj",
+    "mtl": "ps2_jrpg_phoenix_relic_token.mtl",
+    "manifest": "ps2_jrpg_phoenix_relic_token.json"
+  },
+  "tags": [
+    "items",
+    "relic_orb"
+  ],
+  "source_generator": "creation_engine.mesh.mesh_builder.build_mesh_from_prompt",
+  "content_target": {
+    "model": "Content/Models",
+    "materials": "Content/Materials"
+  },
+  "style_profile": "ps2_ff7_ff12_highest_quality_ps2",
+  "asset_dimension": "3d",
+  "render_pipeline": "3d_pbr",
+  "coordinate_space": "Y_up",
+  "material_slots": [
+    "crystal",
+    "metal"
+  ],
+  "narrative_tags": {
+    "region": "overworld",
+    "faction": "neutral",
+    "era": "present_day",
+    "story_phase": "early_journey",
+    "culture_theme": "mystic"
+  },
+  "world_region_id": "overworld__mystic",
+  "exploration_intent": "overworld_traversal",
+  "placement_intent": "overworld_loot_or_interactable",
+  "lod_policy": {
+    "lod0": 0,
+    "lod1": 12,
+    "lod2": 24
+  },
+  "complexity": "medium",
+  "complexity_policy": {
+    "vertex_budget": 512,
+    "part_jitter": 0.04
+  },
+  "vertex_count": 38,
+  "triangle_count": 64,
+  "unit_scale": 1.0
+}

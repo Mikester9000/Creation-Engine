@@ -1,0 +1,424 @@
+{
+  "version": "1.0",
+  "asset_family": "ui_portrait_pack",
+  "family": "ui_portrait_pack",
+  "name": "ui_portrait_pack",
+  "prompt": "ui portrait pack",
+  "seed": 101,
+  "files": {
+    "ps2_jrpg_hero_portrait": "ps2_jrpg_hero_portrait.json",
+    "ps2_jrpg_knight_portrait": "ps2_jrpg_knight_portrait.json",
+    "ps2_jrpg_mage_portrait": "ps2_jrpg_mage_portrait.json",
+    "ps2_jrpg_rogue_portrait": "ps2_jrpg_rogue_portrait.json",
+    "ps2_jrpg_imperial_captain_portrait": "ps2_jrpg_imperial_captain_portrait.json",
+    "ps2_jrpg_rebel_leader_portrait": "ps2_jrpg_rebel_leader_portrait.json",
+    "ps2_jrpg_shrine_oracle_portrait": "ps2_jrpg_shrine_oracle_portrait.json",
+    "ps2_jrpg_merchant_elder_portrait": "ps2_jrpg_merchant_elder_portrait.json",
+    "ps2_jrpg_corrupted_villain_portrait": "ps2_jrpg_corrupted_villain_portrait.json",
+    "ps2_jrpg_highland_clan_chief_portrait": "ps2_jrpg_highland_clan_chief_portrait.json",
+    "ps2_jrpg_port_navigator_portrait": "ps2_jrpg_port_navigator_portrait.json",
+    "ps2_jrpg_royal_advisor_portrait": "ps2_jrpg_royal_advisor_portrait.json",
+    "ps2_jrpg_innkeeper_portrait": "ps2_jrpg_innkeeper_portrait.json",
+    "ps2_jrpg_blacksmith_portrait": "ps2_jrpg_blacksmith_portrait.json",
+    "ps2_jrpg_sage_scholar_portrait": "ps2_jrpg_sage_scholar_portrait.json",
+    "ps2_jrpg_thief_bandit_portrait": "ps2_jrpg_thief_bandit_portrait.json",
+    "ps2_jrpg_rebel_priest_portrait": "ps2_jrpg_rebel_priest_portrait.json",
+    "ps2_jrpg_ancient_elder_portrait": "ps2_jrpg_ancient_elder_portrait.json",
+    "ps2_jrpg_enemy_warlord_bust_portrait": "ps2_jrpg_enemy_warlord_bust_portrait.json",
+    "ps2_jrpg_summon_deity_card_portrait": "ps2_jrpg_summon_deity_card_portrait.json"
+  },
+  "tags": [
+    "ui_portraits",
+    "ui_portraits",
+    "ui_portraits",
+    "ui_portraits",
+    "ui_portraits",
+    "ui_portraits",
+    "ui_portraits",
+    "ui_portraits",
+    "ui_portraits",
+    "ui_portraits",
+    "ui_portraits",
+    "ui_portraits",
+    "ui_portraits",
+    "ui_portraits",
+    "ui_portraits",
+    "ui_portraits",
+    "ui_portraits",
+    "ui_portraits",
+    "ui_portraits",
+    "ui_portraits"
+  ],
+  "source_generator": "creation_engine.engine.CreationEngine",
+  "content_target": {
+    "ui_portraits": "Content/UI"
+  },
+  "style_profile": "ps2_ff7_ff12_highest_quality_ps2",
+  "asset_dimension": "3d",
+  "render_pipeline": "3d_pbr",
+  "coordinate_space": "Y_up",
+  "assets": [
+    {
+      "name": "ps2_jrpg_hero_portrait",
+      "prompt": "ps2 jrpg hero portrait",
+      "seed": 101,
+      "family": "ui_portraits",
+      "manifest": "ps2_jrpg_hero_portrait.json",
+      "files": {
+        "image": "ps2_jrpg_hero_portrait.png",
+        "manifest": "ps2_jrpg_hero_portrait.json"
+      },
+      "content_target": "Content/UI",
+      "destination_map": {
+        "ps2_jrpg_hero_portrait.png": "Content/UI",
+        "ps2_jrpg_hero_portrait.json": "Content/UI"
+      }
+    },
+    {
+      "name": "ps2_jrpg_knight_portrait",
+      "prompt": "ps2 jrpg knight portrait",
+      "seed": 102,
+      "family": "ui_portraits",
+      "manifest": "ps2_jrpg_knight_portrait.json",
+      "files": {
+        "image": "ps2_jrpg_knight_portrait.png",
+        "manifest": "ps2_jrpg_knight_portrait.json"
+      },
+      "content_target": "Content/UI",
+      "destination_map": {
+        "ps2_jrpg_knight_portrait.png": "Content/UI",
+        "ps2_jrpg_knight_portrait.json": "Content/UI"
+      }
+    },
+    {
+      "name": "ps2_jrpg_mage_portrait",
+      "prompt": "ps2 jrpg mage portrait",
+      "seed": 103,
+      "family": "ui_portraits",
+      "manifest": "ps2_jrpg_mage_portrait.json",
+      "files": {
+        "image": "ps2_jrpg_mage_portrait.png",
+        "manifest": "ps2_jrpg_mage_portrait.json"
+      },
+      "content_target": "Content/UI",
+      "destination_map": {
+        "ps2_jrpg_mage_portrait.png": "Content/UI",
+        "ps2_jrpg_mage_portrait.json": "Content/UI"
+      }
+    },
+    {
+      "name": "ps2_jrpg_rogue_portrait",
+      "prompt": "ps2 jrpg rogue portrait",
+      "seed": 104,
+      "family": "ui_portraits",
+      "manifest": "ps2_jrpg_rogue_portrait.json",
+      "files": {
+        "image": "ps2_jrpg_rogue_portrait.png",
+        "manifest": "ps2_jrpg_rogue_portrait.json"
+      },
+      "content_target": "Content/UI",
+      "destination_map": {
+        "ps2_jrpg_rogue_portrait.png": "Content/UI",
+        "ps2_jrpg_rogue_portrait.json": "Content/UI"
+      }
+    },
+    {
+      "name": "ps2_jrpg_imperial_captain_portrait",
+      "prompt": "ps2 jrpg imperial captain portrait",
+      "seed": 105,
+      "family": "ui_portraits",
+      "manifest": "ps2_jrpg_imperial_captain_portrait.json",
+      "files": {
+        "image": "ps2_jrpg_imperial_captain_portrait.png",
+        "manifest": "ps2_jrpg_imperial_captain_portrait.json"
+      },
+      "content_target": "Content/UI",
+      "destination_map": {
+        "ps2_jrpg_imperial_captain_portrait.png": "Content/UI",
+        "ps2_jrpg_imperial_captain_portrait.json": "Content/UI"
+      }
+    },
+    {
+      "name": "ps2_jrpg_rebel_leader_portrait",
+      "prompt": "ps2 jrpg rebel leader portrait",
+      "seed": 106,
+      "family": "ui_portraits",
+      "manifest": "ps2_jrpg_rebel_leader_portrait.json",
+      "files": {
+        "image": "ps2_jrpg_rebel_leader_portrait.png",
+        "manifest": "ps2_jrpg_rebel_leader_portrait.json"
+      },
+      "content_target": "Content/UI",
+      "destination_map": {
+        "ps2_jrpg_rebel_leader_portrait.png": "Content/UI",
+        "ps2_jrpg_rebel_leader_portrait.json": "Content/UI"
+      }
+    },
+    {
+      "name": "ps2_jrpg_shrine_oracle_portrait",
+      "prompt": "ps2 jrpg shrine oracle portrait",
+      "seed": 107,
+      "family": "ui_portraits",
+      "manifest": "ps2_jrpg_shrine_oracle_portrait.json",
+      "files": {
+        "image": "ps2_jrpg_shrine_oracle_portrait.png",
+        "manifest": "ps2_jrpg_shrine_oracle_portrait.json"
+      },
+      "content_target": "Content/UI",
+      "destination_map": {
+        "ps2_jrpg_shrine_oracle_portrait.png": "Content/UI",
+        "ps2_jrpg_shrine_oracle_portrait.json": "Content/UI"
+      }
+    },
+    {
+      "name": "ps2_jrpg_merchant_elder_portrait",
+      "prompt": "ps2 jrpg merchant elder portrait",
+      "seed": 108,
+      "family": "ui_portraits",
+      "manifest": "ps2_jrpg_merchant_elder_portrait.json",
+      "files": {
+        "image": "ps2_jrpg_merchant_elder_portrait.png",
+        "manifest": "ps2_jrpg_merchant_elder_portrait.json"
+      },
+      "content_target": "Content/UI",
+      "destination_map": {
+        "ps2_jrpg_merchant_elder_portrait.png": "Content/UI",
+        "ps2_jrpg_merchant_elder_portrait.json": "Content/UI"
+      }
+    },
+    {
+      "name": "ps2_jrpg_corrupted_villain_portrait",
+      "prompt": "ps2 jrpg corrupted villain portrait",
+      "seed": 109,
+      "family": "ui_portraits",
+      "manifest": "ps2_jrpg_corrupted_villain_portrait.json",
+      "files": {
+        "image": "ps2_jrpg_corrupted_villain_portrait.png",
+        "manifest": "ps2_jrpg_corrupted_villain_portrait.json"
+      },
+      "content_target": "Content/UI",
+      "destination_map": {
+        "ps2_jrpg_corrupted_villain_portrait.png": "Content/UI",
+        "ps2_jrpg_corrupted_villain_portrait.json": "Content/UI"
+      }
+    },
+    {
+      "name": "ps2_jrpg_highland_clan_chief_portrait",
+      "prompt": "ps2 jrpg highland clan chief portrait",
+      "seed": 110,
+      "family": "ui_portraits",
+      "manifest": "ps2_jrpg_highland_clan_chief_portrait.json",
+      "files": {
+        "image": "ps2_jrpg_highland_clan_chief_portrait.png",
+        "manifest": "ps2_jrpg_highland_clan_chief_portrait.json"
+      },
+      "content_target": "Content/UI",
+      "destination_map": {
+        "ps2_jrpg_highland_clan_chief_portrait.png": "Content/UI",
+        "ps2_jrpg_highland_clan_chief_portrait.json": "Content/UI"
+      }
+    },
+    {
+      "name": "ps2_jrpg_port_navigator_portrait",
+      "prompt": "ps2 jrpg port navigator portrait",
+      "seed": 111,
+      "family": "ui_portraits",
+      "manifest": "ps2_jrpg_port_navigator_portrait.json",
+      "files": {
+        "image": "ps2_jrpg_port_navigator_portrait.png",
+        "manifest": "ps2_jrpg_port_navigator_portrait.json"
+      },
+      "content_target": "Content/UI",
+      "destination_map": {
+        "ps2_jrpg_port_navigator_portrait.png": "Content/UI",
+        "ps2_jrpg_port_navigator_portrait.json": "Content/UI"
+      }
+    },
+    {
+      "name": "ps2_jrpg_royal_advisor_portrait",
+      "prompt": "ps2 jrpg royal advisor portrait",
+      "seed": 112,
+      "family": "ui_portraits",
+      "manifest": "ps2_jrpg_royal_advisor_portrait.json",
+      "files": {
+        "image": "ps2_jrpg_royal_advisor_portrait.png",
+        "manifest": "ps2_jrpg_royal_advisor_portrait.json"
+      },
+      "content_target": "Content/UI",
+      "destination_map": {
+        "ps2_jrpg_royal_advisor_portrait.png": "Content/UI",
+        "ps2_jrpg_royal_advisor_portrait.json": "Content/UI"
+      }
+    },
+    {
+      "name": "ps2_jrpg_innkeeper_portrait",
+      "prompt": "ps2 jrpg innkeeper portrait",
+      "seed": 113,
+      "family": "ui_portraits",
+      "manifest": "ps2_jrpg_innkeeper_portrait.json",
+      "files": {
+        "image": "ps2_jrpg_innkeeper_portrait.png",
+        "manifest": "ps2_jrpg_innkeeper_portrait.json"
+      },
+      "content_target": "Content/UI",
+      "destination_map": {
+        "ps2_jrpg_innkeeper_portrait.png": "Content/UI",
+        "ps2_jrpg_innkeeper_portrait.json": "Content/UI"
+      }
+    },
+    {
+      "name": "ps2_jrpg_blacksmith_portrait",
+      "prompt": "ps2 jrpg blacksmith portrait",
+      "seed": 114,
+      "family": "ui_portraits",
+      "manifest": "ps2_jrpg_blacksmith_portrait.json",
+      "files": {
+        "image": "ps2_jrpg_blacksmith_portrait.png",
+        "manifest": "ps2_jrpg_blacksmith_portrait.json"
+      },
+      "content_target": "Content/UI",
+      "destination_map": {
+        "ps2_jrpg_blacksmith_portrait.png": "Content/UI",
+        "ps2_jrpg_blacksmith_portrait.json": "Content/UI"
+      }
+    },
+    {
+      "name": "ps2_jrpg_sage_scholar_portrait",
+      "prompt": "ps2 jrpg sage scholar portrait",
+      "seed": 115,
+      "family": "ui_portraits",
+      "manifest": "ps2_jrpg_sage_scholar_portrait.json",
+      "files": {
+        "image": "ps2_jrpg_sage_scholar_portrait.png",
+        "manifest": "ps2_jrpg_sage_scholar_portrait.json"
+      },
+      "content_target": "Content/UI",
+      "destination_map": {
+        "ps2_jrpg_sage_scholar_portrait.png": "Content/UI",
+        "ps2_jrpg_sage_scholar_portrait.json": "Content/UI"
+      }
+    },
+    {
+      "name": "ps2_jrpg_thief_bandit_portrait",
+      "prompt": "ps2 jrpg thief bandit portrait",
+      "seed": 116,
+      "family": "ui_portraits",
+      "manifest": "ps2_jrpg_thief_bandit_portrait.json",
+      "files": {
+        "image": "ps2_jrpg_thief_bandit_portrait.png",
+        "manifest": "ps2_jrpg_thief_bandit_portrait.json"
+      },
+      "content_target": "Content/UI",
+      "destination_map": {
+        "ps2_jrpg_thief_bandit_portrait.png": "Content/UI",
+        "ps2_jrpg_thief_bandit_portrait.json": "Content/UI"
+      }
+    },
+    {
+      "name": "ps2_jrpg_rebel_priest_portrait",
+      "prompt": "ps2 jrpg rebel priest portrait",
+      "seed": 117,
+      "family": "ui_portraits",
+      "manifest": "ps2_jrpg_rebel_priest_portrait.json",
+      "files": {
+        "image": "ps2_jrpg_rebel_priest_portrait.png",
+        "manifest": "ps2_jrpg_rebel_priest_portrait.json"
+      },
+      "content_target": "Content/UI",
+      "destination_map": {
+        "ps2_jrpg_rebel_priest_portrait.png": "Content/UI",
+        "ps2_jrpg_rebel_priest_portrait.json": "Content/UI"
+      }
+    },
+    {
+      "name": "ps2_jrpg_ancient_elder_portrait",
+      "prompt": "ps2 jrpg ancient elder portrait",
+      "seed": 118,
+      "family": "ui_portraits",
+      "manifest": "ps2_jrpg_ancient_elder_portrait.json",
+      "files": {
+        "image": "ps2_jrpg_ancient_elder_portrait.png",
+        "manifest": "ps2_jrpg_ancient_elder_portrait.json"
+      },
+      "content_target": "Content/UI",
+      "destination_map": {
+        "ps2_jrpg_ancient_elder_portrait.png": "Content/UI",
+        "ps2_jrpg_ancient_elder_portrait.json": "Content/UI"
+      }
+    },
+    {
+      "name": "ps2_jrpg_enemy_warlord_bust_portrait",
+      "prompt": "ps2 jrpg enemy warlord bust portrait",
+      "seed": 119,
+      "family": "ui_portraits",
+      "manifest": "ps2_jrpg_enemy_warlord_bust_portrait.json",
+      "files": {
+        "image": "ps2_jrpg_enemy_warlord_bust_portrait.png",
+        "manifest": "ps2_jrpg_enemy_warlord_bust_portrait.json"
+      },
+      "content_target": "Content/UI",
+      "destination_map": {
+        "ps2_jrpg_enemy_warlord_bust_portrait.png": "Content/UI",
+        "ps2_jrpg_enemy_warlord_bust_portrait.json": "Content/UI"
+      }
+    },
+    {
+      "name": "ps2_jrpg_summon_deity_card_portrait",
+      "prompt": "ps2 jrpg summon deity card portrait",
+      "seed": 120,
+      "family": "ui_portraits",
+      "manifest": "ps2_jrpg_summon_deity_card_portrait.json",
+      "files": {
+        "image": "ps2_jrpg_summon_deity_card_portrait.png",
+        "manifest": "ps2_jrpg_summon_deity_card_portrait.json"
+      },
+      "content_target": "Content/UI",
+      "destination_map": {
+        "ps2_jrpg_summon_deity_card_portrait.png": "Content/UI",
+        "ps2_jrpg_summon_deity_card_portrait.json": "Content/UI"
+      }
+    }
+  ],
+  "destination_map": {
+    "ps2_jrpg_hero_portrait.png": "Content/UI",
+    "ps2_jrpg_hero_portrait.json": "Content/UI",
+    "ps2_jrpg_knight_portrait.png": "Content/UI",
+    "ps2_jrpg_knight_portrait.json": "Content/UI",
+    "ps2_jrpg_mage_portrait.png": "Content/UI",
+    "ps2_jrpg_mage_portrait.json": "Content/UI",
+    "ps2_jrpg_rogue_portrait.png": "Content/UI",
+    "ps2_jrpg_rogue_portrait.json": "Content/UI",
+    "ps2_jrpg_imperial_captain_portrait.png": "Content/UI",
+    "ps2_jrpg_imperial_captain_portrait.json": "Content/UI",
+    "ps2_jrpg_rebel_leader_portrait.png": "Content/UI",
+    "ps2_jrpg_rebel_leader_portrait.json": "Content/UI",
+    "ps2_jrpg_shrine_oracle_portrait.png": "Content/UI",
+    "ps2_jrpg_shrine_oracle_portrait.json": "Content/UI",
+    "ps2_jrpg_merchant_elder_portrait.png": "Content/UI",
+    "ps2_jrpg_merchant_elder_portrait.json": "Content/UI",
+    "ps2_jrpg_corrupted_villain_portrait.png": "Content/UI",
+    "ps2_jrpg_corrupted_villain_portrait.json": "Content/UI",
+    "ps2_jrpg_highland_clan_chief_portrait.png": "Content/UI",
+    "ps2_jrpg_highland_clan_chief_portrait.json": "Content/UI",
+    "ps2_jrpg_port_navigator_portrait.png": "Content/UI",
+    "ps2_jrpg_port_navigator_portrait.json": "Content/UI",
+    "ps2_jrpg_royal_advisor_portrait.png": "Content/UI",
+    "ps2_jrpg_royal_advisor_portrait.json": "Content/UI",
+    "ps2_jrpg_innkeeper_portrait.png": "Content/UI",
+    "ps2_jrpg_innkeeper_portrait.json": "Content/UI",
+    "ps2_jrpg_blacksmith_portrait.png": "Content/UI",
+    "ps2_jrpg_blacksmith_portrait.json": "Content/UI",
+    "ps2_jrpg_sage_scholar_portrait.png": "Content/UI",
+    "ps2_jrpg_sage_scholar_portrait.json": "Content/UI",
+    "ps2_jrpg_thief_bandit_portrait.png": "Content/UI",
+    "ps2_jrpg_thief_bandit_portrait.json": "Content/UI",
+    "ps2_jrpg_rebel_priest_portrait.png": "Content/UI",
+    "ps2_jrpg_rebel_priest_portrait.json": "Content/UI",
+    "ps2_jrpg_ancient_elder_portrait.png": "Content/UI",
+    "ps2_jrpg_ancient_elder_portrait.json": "Content/UI",
+    "ps2_jrpg_enemy_warlord_bust_portrait.png": "Content/UI",
+    "ps2_jrpg_enemy_warlord_bust_portrait.json": "Content/UI",
+    "ps2_jrpg_summon_deity_card_portrait.png": "Content/UI",
+    "ps2_jrpg_summon_deity_card_portrait.json": "Content/UI"
+  }
+}

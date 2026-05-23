@@ -1,0 +1,52 @@
+{
+  "version": "1.0",
+  "asset_family": "foliage",
+  "family": "foliage",
+  "name": "ps2_jrpg_ruins_overgrown_ivy_bush",
+  "prompt": "ps2 jrpg ruins overgrown ivy bush",
+  "seed": 109,
+  "files": {
+    "obj": "ps2_jrpg_ruins_overgrown_ivy_bush.obj",
+    "mtl": "ps2_jrpg_ruins_overgrown_ivy_bush.mtl",
+    "manifest": "ps2_jrpg_ruins_overgrown_ivy_bush.json"
+  },
+  "tags": [
+    "foliage",
+    "bush"
+  ],
+  "source_generator": "creation_engine.mesh.mesh_builder.build_mesh_from_prompt",
+  "content_target": {
+    "model": "Content/Models",
+    "materials": "Content/Materials"
+  },
+  "style_profile": "ps2_ff7_ff12_highest_quality_ps2",
+  "asset_dimension": "3d",
+  "render_pipeline": "3d_pbr",
+  "coordinate_space": "Y_up",
+  "material_slots": [
+    "leaf"
+  ],
+  "narrative_tags": {
+    "region": "ruins",
+    "faction": "neutral",
+    "era": "present_day",
+    "story_phase": "early_journey",
+    "culture_theme": "mystic"
+  },
+  "world_region_id": "ruins__mystic",
+  "exploration_intent": "dungeon_exploration",
+  "placement_intent": "ruins_biome_decoration",
+  "lod_policy": {
+    "lod0": 0,
+    "lod1": 18,
+    "lod2": 35
+  },
+  "complexity": "medium",
+  "complexity_policy": {
+    "vertex_budget": 512,
+    "part_jitter": 0.04
+  },
+  "vertex_count": 30,
+  "triangle_count": 48,
+  "unit_scale": 1.0
+}

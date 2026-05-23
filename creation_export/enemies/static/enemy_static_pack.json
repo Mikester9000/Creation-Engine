@@ -1,0 +1,484 @@
+{
+  "version": "1.0",
+  "asset_family": "enemy_static_pack",
+  "family": "enemy_static_pack",
+  "name": "enemy_static_pack",
+  "prompt": "enemy static pack",
+  "seed": 101,
+  "files": {
+    "ps2_jrpg_wolf_enemy": "ps2_jrpg_wolf_enemy.json",
+    "ps2_jrpg_beast_enemy": "ps2_jrpg_beast_enemy.json",
+    "ps2_jrpg_corrupted_ruin_fiend_enemy": "ps2_jrpg_corrupted_ruin_fiend_enemy.json",
+    "ps2_jrpg_imperial_war_hound_enemy": "ps2_jrpg_imperial_war_hound_enemy.json",
+    "ps2_jrpg_volcanic_drake_enemy": "ps2_jrpg_volcanic_drake_enemy.json",
+    "ps2_jrpg_undead_temple_sentinel_enemy": "ps2_jrpg_undead_temple_sentinel_enemy.json",
+    "ps2_jrpg_highland_mountain_troll_enemy": "ps2_jrpg_highland_mountain_troll_enemy.json",
+    "ps2_jrpg_coastal_sea_serpent_enemy": "ps2_jrpg_coastal_sea_serpent_enemy.json",
+    "ps2_jrpg_wasteland_bandit_raider_enemy": "ps2_jrpg_wasteland_bandit_raider_enemy.json",
+    "ps2_jrpg_corrupted_mage_construct_enemy": "ps2_jrpg_corrupted_mage_construct_enemy.json",
+    "ps2_jrpg_dungeon_golem_sentinel_enemy": "ps2_jrpg_dungeon_golem_sentinel_enemy.json",
+    "ps2_jrpg_sacred_grove_corrupted_spirit_enemy": "ps2_jrpg_sacred_grove_corrupted_spirit_enemy.json",
+    "ps2_jrpg_stone_golem_enemy": "ps2_jrpg_stone_golem_enemy.json",
+    "ps2_jrpg_fire_elemental_enemy": "ps2_jrpg_fire_elemental_enemy.json",
+    "ps2_jrpg_shadow_fiend_demon_enemy": "ps2_jrpg_shadow_fiend_demon_enemy.json",
+    "ps2_jrpg_dragon_wyrm_wyvern_enemy": "ps2_jrpg_dragon_wyrm_wyvern_enemy.json",
+    "ps2_jrpg_revenant_wraith_phantom_enemy": "ps2_jrpg_revenant_wraith_phantom_enemy.json",
+    "ps2_jrpg_basilisk_serpent_enemy": "ps2_jrpg_basilisk_serpent_enemy.json",
+    "ps2_jrpg_undead_revenant_warrior_enemy": "ps2_jrpg_undead_revenant_warrior_enemy.json",
+    "ps2_jrpg_imperial_war_construct_sentinel_enemy": "ps2_jrpg_imperial_war_construct_sentinel_enemy.json"
+  },
+  "tags": [
+    "enemies_static",
+    "enemies_static",
+    "enemies_static",
+    "enemies_static",
+    "enemies_static",
+    "enemies_static",
+    "enemies_static",
+    "enemies_static",
+    "enemies_static",
+    "enemies_static",
+    "enemies_static",
+    "enemies_static",
+    "enemies_static",
+    "enemies_static",
+    "enemies_static",
+    "enemies_static",
+    "enemies_static",
+    "enemies_static",
+    "enemies_static",
+    "enemies_static"
+  ],
+  "source_generator": "creation_engine.engine.CreationEngine",
+  "content_target": {
+    "enemies_static": "Content/Models"
+  },
+  "style_profile": "ps2_ff7_ff12_highest_quality_ps2",
+  "asset_dimension": "3d",
+  "render_pipeline": "3d_pbr",
+  "coordinate_space": "Y_up",
+  "assets": [
+    {
+      "name": "ps2_jrpg_wolf_enemy",
+      "prompt": "ps2 jrpg wolf enemy",
+      "seed": 101,
+      "family": "enemies_static",
+      "manifest": "ps2_jrpg_wolf_enemy.json",
+      "files": {
+        "obj": "ps2_jrpg_wolf_enemy.obj",
+        "mtl": "ps2_jrpg_wolf_enemy.mtl",
+        "manifest": "ps2_jrpg_wolf_enemy.json"
+      },
+      "content_target": "Content/Models",
+      "destination_map": {
+        "ps2_jrpg_wolf_enemy.obj": "Content/Models",
+        "ps2_jrpg_wolf_enemy.mtl": "Content/Models",
+        "ps2_jrpg_wolf_enemy.json": "Content/Models"
+      }
+    },
+    {
+      "name": "ps2_jrpg_beast_enemy",
+      "prompt": "ps2 jrpg beast enemy",
+      "seed": 102,
+      "family": "enemies_static",
+      "manifest": "ps2_jrpg_beast_enemy.json",
+      "files": {
+        "obj": "ps2_jrpg_beast_enemy.obj",
+        "mtl": "ps2_jrpg_beast_enemy.mtl",
+        "manifest": "ps2_jrpg_beast_enemy.json"
+      },
+      "content_target": "Content/Models",
+      "destination_map": {
+        "ps2_jrpg_beast_enemy.obj": "Content/Models",
+        "ps2_jrpg_beast_enemy.mtl": "Content/Models",
+        "ps2_jrpg_beast_enemy.json": "Content/Models"
+      }
+    },
+    {
+      "name": "ps2_jrpg_corrupted_ruin_fiend_enemy",
+      "prompt": "ps2 jrpg corrupted ruin fiend enemy",
+      "seed": 103,
+      "family": "enemies_static",
+      "manifest": "ps2_jrpg_corrupted_ruin_fiend_enemy.json",
+      "files": {
+        "obj": "ps2_jrpg_corrupted_ruin_fiend_enemy.obj",
+        "mtl": "ps2_jrpg_corrupted_ruin_fiend_enemy.mtl",
+        "manifest": "ps2_jrpg_corrupted_ruin_fiend_enemy.json"
+      },
+      "content_target": "Content/Models",
+      "destination_map": {
+        "ps2_jrpg_corrupted_ruin_fiend_enemy.obj": "Content/Models",
+        "ps2_jrpg_corrupted_ruin_fiend_enemy.mtl": "Content/Models",
+        "ps2_jrpg_corrupted_ruin_fiend_enemy.json": "Content/Models"
+      }
+    },
+    {
+      "name": "ps2_jrpg_imperial_war_hound_enemy",
+      "prompt": "ps2 jrpg imperial war hound enemy",
+      "seed": 104,
+      "family": "enemies_static",
+      "manifest": "ps2_jrpg_imperial_war_hound_enemy.json",
+      "files": {
+        "obj": "ps2_jrpg_imperial_war_hound_enemy.obj",
+        "mtl": "ps2_jrpg_imperial_war_hound_enemy.mtl",
+        "manifest": "ps2_jrpg_imperial_war_hound_enemy.json"
+      },
+      "content_target": "Content/Models",
+      "destination_map": {
+        "ps2_jrpg_imperial_war_hound_enemy.obj": "Content/Models",
+        "ps2_jrpg_imperial_war_hound_enemy.mtl": "Content/Models",
+        "ps2_jrpg_imperial_war_hound_enemy.json": "Content/Models"
+      }
+    },
+    {
+      "name": "ps2_jrpg_volcanic_drake_enemy",
+      "prompt": "ps2 jrpg volcanic drake enemy",
+      "seed": 105,
+      "family": "enemies_static",
+      "manifest": "ps2_jrpg_volcanic_drake_enemy.json",
+      "files": {
+        "obj": "ps2_jrpg_volcanic_drake_enemy.obj",
+        "mtl": "ps2_jrpg_volcanic_drake_enemy.mtl",
+        "manifest": "ps2_jrpg_volcanic_drake_enemy.json"
+      },
+      "content_target": "Content/Models",
+      "destination_map": {
+        "ps2_jrpg_volcanic_drake_enemy.obj": "Content/Models",
+        "ps2_jrpg_volcanic_drake_enemy.mtl": "Content/Models",
+        "ps2_jrpg_volcanic_drake_enemy.json": "Content/Models"
+      }
+    },
+    {
+      "name": "ps2_jrpg_undead_temple_sentinel_enemy",
+      "prompt": "ps2 jrpg undead temple sentinel enemy",
+      "seed": 106,
+      "family": "enemies_static",
+      "manifest": "ps2_jrpg_undead_temple_sentinel_enemy.json",
+      "files": {
+        "obj": "ps2_jrpg_undead_temple_sentinel_enemy.obj",
+        "mtl": "ps2_jrpg_undead_temple_sentinel_enemy.mtl",
+        "manifest": "ps2_jrpg_undead_temple_sentinel_enemy.json"
+      },
+      "content_target": "Content/Models",
+      "destination_map": {
+        "ps2_jrpg_undead_temple_sentinel_enemy.obj": "Content/Models",
+        "ps2_jrpg_undead_temple_sentinel_enemy.mtl": "Content/Models",
+        "ps2_jrpg_undead_temple_sentinel_enemy.json": "Content/Models"
+      }
+    },
+    {
+      "name": "ps2_jrpg_highland_mountain_troll_enemy",
+      "prompt": "ps2 jrpg highland mountain troll enemy",
+      "seed": 107,
+      "family": "enemies_static",
+      "manifest": "ps2_jrpg_highland_mountain_troll_enemy.json",
+      "files": {
+        "obj": "ps2_jrpg_highland_mountain_troll_enemy.obj",
+        "mtl": "ps2_jrpg_highland_mountain_troll_enemy.mtl",
+        "manifest": "ps2_jrpg_highland_mountain_troll_enemy.json"
+      },
+      "content_target": "Content/Models",
+      "destination_map": {
+        "ps2_jrpg_highland_mountain_troll_enemy.obj": "Content/Models",
+        "ps2_jrpg_highland_mountain_troll_enemy.mtl": "Content/Models",
+        "ps2_jrpg_highland_mountain_troll_enemy.json": "Content/Models"
+      }
+    },
+    {
+      "name": "ps2_jrpg_coastal_sea_serpent_enemy",
+      "prompt": "ps2 jrpg coastal sea serpent enemy",
+      "seed": 108,
+      "family": "enemies_static",
+      "manifest": "ps2_jrpg_coastal_sea_serpent_enemy.json",
+      "files": {
+        "obj": "ps2_jrpg_coastal_sea_serpent_enemy.obj",
+        "mtl": "ps2_jrpg_coastal_sea_serpent_enemy.mtl",
+        "manifest": "ps2_jrpg_coastal_sea_serpent_enemy.json"
+      },
+      "content_target": "Content/Models",
+      "destination_map": {
+        "ps2_jrpg_coastal_sea_serpent_enemy.obj": "Content/Models",
+        "ps2_jrpg_coastal_sea_serpent_enemy.mtl": "Content/Models",
+        "ps2_jrpg_coastal_sea_serpent_enemy.json": "Content/Models"
+      }
+    },
+    {
+      "name": "ps2_jrpg_wasteland_bandit_raider_enemy",
+      "prompt": "ps2 jrpg wasteland bandit raider enemy",
+      "seed": 109,
+      "family": "enemies_static",
+      "manifest": "ps2_jrpg_wasteland_bandit_raider_enemy.json",
+      "files": {
+        "obj": "ps2_jrpg_wasteland_bandit_raider_enemy.obj",
+        "mtl": "ps2_jrpg_wasteland_bandit_raider_enemy.mtl",
+        "manifest": "ps2_jrpg_wasteland_bandit_raider_enemy.json"
+      },
+      "content_target": "Content/Models",
+      "destination_map": {
+        "ps2_jrpg_wasteland_bandit_raider_enemy.obj": "Content/Models",
+        "ps2_jrpg_wasteland_bandit_raider_enemy.mtl": "Content/Models",
+        "ps2_jrpg_wasteland_bandit_raider_enemy.json": "Content/Models"
+      }
+    },
+    {
+      "name": "ps2_jrpg_corrupted_mage_construct_enemy",
+      "prompt": "ps2 jrpg corrupted mage construct enemy",
+      "seed": 110,
+      "family": "enemies_static",
+      "manifest": "ps2_jrpg_corrupted_mage_construct_enemy.json",
+      "files": {
+        "obj": "ps2_jrpg_corrupted_mage_construct_enemy.obj",
+        "mtl": "ps2_jrpg_corrupted_mage_construct_enemy.mtl",
+        "manifest": "ps2_jrpg_corrupted_mage_construct_enemy.json"
+      },
+      "content_target": "Content/Models",
+      "destination_map": {
+        "ps2_jrpg_corrupted_mage_construct_enemy.obj": "Content/Models",
+        "ps2_jrpg_corrupted_mage_construct_enemy.mtl": "Content/Models",
+        "ps2_jrpg_corrupted_mage_construct_enemy.json": "Content/Models"
+      }
+    },
+    {
+      "name": "ps2_jrpg_dungeon_golem_sentinel_enemy",
+      "prompt": "ps2 jrpg dungeon golem sentinel enemy",
+      "seed": 111,
+      "family": "enemies_static",
+      "manifest": "ps2_jrpg_dungeon_golem_sentinel_enemy.json",
+      "files": {
+        "obj": "ps2_jrpg_dungeon_golem_sentinel_enemy.obj",
+        "mtl": "ps2_jrpg_dungeon_golem_sentinel_enemy.mtl",
+        "manifest": "ps2_jrpg_dungeon_golem_sentinel_enemy.json"
+      },
+      "content_target": "Content/Models",
+      "destination_map": {
+        "ps2_jrpg_dungeon_golem_sentinel_enemy.obj": "Content/Models",
+        "ps2_jrpg_dungeon_golem_sentinel_enemy.mtl": "Content/Models",
+        "ps2_jrpg_dungeon_golem_sentinel_enemy.json": "Content/Models"
+      }
+    },
+    {
+      "name": "ps2_jrpg_sacred_grove_corrupted_spirit_enemy",
+      "prompt": "ps2 jrpg sacred grove corrupted spirit enemy",
+      "seed": 112,
+      "family": "enemies_static",
+      "manifest": "ps2_jrpg_sacred_grove_corrupted_spirit_enemy.json",
+      "files": {
+        "obj": "ps2_jrpg_sacred_grove_corrupted_spirit_enemy.obj",
+        "mtl": "ps2_jrpg_sacred_grove_corrupted_spirit_enemy.mtl",
+        "manifest": "ps2_jrpg_sacred_grove_corrupted_spirit_enemy.json"
+      },
+      "content_target": "Content/Models",
+      "destination_map": {
+        "ps2_jrpg_sacred_grove_corrupted_spirit_enemy.obj": "Content/Models",
+        "ps2_jrpg_sacred_grove_corrupted_spirit_enemy.mtl": "Content/Models",
+        "ps2_jrpg_sacred_grove_corrupted_spirit_enemy.json": "Content/Models"
+      }
+    },
+    {
+      "name": "ps2_jrpg_stone_golem_enemy",
+      "prompt": "ps2 jrpg stone golem enemy",
+      "seed": 113,
+      "family": "enemies_static",
+      "manifest": "ps2_jrpg_stone_golem_enemy.json",
+      "files": {
+        "obj": "ps2_jrpg_stone_golem_enemy.obj",
+        "mtl": "ps2_jrpg_stone_golem_enemy.mtl",
+        "manifest": "ps2_jrpg_stone_golem_enemy.json"
+      },
+      "content_target": "Content/Models",
+      "destination_map": {
+        "ps2_jrpg_stone_golem_enemy.obj": "Content/Models",
+        "ps2_jrpg_stone_golem_enemy.mtl": "Content/Models",
+        "ps2_jrpg_stone_golem_enemy.json": "Content/Models"
+      }
+    },
+    {
+      "name": "ps2_jrpg_fire_elemental_enemy",
+      "prompt": "ps2 jrpg fire elemental enemy",
+      "seed": 114,
+      "family": "enemies_static",
+      "manifest": "ps2_jrpg_fire_elemental_enemy.json",
+      "files": {
+        "obj": "ps2_jrpg_fire_elemental_enemy.obj",
+        "mtl": "ps2_jrpg_fire_elemental_enemy.mtl",
+        "manifest": "ps2_jrpg_fire_elemental_enemy.json"
+      },
+      "content_target": "Content/Models",
+      "destination_map": {
+        "ps2_jrpg_fire_elemental_enemy.obj": "Content/Models",
+        "ps2_jrpg_fire_elemental_enemy.mtl": "Content/Models",
+        "ps2_jrpg_fire_elemental_enemy.json": "Content/Models"
+      }
+    },
+    {
+      "name": "ps2_jrpg_shadow_fiend_demon_enemy",
+      "prompt": "ps2 jrpg shadow fiend demon enemy",
+      "seed": 115,
+      "family": "enemies_static",
+      "manifest": "ps2_jrpg_shadow_fiend_demon_enemy.json",
+      "files": {
+        "obj": "ps2_jrpg_shadow_fiend_demon_enemy.obj",
+        "mtl": "ps2_jrpg_shadow_fiend_demon_enemy.mtl",
+        "manifest": "ps2_jrpg_shadow_fiend_demon_enemy.json"
+      },
+      "content_target": "Content/Models",
+      "destination_map": {
+        "ps2_jrpg_shadow_fiend_demon_enemy.obj": "Content/Models",
+        "ps2_jrpg_shadow_fiend_demon_enemy.mtl": "Content/Models",
+        "ps2_jrpg_shadow_fiend_demon_enemy.json": "Content/Models"
+      }
+    },
+    {
+      "name": "ps2_jrpg_dragon_wyrm_wyvern_enemy",
+      "prompt": "ps2 jrpg dragon wyrm wyvern enemy",
+      "seed": 116,
+      "family": "enemies_static",
+      "manifest": "ps2_jrpg_dragon_wyrm_wyvern_enemy.json",
+      "files": {
+        "obj": "ps2_jrpg_dragon_wyrm_wyvern_enemy.obj",
+        "mtl": "ps2_jrpg_dragon_wyrm_wyvern_enemy.mtl",
+        "manifest": "ps2_jrpg_dragon_wyrm_wyvern_enemy.json"
+      },
+      "content_target": "Content/Models",
+      "destination_map": {
+        "ps2_jrpg_dragon_wyrm_wyvern_enemy.obj": "Content/Models",
+        "ps2_jrpg_dragon_wyrm_wyvern_enemy.mtl": "Content/Models",
+        "ps2_jrpg_dragon_wyrm_wyvern_enemy.json": "Content/Models"
+      }
+    },
+    {
+      "name": "ps2_jrpg_revenant_wraith_phantom_enemy",
+      "prompt": "ps2 jrpg revenant wraith phantom enemy",
+      "seed": 117,
+      "family": "enemies_static",
+      "manifest": "ps2_jrpg_revenant_wraith_phantom_enemy.json",
+      "files": {
+        "obj": "ps2_jrpg_revenant_wraith_phantom_enemy.obj",
+        "mtl": "ps2_jrpg_revenant_wraith_phantom_enemy.mtl",
+        "manifest": "ps2_jrpg_revenant_wraith_phantom_enemy.json"
+      },
+      "content_target": "Content/Models",
+      "destination_map": {
+        "ps2_jrpg_revenant_wraith_phantom_enemy.obj": "Content/Models",
+        "ps2_jrpg_revenant_wraith_phantom_enemy.mtl": "Content/Models",
+        "ps2_jrpg_revenant_wraith_phantom_enemy.json": "Content/Models"
+      }
+    },
+    {
+      "name": "ps2_jrpg_basilisk_serpent_enemy",
+      "prompt": "ps2 jrpg basilisk serpent enemy",
+      "seed": 118,
+      "family": "enemies_static",
+      "manifest": "ps2_jrpg_basilisk_serpent_enemy.json",
+      "files": {
+        "obj": "ps2_jrpg_basilisk_serpent_enemy.obj",
+        "mtl": "ps2_jrpg_basilisk_serpent_enemy.mtl",
+        "manifest": "ps2_jrpg_basilisk_serpent_enemy.json"
+      },
+      "content_target": "Content/Models",
+      "destination_map": {
+        "ps2_jrpg_basilisk_serpent_enemy.obj": "Content/Models",
+        "ps2_jrpg_basilisk_serpent_enemy.mtl": "Content/Models",
+        "ps2_jrpg_basilisk_serpent_enemy.json": "Content/Models"
+      }
+    },
+    {
+      "name": "ps2_jrpg_undead_revenant_warrior_enemy",
+      "prompt": "ps2 jrpg undead revenant warrior enemy",
+      "seed": 119,
+      "family": "enemies_static",
+      "manifest": "ps2_jrpg_undead_revenant_warrior_enemy.json",
+      "files": {
+        "obj": "ps2_jrpg_undead_revenant_warrior_enemy.obj",
+        "mtl": "ps2_jrpg_undead_revenant_warrior_enemy.mtl",
+        "manifest": "ps2_jrpg_undead_revenant_warrior_enemy.json"
+      },
+      "content_target": "Content/Models",
+      "destination_map": {
+        "ps2_jrpg_undead_revenant_warrior_enemy.obj": "Content/Models",
+        "ps2_jrpg_undead_revenant_warrior_enemy.mtl": "Content/Models",
+        "ps2_jrpg_undead_revenant_warrior_enemy.json": "Content/Models"
+      }
+    },
+    {
+      "name": "ps2_jrpg_imperial_war_construct_sentinel_enemy",
+      "prompt": "ps2 jrpg imperial war construct sentinel enemy",
+      "seed": 120,
+      "family": "enemies_static",
+      "manifest": "ps2_jrpg_imperial_war_construct_sentinel_enemy.json",
+      "files": {
+        "obj": "ps2_jrpg_imperial_war_construct_sentinel_enemy.obj",
+        "mtl": "ps2_jrpg_imperial_war_construct_sentinel_enemy.mtl",
+        "manifest": "ps2_jrpg_imperial_war_construct_sentinel_enemy.json"
+      },
+      "content_target": "Content/Models",
+      "destination_map": {
+        "ps2_jrpg_imperial_war_construct_sentinel_enemy.obj": "Content/Models",
+        "ps2_jrpg_imperial_war_construct_sentinel_enemy.mtl": "Content/Models",
+        "ps2_jrpg_imperial_war_construct_sentinel_enemy.json": "Content/Models"
+      }
+    }
+  ],
+  "destination_map": {
+    "ps2_jrpg_wolf_enemy.obj": "Content/Models",
+    "ps2_jrpg_wolf_enemy.mtl": "Content/Models",
+    "ps2_jrpg_wolf_enemy.json": "Content/Models",
+    "ps2_jrpg_beast_enemy.obj": "Content/Models",
+    "ps2_jrpg_beast_enemy.mtl": "Content/Models",
+    "ps2_jrpg_beast_enemy.json": "Content/Models",
+    "ps2_jrpg_corrupted_ruin_fiend_enemy.obj": "Content/Models",
+    "ps2_jrpg_corrupted_ruin_fiend_enemy.mtl": "Content/Models",
+    "ps2_jrpg_corrupted_ruin_fiend_enemy.json": "Content/Models",
+    "ps2_jrpg_imperial_war_hound_enemy.obj": "Content/Models",
+    "ps2_jrpg_imperial_war_hound_enemy.mtl": "Content/Models",
+    "ps2_jrpg_imperial_war_hound_enemy.json": "Content/Models",
+    "ps2_jrpg_volcanic_drake_enemy.obj": "Content/Models",
+    "ps2_jrpg_volcanic_drake_enemy.mtl": "Content/Models",
+    "ps2_jrpg_volcanic_drake_enemy.json": "Content/Models",
+    "ps2_jrpg_undead_temple_sentinel_enemy.obj": "Content/Models",
+    "ps2_jrpg_undead_temple_sentinel_enemy.mtl": "Content/Models",
+    "ps2_jrpg_undead_temple_sentinel_enemy.json": "Content/Models",
+    "ps2_jrpg_highland_mountain_troll_enemy.obj": "Content/Models",
+    "ps2_jrpg_highland_mountain_troll_enemy.mtl": "Content/Models",
+    "ps2_jrpg_highland_mountain_troll_enemy.json": "Content/Models",
+    "ps2_jrpg_coastal_sea_serpent_enemy.obj": "Content/Models",
+    "ps2_jrpg_coastal_sea_serpent_enemy.mtl": "Content/Models",
+    "ps2_jrpg_coastal_sea_serpent_enemy.json": "Content/Models",
+    "ps2_jrpg_wasteland_bandit_raider_enemy.obj": "Content/Models",
+    "ps2_jrpg_wasteland_bandit_raider_enemy.mtl": "Content/Models",
+    "ps2_jrpg_wasteland_bandit_raider_enemy.json": "Content/Models",
+    "ps2_jrpg_corrupted_mage_construct_enemy.obj": "Content/Models",
+    "ps2_jrpg_corrupted_mage_construct_enemy.mtl": "Content/Models",
+    "ps2_jrpg_corrupted_mage_construct_enemy.json": "Content/Models",
+    "ps2_jrpg_dungeon_golem_sentinel_enemy.obj": "Content/Models",
+    "ps2_jrpg_dungeon_golem_sentinel_enemy.mtl": "Content/Models",
+    "ps2_jrpg_dungeon_golem_sentinel_enemy.json": "Content/Models",
+    "ps2_jrpg_sacred_grove_corrupted_spirit_enemy.obj": "Content/Models",
+    "ps2_jrpg_sacred_grove_corrupted_spirit_enemy.mtl": "Content/Models",
+    "ps2_jrpg_sacred_grove_corrupted_spirit_enemy.json": "Content/Models",
+    "ps2_jrpg_stone_golem_enemy.obj": "Content/Models",
+    "ps2_jrpg_stone_golem_enemy.mtl": "Content/Models",
+    "ps2_jrpg_stone_golem_enemy.json": "Content/Models",
+    "ps2_jrpg_fire_elemental_enemy.obj": "Content/Models",
+    "ps2_jrpg_fire_elemental_enemy.mtl": "Content/Models",
+    "ps2_jrpg_fire_elemental_enemy.json": "Content/Models",
+    "ps2_jrpg_shadow_fiend_demon_enemy.obj": "Content/Models",
+    "ps2_jrpg_shadow_fiend_demon_enemy.mtl": "Content/Models",
+    "ps2_jrpg_shadow_fiend_demon_enemy.json": "Content/Models",
+    "ps2_jrpg_dragon_wyrm_wyvern_enemy.obj": "Content/Models",
+    "ps2_jrpg_dragon_wyrm_wyvern_enemy.mtl": "Content/Models",
+    "ps2_jrpg_dragon_wyrm_wyvern_enemy.json": "Content/Models",
+    "ps2_jrpg_revenant_wraith_phantom_enemy.obj": "Content/Models",
+    "ps2_jrpg_revenant_wraith_phantom_enemy.mtl": "Content/Models",
+    "ps2_jrpg_revenant_wraith_phantom_enemy.json": "Content/Models",
+    "ps2_jrpg_basilisk_serpent_enemy.obj": "Content/Models",
+    "ps2_jrpg_basilisk_serpent_enemy.mtl": "Content/Models",
+    "ps2_jrpg_basilisk_serpent_enemy.json": "Content/Models",
+    "ps2_jrpg_undead_revenant_warrior_enemy.obj": "Content/Models",
+    "ps2_jrpg_undead_revenant_warrior_enemy.mtl": "Content/Models",
+    "ps2_jrpg_undead_revenant_warrior_enemy.json": "Content/Models",
+    "ps2_jrpg_imperial_war_construct_sentinel_enemy.obj": "Content/Models",
+    "ps2_jrpg_imperial_war_construct_sentinel_enemy.mtl": "Content/Models",
+    "ps2_jrpg_imperial_war_construct_sentinel_enemy.json": "Content/Models"
+  }
+}

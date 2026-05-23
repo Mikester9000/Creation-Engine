@@ -1,0 +1,80 @@
+{
+  "version": "1.1",
+  "asset_family": "tilesets",
+  "family": "tilesets",
+  "name": "ps2_jrpg_dungeon_tileset",
+  "prompt": "ps2 jrpg dungeon tileset",
+  "seed": 102,
+  "theme": "dungeon",
+  "tileset": "dungeon_tileset_v1",
+  "tileset_meta": {
+    "id": "dungeon_tileset_v1",
+    "name": "Dungeon",
+    "tileSize": 64,
+    "style": "indoor"
+  },
+  "tiles": [
+    {
+      "id": 0,
+      "name": "dungeon_floor",
+      "passable": true,
+      "material_family": "stone"
+    },
+    {
+      "id": 1,
+      "name": "dungeon_wall",
+      "passable": false,
+      "material_family": "stone"
+    },
+    {
+      "id": 2,
+      "name": "dungeon_pit",
+      "passable": false,
+      "material_family": "water"
+    },
+    {
+      "id": 3,
+      "name": "mossy_floor",
+      "passable": true,
+      "material_family": "stone"
+    },
+    {
+      "id": 4,
+      "name": "trap_tile",
+      "passable": true,
+      "material_family": "stone"
+    },
+    {
+      "id": 5,
+      "name": "collapsed_rubble",
+      "passable": false,
+      "material_family": "stone"
+    },
+    {
+      "id": 6,
+      "name": "carved_door",
+      "passable": true,
+      "material_family": "stone"
+    },
+    {
+      "id": 7,
+      "name": "drain_grate",
+      "passable": true,
+      "material_family": "metal"
+    }
+  ],
+  "narrative_tags": {
+    "region": "overworld",
+    "faction": "neutral",
+    "era": "present_day",
+    "story_phase": "early_journey",
+    "culture_theme": "mystic"
+  },
+  "world_region_id": "overworld__mystic",
+  "exploration_intent": "overworld_traversal",
+  "placement_intent": "world_tileset",
+  "content_target": {
+    "world": "Content/World"
+  },
+  "style_profile": "ps2_ff7_ff12_highest_quality_ps2"
+}

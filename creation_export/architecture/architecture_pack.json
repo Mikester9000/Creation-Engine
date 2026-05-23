@@ -1,0 +1,484 @@
+{
+  "version": "1.0",
+  "asset_family": "architecture_pack",
+  "family": "architecture_pack",
+  "name": "architecture_pack",
+  "prompt": "architecture pack",
+  "seed": 101,
+  "files": {
+    "ps2_jrpg_stone_pillar": "ps2_jrpg_stone_pillar.json",
+    "ps2_jrpg_temple_arch": "ps2_jrpg_temple_arch.json",
+    "ps2_jrpg_imperial_gate_wall_module": "ps2_jrpg_imperial_gate_wall_module.json",
+    "ps2_jrpg_port_city_bridge_support": "ps2_jrpg_port_city_bridge_support.json",
+    "ps2_jrpg_sacred_sanctum_altar_frame": "ps2_jrpg_sacred_sanctum_altar_frame.json",
+    "ps2_jrpg_ancient_ruin_obelisk": "ps2_jrpg_ancient_ruin_obelisk.json",
+    "ps2_jrpg_royal_palace_ornate_column": "ps2_jrpg_royal_palace_ornate_column.json",
+    "ps2_jrpg_fortress_tower_bastion": "ps2_jrpg_fortress_tower_bastion.json",
+    "ps2_jrpg_highland_stone_wall_section": "ps2_jrpg_highland_stone_wall_section.json",
+    "ps2_jrpg_rebel_bunker_entrance_frame": "ps2_jrpg_rebel_bunker_entrance_frame.json",
+    "ps2_jrpg_crystal_shrine_gateway": "ps2_jrpg_crystal_shrine_gateway.json",
+    "ps2_jrpg_dungeon_sealed_ruin_gateway": "ps2_jrpg_dungeon_sealed_ruin_gateway.json",
+    "ps2_jrpg_imperial_city_defensive_rampart_wall": "ps2_jrpg_imperial_city_defensive_rampart_wall.json",
+    "ps2_jrpg_capital_gatehouse_fortified_entry": "ps2_jrpg_capital_gatehouse_fortified_entry.json",
+    "ps2_jrpg_highland_watchtower_lookout": "ps2_jrpg_highland_watchtower_lookout.json",
+    "ps2_jrpg_market_arcade_arch_bazaar": "ps2_jrpg_market_arcade_arch_bazaar.json",
+    "ps2_jrpg_sacred_temple_ceremonial_steps": "ps2_jrpg_sacred_temple_ceremonial_steps.json",
+    "ps2_jrpg_imperial_dungeon_iron_gate": "ps2_jrpg_imperial_dungeon_iron_gate.json",
+    "ps2_jrpg_ancient_bridge_stone_arch_span": "ps2_jrpg_ancient_bridge_stone_arch_span.json",
+    "ps2_jrpg_fortress_wall_tower_parapet": "ps2_jrpg_fortress_wall_tower_parapet.json"
+  },
+  "tags": [
+    "architecture",
+    "architecture",
+    "architecture",
+    "architecture",
+    "architecture",
+    "architecture",
+    "architecture",
+    "architecture",
+    "architecture",
+    "architecture",
+    "architecture",
+    "architecture",
+    "architecture",
+    "architecture",
+    "architecture",
+    "architecture",
+    "architecture",
+    "architecture",
+    "architecture",
+    "architecture"
+  ],
+  "source_generator": "creation_engine.engine.CreationEngine",
+  "content_target": {
+    "architecture": "Content/Models"
+  },
+  "style_profile": "ps2_ff7_ff12_highest_quality_ps2",
+  "asset_dimension": "3d",
+  "render_pipeline": "3d_pbr",
+  "coordinate_space": "Y_up",
+  "assets": [
+    {
+      "name": "ps2_jrpg_stone_pillar",
+      "prompt": "ps2 jrpg stone pillar",
+      "seed": 101,
+      "family": "architecture",
+      "manifest": "ps2_jrpg_stone_pillar.json",
+      "files": {
+        "obj": "ps2_jrpg_stone_pillar.obj",
+        "mtl": "ps2_jrpg_stone_pillar.mtl",
+        "manifest": "ps2_jrpg_stone_pillar.json"
+      },
+      "content_target": "Content/Models",
+      "destination_map": {
+        "ps2_jrpg_stone_pillar.obj": "Content/Models",
+        "ps2_jrpg_stone_pillar.mtl": "Content/Models",
+        "ps2_jrpg_stone_pillar.json": "Content/Models"
+      }
+    },
+    {
+      "name": "ps2_jrpg_temple_arch",
+      "prompt": "ps2 jrpg temple arch",
+      "seed": 102,
+      "family": "architecture",
+      "manifest": "ps2_jrpg_temple_arch.json",
+      "files": {
+        "obj": "ps2_jrpg_temple_arch.obj",
+        "mtl": "ps2_jrpg_temple_arch.mtl",
+        "manifest": "ps2_jrpg_temple_arch.json"
+      },
+      "content_target": "Content/Models",
+      "destination_map": {
+        "ps2_jrpg_temple_arch.obj": "Content/Models",
+        "ps2_jrpg_temple_arch.mtl": "Content/Models",
+        "ps2_jrpg_temple_arch.json": "Content/Models"
+      }
+    },
+    {
+      "name": "ps2_jrpg_imperial_gate_wall_module",
+      "prompt": "ps2 jrpg imperial gate wall module",
+      "seed": 103,
+      "family": "architecture",
+      "manifest": "ps2_jrpg_imperial_gate_wall_module.json",
+      "files": {
+        "obj": "ps2_jrpg_imperial_gate_wall_module.obj",
+        "mtl": "ps2_jrpg_imperial_gate_wall_module.mtl",
+        "manifest": "ps2_jrpg_imperial_gate_wall_module.json"
+      },
+      "content_target": "Content/Models",
+      "destination_map": {
+        "ps2_jrpg_imperial_gate_wall_module.obj": "Content/Models",
+        "ps2_jrpg_imperial_gate_wall_module.mtl": "Content/Models",
+        "ps2_jrpg_imperial_gate_wall_module.json": "Content/Models"
+      }
+    },
+    {
+      "name": "ps2_jrpg_port_city_bridge_support",
+      "prompt": "ps2 jrpg port city bridge support",
+      "seed": 104,
+      "family": "architecture",
+      "manifest": "ps2_jrpg_port_city_bridge_support.json",
+      "files": {
+        "obj": "ps2_jrpg_port_city_bridge_support.obj",
+        "mtl": "ps2_jrpg_port_city_bridge_support.mtl",
+        "manifest": "ps2_jrpg_port_city_bridge_support.json"
+      },
+      "content_target": "Content/Models",
+      "destination_map": {
+        "ps2_jrpg_port_city_bridge_support.obj": "Content/Models",
+        "ps2_jrpg_port_city_bridge_support.mtl": "Content/Models",
+        "ps2_jrpg_port_city_bridge_support.json": "Content/Models"
+      }
+    },
+    {
+      "name": "ps2_jrpg_sacred_sanctum_altar_frame",
+      "prompt": "ps2 jrpg sacred sanctum altar frame",
+      "seed": 105,
+      "family": "architecture",
+      "manifest": "ps2_jrpg_sacred_sanctum_altar_frame.json",
+      "files": {
+        "obj": "ps2_jrpg_sacred_sanctum_altar_frame.obj",
+        "mtl": "ps2_jrpg_sacred_sanctum_altar_frame.mtl",
+        "manifest": "ps2_jrpg_sacred_sanctum_altar_frame.json"
+      },
+      "content_target": "Content/Models",
+      "destination_map": {
+        "ps2_jrpg_sacred_sanctum_altar_frame.obj": "Content/Models",
+        "ps2_jrpg_sacred_sanctum_altar_frame.mtl": "Content/Models",
+        "ps2_jrpg_sacred_sanctum_altar_frame.json": "Content/Models"
+      }
+    },
+    {
+      "name": "ps2_jrpg_ancient_ruin_obelisk",
+      "prompt": "ps2 jrpg ancient ruin obelisk",
+      "seed": 106,
+      "family": "architecture",
+      "manifest": "ps2_jrpg_ancient_ruin_obelisk.json",
+      "files": {
+        "obj": "ps2_jrpg_ancient_ruin_obelisk.obj",
+        "mtl": "ps2_jrpg_ancient_ruin_obelisk.mtl",
+        "manifest": "ps2_jrpg_ancient_ruin_obelisk.json"
+      },
+      "content_target": "Content/Models",
+      "destination_map": {
+        "ps2_jrpg_ancient_ruin_obelisk.obj": "Content/Models",
+        "ps2_jrpg_ancient_ruin_obelisk.mtl": "Content/Models",
+        "ps2_jrpg_ancient_ruin_obelisk.json": "Content/Models"
+      }
+    },
+    {
+      "name": "ps2_jrpg_royal_palace_ornate_column",
+      "prompt": "ps2 jrpg royal palace ornate column",
+      "seed": 107,
+      "family": "architecture",
+      "manifest": "ps2_jrpg_royal_palace_ornate_column.json",
+      "files": {
+        "obj": "ps2_jrpg_royal_palace_ornate_column.obj",
+        "mtl": "ps2_jrpg_royal_palace_ornate_column.mtl",
+        "manifest": "ps2_jrpg_royal_palace_ornate_column.json"
+      },
+      "content_target": "Content/Models",
+      "destination_map": {
+        "ps2_jrpg_royal_palace_ornate_column.obj": "Content/Models",
+        "ps2_jrpg_royal_palace_ornate_column.mtl": "Content/Models",
+        "ps2_jrpg_royal_palace_ornate_column.json": "Content/Models"
+      }
+    },
+    {
+      "name": "ps2_jrpg_fortress_tower_bastion",
+      "prompt": "ps2 jrpg fortress tower bastion",
+      "seed": 108,
+      "family": "architecture",
+      "manifest": "ps2_jrpg_fortress_tower_bastion.json",
+      "files": {
+        "obj": "ps2_jrpg_fortress_tower_bastion.obj",
+        "mtl": "ps2_jrpg_fortress_tower_bastion.mtl",
+        "manifest": "ps2_jrpg_fortress_tower_bastion.json"
+      },
+      "content_target": "Content/Models",
+      "destination_map": {
+        "ps2_jrpg_fortress_tower_bastion.obj": "Content/Models",
+        "ps2_jrpg_fortress_tower_bastion.mtl": "Content/Models",
+        "ps2_jrpg_fortress_tower_bastion.json": "Content/Models"
+      }
+    },
+    {
+      "name": "ps2_jrpg_highland_stone_wall_section",
+      "prompt": "ps2 jrpg highland stone wall section",
+      "seed": 109,
+      "family": "architecture",
+      "manifest": "ps2_jrpg_highland_stone_wall_section.json",
+      "files": {
+        "obj": "ps2_jrpg_highland_stone_wall_section.obj",
+        "mtl": "ps2_jrpg_highland_stone_wall_section.mtl",
+        "manifest": "ps2_jrpg_highland_stone_wall_section.json"
+      },
+      "content_target": "Content/Models",
+      "destination_map": {
+        "ps2_jrpg_highland_stone_wall_section.obj": "Content/Models",
+        "ps2_jrpg_highland_stone_wall_section.mtl": "Content/Models",
+        "ps2_jrpg_highland_stone_wall_section.json": "Content/Models"
+      }
+    },
+    {
+      "name": "ps2_jrpg_rebel_bunker_entrance_frame",
+      "prompt": "ps2 jrpg rebel bunker entrance frame",
+      "seed": 110,
+      "family": "architecture",
+      "manifest": "ps2_jrpg_rebel_bunker_entrance_frame.json",
+      "files": {
+        "obj": "ps2_jrpg_rebel_bunker_entrance_frame.obj",
+        "mtl": "ps2_jrpg_rebel_bunker_entrance_frame.mtl",
+        "manifest": "ps2_jrpg_rebel_bunker_entrance_frame.json"
+      },
+      "content_target": "Content/Models",
+      "destination_map": {
+        "ps2_jrpg_rebel_bunker_entrance_frame.obj": "Content/Models",
+        "ps2_jrpg_rebel_bunker_entrance_frame.mtl": "Content/Models",
+        "ps2_jrpg_rebel_bunker_entrance_frame.json": "Content/Models"
+      }
+    },
+    {
+      "name": "ps2_jrpg_crystal_shrine_gateway",
+      "prompt": "ps2 jrpg crystal shrine gateway",
+      "seed": 111,
+      "family": "architecture",
+      "manifest": "ps2_jrpg_crystal_shrine_gateway.json",
+      "files": {
+        "obj": "ps2_jrpg_crystal_shrine_gateway.obj",
+        "mtl": "ps2_jrpg_crystal_shrine_gateway.mtl",
+        "manifest": "ps2_jrpg_crystal_shrine_gateway.json"
+      },
+      "content_target": "Content/Models",
+      "destination_map": {
+        "ps2_jrpg_crystal_shrine_gateway.obj": "Content/Models",
+        "ps2_jrpg_crystal_shrine_gateway.mtl": "Content/Models",
+        "ps2_jrpg_crystal_shrine_gateway.json": "Content/Models"
+      }
+    },
+    {
+      "name": "ps2_jrpg_dungeon_sealed_ruin_gateway",
+      "prompt": "ps2 jrpg dungeon sealed ruin gateway",
+      "seed": 112,
+      "family": "architecture",
+      "manifest": "ps2_jrpg_dungeon_sealed_ruin_gateway.json",
+      "files": {
+        "obj": "ps2_jrpg_dungeon_sealed_ruin_gateway.obj",
+        "mtl": "ps2_jrpg_dungeon_sealed_ruin_gateway.mtl",
+        "manifest": "ps2_jrpg_dungeon_sealed_ruin_gateway.json"
+      },
+      "content_target": "Content/Models",
+      "destination_map": {
+        "ps2_jrpg_dungeon_sealed_ruin_gateway.obj": "Content/Models",
+        "ps2_jrpg_dungeon_sealed_ruin_gateway.mtl": "Content/Models",
+        "ps2_jrpg_dungeon_sealed_ruin_gateway.json": "Content/Models"
+      }
+    },
+    {
+      "name": "ps2_jrpg_imperial_city_defensive_rampart_wall",
+      "prompt": "ps2 jrpg imperial city defensive rampart wall",
+      "seed": 113,
+      "family": "architecture",
+      "manifest": "ps2_jrpg_imperial_city_defensive_rampart_wall.json",
+      "files": {
+        "obj": "ps2_jrpg_imperial_city_defensive_rampart_wall.obj",
+        "mtl": "ps2_jrpg_imperial_city_defensive_rampart_wall.mtl",
+        "manifest": "ps2_jrpg_imperial_city_defensive_rampart_wall.json"
+      },
+      "content_target": "Content/Models",
+      "destination_map": {
+        "ps2_jrpg_imperial_city_defensive_rampart_wall.obj": "Content/Models",
+        "ps2_jrpg_imperial_city_defensive_rampart_wall.mtl": "Content/Models",
+        "ps2_jrpg_imperial_city_defensive_rampart_wall.json": "Content/Models"
+      }
+    },
+    {
+      "name": "ps2_jrpg_capital_gatehouse_fortified_entry",
+      "prompt": "ps2 jrpg capital gatehouse fortified entry",
+      "seed": 114,
+      "family": "architecture",
+      "manifest": "ps2_jrpg_capital_gatehouse_fortified_entry.json",
+      "files": {
+        "obj": "ps2_jrpg_capital_gatehouse_fortified_entry.obj",
+        "mtl": "ps2_jrpg_capital_gatehouse_fortified_entry.mtl",
+        "manifest": "ps2_jrpg_capital_gatehouse_fortified_entry.json"
+      },
+      "content_target": "Content/Models",
+      "destination_map": {
+        "ps2_jrpg_capital_gatehouse_fortified_entry.obj": "Content/Models",
+        "ps2_jrpg_capital_gatehouse_fortified_entry.mtl": "Content/Models",
+        "ps2_jrpg_capital_gatehouse_fortified_entry.json": "Content/Models"
+      }
+    },
+    {
+      "name": "ps2_jrpg_highland_watchtower_lookout",
+      "prompt": "ps2 jrpg highland watchtower lookout",
+      "seed": 115,
+      "family": "architecture",
+      "manifest": "ps2_jrpg_highland_watchtower_lookout.json",
+      "files": {
+        "obj": "ps2_jrpg_highland_watchtower_lookout.obj",
+        "mtl": "ps2_jrpg_highland_watchtower_lookout.mtl",
+        "manifest": "ps2_jrpg_highland_watchtower_lookout.json"
+      },
+      "content_target": "Content/Models",
+      "destination_map": {
+        "ps2_jrpg_highland_watchtower_lookout.obj": "Content/Models",
+        "ps2_jrpg_highland_watchtower_lookout.mtl": "Content/Models",
+        "ps2_jrpg_highland_watchtower_lookout.json": "Content/Models"
+      }
+    },
+    {
+      "name": "ps2_jrpg_market_arcade_arch_bazaar",
+      "prompt": "ps2 jrpg market arcade arch bazaar",
+      "seed": 116,
+      "family": "architecture",
+      "manifest": "ps2_jrpg_market_arcade_arch_bazaar.json",
+      "files": {
+        "obj": "ps2_jrpg_market_arcade_arch_bazaar.obj",
+        "mtl": "ps2_jrpg_market_arcade_arch_bazaar.mtl",
+        "manifest": "ps2_jrpg_market_arcade_arch_bazaar.json"
+      },
+      "content_target": "Content/Models",
+      "destination_map": {
+        "ps2_jrpg_market_arcade_arch_bazaar.obj": "Content/Models",
+        "ps2_jrpg_market_arcade_arch_bazaar.mtl": "Content/Models",
+        "ps2_jrpg_market_arcade_arch_bazaar.json": "Content/Models"
+      }
+    },
+    {
+      "name": "ps2_jrpg_sacred_temple_ceremonial_steps",
+      "prompt": "ps2 jrpg sacred temple ceremonial steps",
+      "seed": 117,
+      "family": "architecture",
+      "manifest": "ps2_jrpg_sacred_temple_ceremonial_steps.json",
+      "files": {
+        "obj": "ps2_jrpg_sacred_temple_ceremonial_steps.obj",
+        "mtl": "ps2_jrpg_sacred_temple_ceremonial_steps.mtl",
+        "manifest": "ps2_jrpg_sacred_temple_ceremonial_steps.json"
+      },
+      "content_target": "Content/Models",
+      "destination_map": {
+        "ps2_jrpg_sacred_temple_ceremonial_steps.obj": "Content/Models",
+        "ps2_jrpg_sacred_temple_ceremonial_steps.mtl": "Content/Models",
+        "ps2_jrpg_sacred_temple_ceremonial_steps.json": "Content/Models"
+      }
+    },
+    {
+      "name": "ps2_jrpg_imperial_dungeon_iron_gate",
+      "prompt": "ps2 jrpg imperial dungeon iron gate",
+      "seed": 118,
+      "family": "architecture",
+      "manifest": "ps2_jrpg_imperial_dungeon_iron_gate.json",
+      "files": {
+        "obj": "ps2_jrpg_imperial_dungeon_iron_gate.obj",
+        "mtl": "ps2_jrpg_imperial_dungeon_iron_gate.mtl",
+        "manifest": "ps2_jrpg_imperial_dungeon_iron_gate.json"
+      },
+      "content_target": "Content/Models",
+      "destination_map": {
+        "ps2_jrpg_imperial_dungeon_iron_gate.obj": "Content/Models",
+        "ps2_jrpg_imperial_dungeon_iron_gate.mtl": "Content/Models",
+        "ps2_jrpg_imperial_dungeon_iron_gate.json": "Content/Models"
+      }
+    },
+    {
+      "name": "ps2_jrpg_ancient_bridge_stone_arch_span",
+      "prompt": "ps2 jrpg ancient bridge stone arch span",
+      "seed": 119,
+      "family": "architecture",
+      "manifest": "ps2_jrpg_ancient_bridge_stone_arch_span.json",
+      "files": {
+        "obj": "ps2_jrpg_ancient_bridge_stone_arch_span.obj",
+        "mtl": "ps2_jrpg_ancient_bridge_stone_arch_span.mtl",
+        "manifest": "ps2_jrpg_ancient_bridge_stone_arch_span.json"
+      },
+      "content_target": "Content/Models",
+      "destination_map": {
+        "ps2_jrpg_ancient_bridge_stone_arch_span.obj": "Content/Models",
+        "ps2_jrpg_ancient_bridge_stone_arch_span.mtl": "Content/Models",
+        "ps2_jrpg_ancient_bridge_stone_arch_span.json": "Content/Models"
+      }
+    },
+    {
+      "name": "ps2_jrpg_fortress_wall_tower_parapet",
+      "prompt": "ps2 jrpg fortress wall tower parapet",
+      "seed": 120,
+      "family": "architecture",
+      "manifest": "ps2_jrpg_fortress_wall_tower_parapet.json",
+      "files": {
+        "obj": "ps2_jrpg_fortress_wall_tower_parapet.obj",
+        "mtl": "ps2_jrpg_fortress_wall_tower_parapet.mtl",
+        "manifest": "ps2_jrpg_fortress_wall_tower_parapet.json"
+      },
+      "content_target": "Content/Models",
+      "destination_map": {
+        "ps2_jrpg_fortress_wall_tower_parapet.obj": "Content/Models",
+        "ps2_jrpg_fortress_wall_tower_parapet.mtl": "Content/Models",
+        "ps2_jrpg_fortress_wall_tower_parapet.json": "Content/Models"
+      }
+    }
+  ],
+  "destination_map": {
+    "ps2_jrpg_stone_pillar.obj": "Content/Models",
+    "ps2_jrpg_stone_pillar.mtl": "Content/Models",
+    "ps2_jrpg_stone_pillar.json": "Content/Models",
+    "ps2_jrpg_temple_arch.obj": "Content/Models",
+    "ps2_jrpg_temple_arch.mtl": "Content/Models",
+    "ps2_jrpg_temple_arch.json": "Content/Models",
+    "ps2_jrpg_imperial_gate_wall_module.obj": "Content/Models",
+    "ps2_jrpg_imperial_gate_wall_module.mtl": "Content/Models",
+    "ps2_jrpg_imperial_gate_wall_module.json": "Content/Models",
+    "ps2_jrpg_port_city_bridge_support.obj": "Content/Models",
+    "ps2_jrpg_port_city_bridge_support.mtl": "Content/Models",
+    "ps2_jrpg_port_city_bridge_support.json": "Content/Models",
+    "ps2_jrpg_sacred_sanctum_altar_frame.obj": "Content/Models",
+    "ps2_jrpg_sacred_sanctum_altar_frame.mtl": "Content/Models",
+    "ps2_jrpg_sacred_sanctum_altar_frame.json": "Content/Models",
+    "ps2_jrpg_ancient_ruin_obelisk.obj": "Content/Models",
+    "ps2_jrpg_ancient_ruin_obelisk.mtl": "Content/Models",
+    "ps2_jrpg_ancient_ruin_obelisk.json": "Content/Models",
+    "ps2_jrpg_royal_palace_ornate_column.obj": "Content/Models",
+    "ps2_jrpg_royal_palace_ornate_column.mtl": "Content/Models",
+    "ps2_jrpg_royal_palace_ornate_column.json": "Content/Models",
+    "ps2_jrpg_fortress_tower_bastion.obj": "Content/Models",
+    "ps2_jrpg_fortress_tower_bastion.mtl": "Content/Models",
+    "ps2_jrpg_fortress_tower_bastion.json": "Content/Models",
+    "ps2_jrpg_highland_stone_wall_section.obj": "Content/Models",
+    "ps2_jrpg_highland_stone_wall_section.mtl": "Content/Models",
+    "ps2_jrpg_highland_stone_wall_section.json": "Content/Models",
+    "ps2_jrpg_rebel_bunker_entrance_frame.obj": "Content/Models",
+    "ps2_jrpg_rebel_bunker_entrance_frame.mtl": "Content/Models",
+    "ps2_jrpg_rebel_bunker_entrance_frame.json": "Content/Models",
+    "ps2_jrpg_crystal_shrine_gateway.obj": "Content/Models",
+    "ps2_jrpg_crystal_shrine_gateway.mtl": "Content/Models",
+    "ps2_jrpg_crystal_shrine_gateway.json": "Content/Models",
+    "ps2_jrpg_dungeon_sealed_ruin_gateway.obj": "Content/Models",
+    "ps2_jrpg_dungeon_sealed_ruin_gateway.mtl": "Content/Models",
+    "ps2_jrpg_dungeon_sealed_ruin_gateway.json": "Content/Models",
+    "ps2_jrpg_imperial_city_defensive_rampart_wall.obj": "Content/Models",
+    "ps2_jrpg_imperial_city_defensive_rampart_wall.mtl": "Content/Models",
+    "ps2_jrpg_imperial_city_defensive_rampart_wall.json": "Content/Models",
+    "ps2_jrpg_capital_gatehouse_fortified_entry.obj": "Content/Models",
+    "ps2_jrpg_capital_gatehouse_fortified_entry.mtl": "Content/Models",
+    "ps2_jrpg_capital_gatehouse_fortified_entry.json": "Content/Models",
+    "ps2_jrpg_highland_watchtower_lookout.obj": "Content/Models",
+    "ps2_jrpg_highland_watchtower_lookout.mtl": "Content/Models",
+    "ps2_jrpg_highland_watchtower_lookout.json": "Content/Models",
+    "ps2_jrpg_market_arcade_arch_bazaar.obj": "Content/Models",
+    "ps2_jrpg_market_arcade_arch_bazaar.mtl": "Content/Models",
+    "ps2_jrpg_market_arcade_arch_bazaar.json": "Content/Models",
+    "ps2_jrpg_sacred_temple_ceremonial_steps.obj": "Content/Models",
+    "ps2_jrpg_sacred_temple_ceremonial_steps.mtl": "Content/Models",
+    "ps2_jrpg_sacred_temple_ceremonial_steps.json": "Content/Models",
+    "ps2_jrpg_imperial_dungeon_iron_gate.obj": "Content/Models",
+    "ps2_jrpg_imperial_dungeon_iron_gate.mtl": "Content/Models",
+    "ps2_jrpg_imperial_dungeon_iron_gate.json": "Content/Models",
+    "ps2_jrpg_ancient_bridge_stone_arch_span.obj": "Content/Models",
+    "ps2_jrpg_ancient_bridge_stone_arch_span.mtl": "Content/Models",
+    "ps2_jrpg_ancient_bridge_stone_arch_span.json": "Content/Models",
+    "ps2_jrpg_fortress_wall_tower_parapet.obj": "Content/Models",
+    "ps2_jrpg_fortress_wall_tower_parapet.mtl": "Content/Models",
+    "ps2_jrpg_fortress_wall_tower_parapet.json": "Content/Models"
+  }
+}

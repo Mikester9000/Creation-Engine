@@ -1,0 +1,484 @@
+{
+  "version": "1.0",
+  "asset_family": "foliage_pack",
+  "family": "foliage_pack",
+  "name": "foliage_pack",
+  "prompt": "foliage pack",
+  "seed": 101,
+  "files": {
+    "ps2_jrpg_forest_tree": "ps2_jrpg_forest_tree.json",
+    "ps2_jrpg_bush": "ps2_jrpg_bush.json",
+    "ps2_jrpg_highland_cedar_tree": "ps2_jrpg_highland_cedar_tree.json",
+    "ps2_jrpg_coastal_palm_tree": "ps2_jrpg_coastal_palm_tree.json",
+    "ps2_jrpg_sacred_grove_crystal_shrub": "ps2_jrpg_sacred_grove_crystal_shrub.json",
+    "ps2_jrpg_volcanic_deadwood_brush": "ps2_jrpg_volcanic_deadwood_brush.json",
+    "ps2_jrpg_overworld_meadow_flower_cluster": "ps2_jrpg_overworld_meadow_flower_cluster.json",
+    "ps2_jrpg_swamp_gnarled_tree": "ps2_jrpg_swamp_gnarled_tree.json",
+    "ps2_jrpg_ruins_overgrown_ivy_bush": "ps2_jrpg_ruins_overgrown_ivy_bush.json",
+    "ps2_jrpg_snowfield_frost_fern": "ps2_jrpg_snowfield_frost_fern.json",
+    "ps2_jrpg_desert_scrub_cactus": "ps2_jrpg_desert_scrub_cactus.json",
+    "ps2_jrpg_dungeon_cave_fungus_cluster": "ps2_jrpg_dungeon_cave_fungus_cluster.json",
+    "ps2_jrpg_snowfield_snow_pine_conifer": "ps2_jrpg_snowfield_snow_pine_conifer.json",
+    "ps2_jrpg_marsh_wetland_reed_sedge": "ps2_jrpg_marsh_wetland_reed_sedge.json",
+    "ps2_jrpg_sacred_ancient_fern_frond": "ps2_jrpg_sacred_ancient_fern_frond.json",
+    "ps2_jrpg_volcanic_obsidian_rock_cluster": "ps2_jrpg_volcanic_obsidian_rock_cluster.json",
+    "ps2_jrpg_coastal_reef_coral_formation": "ps2_jrpg_coastal_reef_coral_formation.json",
+    "ps2_jrpg_highland_heather_moorland_shrub": "ps2_jrpg_highland_heather_moorland_shrub.json",
+    "ps2_jrpg_forest_underbrush_thorn_cluster": "ps2_jrpg_forest_underbrush_thorn_cluster.json",
+    "ps2_jrpg_sacred_grove_willow_draping_tree": "ps2_jrpg_sacred_grove_willow_draping_tree.json"
+  },
+  "tags": [
+    "foliage",
+    "foliage",
+    "foliage",
+    "foliage",
+    "foliage",
+    "foliage",
+    "foliage",
+    "foliage",
+    "foliage",
+    "foliage",
+    "foliage",
+    "foliage",
+    "foliage",
+    "foliage",
+    "foliage",
+    "foliage",
+    "foliage",
+    "foliage",
+    "foliage",
+    "foliage"
+  ],
+  "source_generator": "creation_engine.engine.CreationEngine",
+  "content_target": {
+    "foliage": "Content/Models"
+  },
+  "style_profile": "ps2_ff7_ff12_highest_quality_ps2",
+  "asset_dimension": "3d",
+  "render_pipeline": "3d_pbr",
+  "coordinate_space": "Y_up",
+  "assets": [
+    {
+      "name": "ps2_jrpg_forest_tree",
+      "prompt": "ps2 jrpg forest tree",
+      "seed": 101,
+      "family": "foliage",
+      "manifest": "ps2_jrpg_forest_tree.json",
+      "files": {
+        "obj": "ps2_jrpg_forest_tree.obj",
+        "mtl": "ps2_jrpg_forest_tree.mtl",
+        "manifest": "ps2_jrpg_forest_tree.json"
+      },
+      "content_target": "Content/Models",
+      "destination_map": {
+        "ps2_jrpg_forest_tree.obj": "Content/Models",
+        "ps2_jrpg_forest_tree.mtl": "Content/Models",
+        "ps2_jrpg_forest_tree.json": "Content/Models"
+      }
+    },
+    {
+      "name": "ps2_jrpg_bush",
+      "prompt": "ps2 jrpg bush",
+      "seed": 102,
+      "family": "foliage",
+      "manifest": "ps2_jrpg_bush.json",
+      "files": {
+        "obj": "ps2_jrpg_bush.obj",
+        "mtl": "ps2_jrpg_bush.mtl",
+        "manifest": "ps2_jrpg_bush.json"
+      },
+      "content_target": "Content/Models",
+      "destination_map": {
+        "ps2_jrpg_bush.obj": "Content/Models",
+        "ps2_jrpg_bush.mtl": "Content/Models",
+        "ps2_jrpg_bush.json": "Content/Models"
+      }
+    },
+    {
+      "name": "ps2_jrpg_highland_cedar_tree",
+      "prompt": "ps2 jrpg highland cedar tree",
+      "seed": 103,
+      "family": "foliage",
+      "manifest": "ps2_jrpg_highland_cedar_tree.json",
+      "files": {
+        "obj": "ps2_jrpg_highland_cedar_tree.obj",
+        "mtl": "ps2_jrpg_highland_cedar_tree.mtl",
+        "manifest": "ps2_jrpg_highland_cedar_tree.json"
+      },
+      "content_target": "Content/Models",
+      "destination_map": {
+        "ps2_jrpg_highland_cedar_tree.obj": "Content/Models",
+        "ps2_jrpg_highland_cedar_tree.mtl": "Content/Models",
+        "ps2_jrpg_highland_cedar_tree.json": "Content/Models"
+      }
+    },
+    {
+      "name": "ps2_jrpg_coastal_palm_tree",
+      "prompt": "ps2 jrpg coastal palm tree",
+      "seed": 104,
+      "family": "foliage",
+      "manifest": "ps2_jrpg_coastal_palm_tree.json",
+      "files": {
+        "obj": "ps2_jrpg_coastal_palm_tree.obj",
+        "mtl": "ps2_jrpg_coastal_palm_tree.mtl",
+        "manifest": "ps2_jrpg_coastal_palm_tree.json"
+      },
+      "content_target": "Content/Models",
+      "destination_map": {
+        "ps2_jrpg_coastal_palm_tree.obj": "Content/Models",
+        "ps2_jrpg_coastal_palm_tree.mtl": "Content/Models",
+        "ps2_jrpg_coastal_palm_tree.json": "Content/Models"
+      }
+    },
+    {
+      "name": "ps2_jrpg_sacred_grove_crystal_shrub",
+      "prompt": "ps2 jrpg sacred grove crystal shrub",
+      "seed": 105,
+      "family": "foliage",
+      "manifest": "ps2_jrpg_sacred_grove_crystal_shrub.json",
+      "files": {
+        "obj": "ps2_jrpg_sacred_grove_crystal_shrub.obj",
+        "mtl": "ps2_jrpg_sacred_grove_crystal_shrub.mtl",
+        "manifest": "ps2_jrpg_sacred_grove_crystal_shrub.json"
+      },
+      "content_target": "Content/Models",
+      "destination_map": {
+        "ps2_jrpg_sacred_grove_crystal_shrub.obj": "Content/Models",
+        "ps2_jrpg_sacred_grove_crystal_shrub.mtl": "Content/Models",
+        "ps2_jrpg_sacred_grove_crystal_shrub.json": "Content/Models"
+      }
+    },
+    {
+      "name": "ps2_jrpg_volcanic_deadwood_brush",
+      "prompt": "ps2 jrpg volcanic deadwood brush",
+      "seed": 106,
+      "family": "foliage",
+      "manifest": "ps2_jrpg_volcanic_deadwood_brush.json",
+      "files": {
+        "obj": "ps2_jrpg_volcanic_deadwood_brush.obj",
+        "mtl": "ps2_jrpg_volcanic_deadwood_brush.mtl",
+        "manifest": "ps2_jrpg_volcanic_deadwood_brush.json"
+      },
+      "content_target": "Content/Models",
+      "destination_map": {
+        "ps2_jrpg_volcanic_deadwood_brush.obj": "Content/Models",
+        "ps2_jrpg_volcanic_deadwood_brush.mtl": "Content/Models",
+        "ps2_jrpg_volcanic_deadwood_brush.json": "Content/Models"
+      }
+    },
+    {
+      "name": "ps2_jrpg_overworld_meadow_flower_cluster",
+      "prompt": "ps2 jrpg overworld meadow flower cluster",
+      "seed": 107,
+      "family": "foliage",
+      "manifest": "ps2_jrpg_overworld_meadow_flower_cluster.json",
+      "files": {
+        "obj": "ps2_jrpg_overworld_meadow_flower_cluster.obj",
+        "mtl": "ps2_jrpg_overworld_meadow_flower_cluster.mtl",
+        "manifest": "ps2_jrpg_overworld_meadow_flower_cluster.json"
+      },
+      "content_target": "Content/Models",
+      "destination_map": {
+        "ps2_jrpg_overworld_meadow_flower_cluster.obj": "Content/Models",
+        "ps2_jrpg_overworld_meadow_flower_cluster.mtl": "Content/Models",
+        "ps2_jrpg_overworld_meadow_flower_cluster.json": "Content/Models"
+      }
+    },
+    {
+      "name": "ps2_jrpg_swamp_gnarled_tree",
+      "prompt": "ps2 jrpg swamp gnarled tree",
+      "seed": 108,
+      "family": "foliage",
+      "manifest": "ps2_jrpg_swamp_gnarled_tree.json",
+      "files": {
+        "obj": "ps2_jrpg_swamp_gnarled_tree.obj",
+        "mtl": "ps2_jrpg_swamp_gnarled_tree.mtl",
+        "manifest": "ps2_jrpg_swamp_gnarled_tree.json"
+      },
+      "content_target": "Content/Models",
+      "destination_map": {
+        "ps2_jrpg_swamp_gnarled_tree.obj": "Content/Models",
+        "ps2_jrpg_swamp_gnarled_tree.mtl": "Content/Models",
+        "ps2_jrpg_swamp_gnarled_tree.json": "Content/Models"
+      }
+    },
+    {
+      "name": "ps2_jrpg_ruins_overgrown_ivy_bush",
+      "prompt": "ps2 jrpg ruins overgrown ivy bush",
+      "seed": 109,
+      "family": "foliage",
+      "manifest": "ps2_jrpg_ruins_overgrown_ivy_bush.json",
+      "files": {
+        "obj": "ps2_jrpg_ruins_overgrown_ivy_bush.obj",
+        "mtl": "ps2_jrpg_ruins_overgrown_ivy_bush.mtl",
+        "manifest": "ps2_jrpg_ruins_overgrown_ivy_bush.json"
+      },
+      "content_target": "Content/Models",
+      "destination_map": {
+        "ps2_jrpg_ruins_overgrown_ivy_bush.obj": "Content/Models",
+        "ps2_jrpg_ruins_overgrown_ivy_bush.mtl": "Content/Models",
+        "ps2_jrpg_ruins_overgrown_ivy_bush.json": "Content/Models"
+      }
+    },
+    {
+      "name": "ps2_jrpg_snowfield_frost_fern",
+      "prompt": "ps2 jrpg snowfield frost fern",
+      "seed": 110,
+      "family": "foliage",
+      "manifest": "ps2_jrpg_snowfield_frost_fern.json",
+      "files": {
+        "obj": "ps2_jrpg_snowfield_frost_fern.obj",
+        "mtl": "ps2_jrpg_snowfield_frost_fern.mtl",
+        "manifest": "ps2_jrpg_snowfield_frost_fern.json"
+      },
+      "content_target": "Content/Models",
+      "destination_map": {
+        "ps2_jrpg_snowfield_frost_fern.obj": "Content/Models",
+        "ps2_jrpg_snowfield_frost_fern.mtl": "Content/Models",
+        "ps2_jrpg_snowfield_frost_fern.json": "Content/Models"
+      }
+    },
+    {
+      "name": "ps2_jrpg_desert_scrub_cactus",
+      "prompt": "ps2 jrpg desert scrub cactus",
+      "seed": 111,
+      "family": "foliage",
+      "manifest": "ps2_jrpg_desert_scrub_cactus.json",
+      "files": {
+        "obj": "ps2_jrpg_desert_scrub_cactus.obj",
+        "mtl": "ps2_jrpg_desert_scrub_cactus.mtl",
+        "manifest": "ps2_jrpg_desert_scrub_cactus.json"
+      },
+      "content_target": "Content/Models",
+      "destination_map": {
+        "ps2_jrpg_desert_scrub_cactus.obj": "Content/Models",
+        "ps2_jrpg_desert_scrub_cactus.mtl": "Content/Models",
+        "ps2_jrpg_desert_scrub_cactus.json": "Content/Models"
+      }
+    },
+    {
+      "name": "ps2_jrpg_dungeon_cave_fungus_cluster",
+      "prompt": "ps2 jrpg dungeon cave fungus cluster",
+      "seed": 112,
+      "family": "foliage",
+      "manifest": "ps2_jrpg_dungeon_cave_fungus_cluster.json",
+      "files": {
+        "obj": "ps2_jrpg_dungeon_cave_fungus_cluster.obj",
+        "mtl": "ps2_jrpg_dungeon_cave_fungus_cluster.mtl",
+        "manifest": "ps2_jrpg_dungeon_cave_fungus_cluster.json"
+      },
+      "content_target": "Content/Models",
+      "destination_map": {
+        "ps2_jrpg_dungeon_cave_fungus_cluster.obj": "Content/Models",
+        "ps2_jrpg_dungeon_cave_fungus_cluster.mtl": "Content/Models",
+        "ps2_jrpg_dungeon_cave_fungus_cluster.json": "Content/Models"
+      }
+    },
+    {
+      "name": "ps2_jrpg_snowfield_snow_pine_conifer",
+      "prompt": "ps2 jrpg snowfield snow pine conifer",
+      "seed": 113,
+      "family": "foliage",
+      "manifest": "ps2_jrpg_snowfield_snow_pine_conifer.json",
+      "files": {
+        "obj": "ps2_jrpg_snowfield_snow_pine_conifer.obj",
+        "mtl": "ps2_jrpg_snowfield_snow_pine_conifer.mtl",
+        "manifest": "ps2_jrpg_snowfield_snow_pine_conifer.json"
+      },
+      "content_target": "Content/Models",
+      "destination_map": {
+        "ps2_jrpg_snowfield_snow_pine_conifer.obj": "Content/Models",
+        "ps2_jrpg_snowfield_snow_pine_conifer.mtl": "Content/Models",
+        "ps2_jrpg_snowfield_snow_pine_conifer.json": "Content/Models"
+      }
+    },
+    {
+      "name": "ps2_jrpg_marsh_wetland_reed_sedge",
+      "prompt": "ps2 jrpg marsh wetland reed sedge",
+      "seed": 114,
+      "family": "foliage",
+      "manifest": "ps2_jrpg_marsh_wetland_reed_sedge.json",
+      "files": {
+        "obj": "ps2_jrpg_marsh_wetland_reed_sedge.obj",
+        "mtl": "ps2_jrpg_marsh_wetland_reed_sedge.mtl",
+        "manifest": "ps2_jrpg_marsh_wetland_reed_sedge.json"
+      },
+      "content_target": "Content/Models",
+      "destination_map": {
+        "ps2_jrpg_marsh_wetland_reed_sedge.obj": "Content/Models",
+        "ps2_jrpg_marsh_wetland_reed_sedge.mtl": "Content/Models",
+        "ps2_jrpg_marsh_wetland_reed_sedge.json": "Content/Models"
+      }
+    },
+    {
+      "name": "ps2_jrpg_sacred_ancient_fern_frond",
+      "prompt": "ps2 jrpg sacred ancient fern frond",
+      "seed": 115,
+      "family": "foliage",
+      "manifest": "ps2_jrpg_sacred_ancient_fern_frond.json",
+      "files": {
+        "obj": "ps2_jrpg_sacred_ancient_fern_frond.obj",
+        "mtl": "ps2_jrpg_sacred_ancient_fern_frond.mtl",
+        "manifest": "ps2_jrpg_sacred_ancient_fern_frond.json"
+      },
+      "content_target": "Content/Models",
+      "destination_map": {
+        "ps2_jrpg_sacred_ancient_fern_frond.obj": "Content/Models",
+        "ps2_jrpg_sacred_ancient_fern_frond.mtl": "Content/Models",
+        "ps2_jrpg_sacred_ancient_fern_frond.json": "Content/Models"
+      }
+    },
+    {
+      "name": "ps2_jrpg_volcanic_obsidian_rock_cluster",
+      "prompt": "ps2 jrpg volcanic obsidian rock cluster",
+      "seed": 116,
+      "family": "foliage",
+      "manifest": "ps2_jrpg_volcanic_obsidian_rock_cluster.json",
+      "files": {
+        "obj": "ps2_jrpg_volcanic_obsidian_rock_cluster.obj",
+        "mtl": "ps2_jrpg_volcanic_obsidian_rock_cluster.mtl",
+        "manifest": "ps2_jrpg_volcanic_obsidian_rock_cluster.json"
+      },
+      "content_target": "Content/Models",
+      "destination_map": {
+        "ps2_jrpg_volcanic_obsidian_rock_cluster.obj": "Content/Models",
+        "ps2_jrpg_volcanic_obsidian_rock_cluster.mtl": "Content/Models",
+        "ps2_jrpg_volcanic_obsidian_rock_cluster.json": "Content/Models"
+      }
+    },
+    {
+      "name": "ps2_jrpg_coastal_reef_coral_formation",
+      "prompt": "ps2 jrpg coastal reef coral formation",
+      "seed": 117,
+      "family": "foliage",
+      "manifest": "ps2_jrpg_coastal_reef_coral_formation.json",
+      "files": {
+        "obj": "ps2_jrpg_coastal_reef_coral_formation.obj",
+        "mtl": "ps2_jrpg_coastal_reef_coral_formation.mtl",
+        "manifest": "ps2_jrpg_coastal_reef_coral_formation.json"
+      },
+      "content_target": "Content/Models",
+      "destination_map": {
+        "ps2_jrpg_coastal_reef_coral_formation.obj": "Content/Models",
+        "ps2_jrpg_coastal_reef_coral_formation.mtl": "Content/Models",
+        "ps2_jrpg_coastal_reef_coral_formation.json": "Content/Models"
+      }
+    },
+    {
+      "name": "ps2_jrpg_highland_heather_moorland_shrub",
+      "prompt": "ps2 jrpg highland heather moorland shrub",
+      "seed": 118,
+      "family": "foliage",
+      "manifest": "ps2_jrpg_highland_heather_moorland_shrub.json",
+      "files": {
+        "obj": "ps2_jrpg_highland_heather_moorland_shrub.obj",
+        "mtl": "ps2_jrpg_highland_heather_moorland_shrub.mtl",
+        "manifest": "ps2_jrpg_highland_heather_moorland_shrub.json"
+      },
+      "content_target": "Content/Models",
+      "destination_map": {
+        "ps2_jrpg_highland_heather_moorland_shrub.obj": "Content/Models",
+        "ps2_jrpg_highland_heather_moorland_shrub.mtl": "Content/Models",
+        "ps2_jrpg_highland_heather_moorland_shrub.json": "Content/Models"
+      }
+    },
+    {
+      "name": "ps2_jrpg_forest_underbrush_thorn_cluster",
+      "prompt": "ps2 jrpg forest underbrush thorn cluster",
+      "seed": 119,
+      "family": "foliage",
+      "manifest": "ps2_jrpg_forest_underbrush_thorn_cluster.json",
+      "files": {
+        "obj": "ps2_jrpg_forest_underbrush_thorn_cluster.obj",
+        "mtl": "ps2_jrpg_forest_underbrush_thorn_cluster.mtl",
+        "manifest": "ps2_jrpg_forest_underbrush_thorn_cluster.json"
+      },
+      "content_target": "Content/Models",
+      "destination_map": {
+        "ps2_jrpg_forest_underbrush_thorn_cluster.obj": "Content/Models",
+        "ps2_jrpg_forest_underbrush_thorn_cluster.mtl": "Content/Models",
+        "ps2_jrpg_forest_underbrush_thorn_cluster.json": "Content/Models"
+      }
+    },
+    {
+      "name": "ps2_jrpg_sacred_grove_willow_draping_tree",
+      "prompt": "ps2 jrpg sacred grove willow draping tree",
+      "seed": 120,
+      "family": "foliage",
+      "manifest": "ps2_jrpg_sacred_grove_willow_draping_tree.json",
+      "files": {
+        "obj": "ps2_jrpg_sacred_grove_willow_draping_tree.obj",
+        "mtl": "ps2_jrpg_sacred_grove_willow_draping_tree.mtl",
+        "manifest": "ps2_jrpg_sacred_grove_willow_draping_tree.json"
+      },
+      "content_target": "Content/Models",
+      "destination_map": {
+        "ps2_jrpg_sacred_grove_willow_draping_tree.obj": "Content/Models",
+        "ps2_jrpg_sacred_grove_willow_draping_tree.mtl": "Content/Models",
+        "ps2_jrpg_sacred_grove_willow_draping_tree.json": "Content/Models"
+      }
+    }
+  ],
+  "destination_map": {
+    "ps2_jrpg_forest_tree.obj": "Content/Models",
+    "ps2_jrpg_forest_tree.mtl": "Content/Models",
+    "ps2_jrpg_forest_tree.json": "Content/Models",
+    "ps2_jrpg_bush.obj": "Content/Models",
+    "ps2_jrpg_bush.mtl": "Content/Models",
+    "ps2_jrpg_bush.json": "Content/Models",
+    "ps2_jrpg_highland_cedar_tree.obj": "Content/Models",
+    "ps2_jrpg_highland_cedar_tree.mtl": "Content/Models",
+    "ps2_jrpg_highland_cedar_tree.json": "Content/Models",
+    "ps2_jrpg_coastal_palm_tree.obj": "Content/Models",
+    "ps2_jrpg_coastal_palm_tree.mtl": "Content/Models",
+    "ps2_jrpg_coastal_palm_tree.json": "Content/Models",
+    "ps2_jrpg_sacred_grove_crystal_shrub.obj": "Content/Models",
+    "ps2_jrpg_sacred_grove_crystal_shrub.mtl": "Content/Models",
+    "ps2_jrpg_sacred_grove_crystal_shrub.json": "Content/Models",
+    "ps2_jrpg_volcanic_deadwood_brush.obj": "Content/Models",
+    "ps2_jrpg_volcanic_deadwood_brush.mtl": "Content/Models",
+    "ps2_jrpg_volcanic_deadwood_brush.json": "Content/Models",
+    "ps2_jrpg_overworld_meadow_flower_cluster.obj": "Content/Models",
+    "ps2_jrpg_overworld_meadow_flower_cluster.mtl": "Content/Models",
+    "ps2_jrpg_overworld_meadow_flower_cluster.json": "Content/Models",
+    "ps2_jrpg_swamp_gnarled_tree.obj": "Content/Models",
+    "ps2_jrpg_swamp_gnarled_tree.mtl": "Content/Models",
+    "ps2_jrpg_swamp_gnarled_tree.json": "Content/Models",
+    "ps2_jrpg_ruins_overgrown_ivy_bush.obj": "Content/Models",
+    "ps2_jrpg_ruins_overgrown_ivy_bush.mtl": "Content/Models",
+    "ps2_jrpg_ruins_overgrown_ivy_bush.json": "Content/Models",
+    "ps2_jrpg_snowfield_frost_fern.obj": "Content/Models",
+    "ps2_jrpg_snowfield_frost_fern.mtl": "Content/Models",
+    "ps2_jrpg_snowfield_frost_fern.json": "Content/Models",
+    "ps2_jrpg_desert_scrub_cactus.obj": "Content/Models",
+    "ps2_jrpg_desert_scrub_cactus.mtl": "Content/Models",
+    "ps2_jrpg_desert_scrub_cactus.json": "Content/Models",
+    "ps2_jrpg_dungeon_cave_fungus_cluster.obj": "Content/Models",
+    "ps2_jrpg_dungeon_cave_fungus_cluster.mtl": "Content/Models",
+    "ps2_jrpg_dungeon_cave_fungus_cluster.json": "Content/Models",
+    "ps2_jrpg_snowfield_snow_pine_conifer.obj": "Content/Models",
+    "ps2_jrpg_snowfield_snow_pine_conifer.mtl": "Content/Models",
+    "ps2_jrpg_snowfield_snow_pine_conifer.json": "Content/Models",
+    "ps2_jrpg_marsh_wetland_reed_sedge.obj": "Content/Models",
+    "ps2_jrpg_marsh_wetland_reed_sedge.mtl": "Content/Models",
+    "ps2_jrpg_marsh_wetland_reed_sedge.json": "Content/Models",
+    "ps2_jrpg_sacred_ancient_fern_frond.obj": "Content/Models",
+    "ps2_jrpg_sacred_ancient_fern_frond.mtl": "Content/Models",
+    "ps2_jrpg_sacred_ancient_fern_frond.json": "Content/Models",
+    "ps2_jrpg_volcanic_obsidian_rock_cluster.obj": "Content/Models",
+    "ps2_jrpg_volcanic_obsidian_rock_cluster.mtl": "Content/Models",
+    "ps2_jrpg_volcanic_obsidian_rock_cluster.json": "Content/Models",
+    "ps2_jrpg_coastal_reef_coral_formation.obj": "Content/Models",
+    "ps2_jrpg_coastal_reef_coral_formation.mtl": "Content/Models",
+    "ps2_jrpg_coastal_reef_coral_formation.json": "Content/Models",
+    "ps2_jrpg_highland_heather_moorland_shrub.obj": "Content/Models",
+    "ps2_jrpg_highland_heather_moorland_shrub.mtl": "Content/Models",
+    "ps2_jrpg_highland_heather_moorland_shrub.json": "Content/Models",
+    "ps2_jrpg_forest_underbrush_thorn_cluster.obj": "Content/Models",
+    "ps2_jrpg_forest_underbrush_thorn_cluster.mtl": "Content/Models",
+    "ps2_jrpg_forest_underbrush_thorn_cluster.json": "Content/Models",
+    "ps2_jrpg_sacred_grove_willow_draping_tree.obj": "Content/Models",
+    "ps2_jrpg_sacred_grove_willow_draping_tree.mtl": "Content/Models",
+    "ps2_jrpg_sacred_grove_willow_draping_tree.json": "Content/Models"
+  }
+}

@@ -1,0 +1,424 @@
+{
+  "version": "1.0",
+  "asset_family": "ui_icon_pack",
+  "family": "ui_icon_pack",
+  "name": "ui_icon_pack",
+  "prompt": "ui icon pack",
+  "seed": 101,
+  "files": {
+    "ps2_jrpg_quest_icon": "ps2_jrpg_quest_icon.json",
+    "ps2_jrpg_shop_icon": "ps2_jrpg_shop_icon.json",
+    "ps2_jrpg_save_crystal_icon": "ps2_jrpg_save_crystal_icon.json",
+    "ps2_jrpg_summon_relic_icon": "ps2_jrpg_summon_relic_icon.json",
+    "ps2_jrpg_imperial_faction_icon": "ps2_jrpg_imperial_faction_icon.json",
+    "ps2_jrpg_rebel_faction_icon": "ps2_jrpg_rebel_faction_icon.json",
+    "ps2_jrpg_world_map_region_marker_icon": "ps2_jrpg_world_map_region_marker_icon.json",
+    "ps2_jrpg_battle_status_effect_icon": "ps2_jrpg_battle_status_effect_icon.json",
+    "ps2_jrpg_equipment_slot_icon": "ps2_jrpg_equipment_slot_icon.json",
+    "ps2_jrpg_key_item_relic_icon": "ps2_jrpg_key_item_relic_icon.json",
+    "ps2_jrpg_sacred_shrine_blessing_icon": "ps2_jrpg_sacred_shrine_blessing_icon.json",
+    "ps2_jrpg_corrupted_zone_warning_icon": "ps2_jrpg_corrupted_zone_warning_icon.json",
+    "ps2_jrpg_hp_gauge_icon": "ps2_jrpg_hp_gauge_icon.json",
+    "ps2_jrpg_mp_gauge_icon": "ps2_jrpg_mp_gauge_icon.json",
+    "ps2_jrpg_limit_break_ready_icon": "ps2_jrpg_limit_break_ready_icon.json",
+    "ps2_jrpg_elemental_fire_skill_icon": "ps2_jrpg_elemental_fire_skill_icon.json",
+    "ps2_jrpg_elemental_ice_skill_icon": "ps2_jrpg_elemental_ice_skill_icon.json",
+    "ps2_jrpg_elemental_lightning_skill_icon": "ps2_jrpg_elemental_lightning_skill_icon.json",
+    "ps2_jrpg_party_leader_marker_icon": "ps2_jrpg_party_leader_marker_icon.json",
+    "ps2_jrpg_world_map_warp_point_icon": "ps2_jrpg_world_map_warp_point_icon.json"
+  },
+  "tags": [
+    "ui_icons",
+    "ui_icons",
+    "ui_icons",
+    "ui_icons",
+    "ui_icons",
+    "ui_icons",
+    "ui_icons",
+    "ui_icons",
+    "ui_icons",
+    "ui_icons",
+    "ui_icons",
+    "ui_icons",
+    "ui_icons",
+    "ui_icons",
+    "ui_icons",
+    "ui_icons",
+    "ui_icons",
+    "ui_icons",
+    "ui_icons",
+    "ui_icons"
+  ],
+  "source_generator": "creation_engine.engine.CreationEngine",
+  "content_target": {
+    "ui_icons": "Content/UI"
+  },
+  "style_profile": "ps2_ff7_ff12_highest_quality_ps2",
+  "asset_dimension": "3d",
+  "render_pipeline": "3d_pbr",
+  "coordinate_space": "Y_up",
+  "assets": [
+    {
+      "name": "ps2_jrpg_quest_icon",
+      "prompt": "ps2 jrpg quest icon",
+      "seed": 101,
+      "family": "ui_icons",
+      "manifest": "ps2_jrpg_quest_icon.json",
+      "files": {
+        "image": "ps2_jrpg_quest_icon.png",
+        "manifest": "ps2_jrpg_quest_icon.json"
+      },
+      "content_target": "Content/UI",
+      "destination_map": {
+        "ps2_jrpg_quest_icon.png": "Content/UI",
+        "ps2_jrpg_quest_icon.json": "Content/UI"
+      }
+    },
+    {
+      "name": "ps2_jrpg_shop_icon",
+      "prompt": "ps2 jrpg shop icon",
+      "seed": 102,
+      "family": "ui_icons",
+      "manifest": "ps2_jrpg_shop_icon.json",
+      "files": {
+        "image": "ps2_jrpg_shop_icon.png",
+        "manifest": "ps2_jrpg_shop_icon.json"
+      },
+      "content_target": "Content/UI",
+      "destination_map": {
+        "ps2_jrpg_shop_icon.png": "Content/UI",
+        "ps2_jrpg_shop_icon.json": "Content/UI"
+      }
+    },
+    {
+      "name": "ps2_jrpg_save_crystal_icon",
+      "prompt": "ps2 jrpg save crystal icon",
+      "seed": 103,
+      "family": "ui_icons",
+      "manifest": "ps2_jrpg_save_crystal_icon.json",
+      "files": {
+        "image": "ps2_jrpg_save_crystal_icon.png",
+        "manifest": "ps2_jrpg_save_crystal_icon.json"
+      },
+      "content_target": "Content/UI",
+      "destination_map": {
+        "ps2_jrpg_save_crystal_icon.png": "Content/UI",
+        "ps2_jrpg_save_crystal_icon.json": "Content/UI"
+      }
+    },
+    {
+      "name": "ps2_jrpg_summon_relic_icon",
+      "prompt": "ps2 jrpg summon relic icon",
+      "seed": 104,
+      "family": "ui_icons",
+      "manifest": "ps2_jrpg_summon_relic_icon.json",
+      "files": {
+        "image": "ps2_jrpg_summon_relic_icon.png",
+        "manifest": "ps2_jrpg_summon_relic_icon.json"
+      },
+      "content_target": "Content/UI",
+      "destination_map": {
+        "ps2_jrpg_summon_relic_icon.png": "Content/UI",
+        "ps2_jrpg_summon_relic_icon.json": "Content/UI"
+      }
+    },
+    {
+      "name": "ps2_jrpg_imperial_faction_icon",
+      "prompt": "ps2 jrpg imperial faction icon",
+      "seed": 105,
+      "family": "ui_icons",
+      "manifest": "ps2_jrpg_imperial_faction_icon.json",
+      "files": {
+        "image": "ps2_jrpg_imperial_faction_icon.png",
+        "manifest": "ps2_jrpg_imperial_faction_icon.json"
+      },
+      "content_target": "Content/UI",
+      "destination_map": {
+        "ps2_jrpg_imperial_faction_icon.png": "Content/UI",
+        "ps2_jrpg_imperial_faction_icon.json": "Content/UI"
+      }
+    },
+    {
+      "name": "ps2_jrpg_rebel_faction_icon",
+      "prompt": "ps2 jrpg rebel faction icon",
+      "seed": 106,
+      "family": "ui_icons",
+      "manifest": "ps2_jrpg_rebel_faction_icon.json",
+      "files": {
+        "image": "ps2_jrpg_rebel_faction_icon.png",
+        "manifest": "ps2_jrpg_rebel_faction_icon.json"
+      },
+      "content_target": "Content/UI",
+      "destination_map": {
+        "ps2_jrpg_rebel_faction_icon.png": "Content/UI",
+        "ps2_jrpg_rebel_faction_icon.json": "Content/UI"
+      }
+    },
+    {
+      "name": "ps2_jrpg_world_map_region_marker_icon",
+      "prompt": "ps2 jrpg world map region marker icon",
+      "seed": 107,
+      "family": "ui_icons",
+      "manifest": "ps2_jrpg_world_map_region_marker_icon.json",
+      "files": {
+        "image": "ps2_jrpg_world_map_region_marker_icon.png",
+        "manifest": "ps2_jrpg_world_map_region_marker_icon.json"
+      },
+      "content_target": "Content/UI",
+      "destination_map": {
+        "ps2_jrpg_world_map_region_marker_icon.png": "Content/UI",
+        "ps2_jrpg_world_map_region_marker_icon.json": "Content/UI"
+      }
+    },
+    {
+      "name": "ps2_jrpg_battle_status_effect_icon",
+      "prompt": "ps2 jrpg battle status effect icon",
+      "seed": 108,
+      "family": "ui_icons",
+      "manifest": "ps2_jrpg_battle_status_effect_icon.json",
+      "files": {
+        "image": "ps2_jrpg_battle_status_effect_icon.png",
+        "manifest": "ps2_jrpg_battle_status_effect_icon.json"
+      },
+      "content_target": "Content/UI",
+      "destination_map": {
+        "ps2_jrpg_battle_status_effect_icon.png": "Content/UI",
+        "ps2_jrpg_battle_status_effect_icon.json": "Content/UI"
+      }
+    },
+    {
+      "name": "ps2_jrpg_equipment_slot_icon",
+      "prompt": "ps2 jrpg equipment slot icon",
+      "seed": 109,
+      "family": "ui_icons",
+      "manifest": "ps2_jrpg_equipment_slot_icon.json",
+      "files": {
+        "image": "ps2_jrpg_equipment_slot_icon.png",
+        "manifest": "ps2_jrpg_equipment_slot_icon.json"
+      },
+      "content_target": "Content/UI",
+      "destination_map": {
+        "ps2_jrpg_equipment_slot_icon.png": "Content/UI",
+        "ps2_jrpg_equipment_slot_icon.json": "Content/UI"
+      }
+    },
+    {
+      "name": "ps2_jrpg_key_item_relic_icon",
+      "prompt": "ps2 jrpg key item relic icon",
+      "seed": 110,
+      "family": "ui_icons",
+      "manifest": "ps2_jrpg_key_item_relic_icon.json",
+      "files": {
+        "image": "ps2_jrpg_key_item_relic_icon.png",
+        "manifest": "ps2_jrpg_key_item_relic_icon.json"
+      },
+      "content_target": "Content/UI",
+      "destination_map": {
+        "ps2_jrpg_key_item_relic_icon.png": "Content/UI",
+        "ps2_jrpg_key_item_relic_icon.json": "Content/UI"
+      }
+    },
+    {
+      "name": "ps2_jrpg_sacred_shrine_blessing_icon",
+      "prompt": "ps2 jrpg sacred shrine blessing icon",
+      "seed": 111,
+      "family": "ui_icons",
+      "manifest": "ps2_jrpg_sacred_shrine_blessing_icon.json",
+      "files": {
+        "image": "ps2_jrpg_sacred_shrine_blessing_icon.png",
+        "manifest": "ps2_jrpg_sacred_shrine_blessing_icon.json"
+      },
+      "content_target": "Content/UI",
+      "destination_map": {
+        "ps2_jrpg_sacred_shrine_blessing_icon.png": "Content/UI",
+        "ps2_jrpg_sacred_shrine_blessing_icon.json": "Content/UI"
+      }
+    },
+    {
+      "name": "ps2_jrpg_corrupted_zone_warning_icon",
+      "prompt": "ps2 jrpg corrupted zone warning icon",
+      "seed": 112,
+      "family": "ui_icons",
+      "manifest": "ps2_jrpg_corrupted_zone_warning_icon.json",
+      "files": {
+        "image": "ps2_jrpg_corrupted_zone_warning_icon.png",
+        "manifest": "ps2_jrpg_corrupted_zone_warning_icon.json"
+      },
+      "content_target": "Content/UI",
+      "destination_map": {
+        "ps2_jrpg_corrupted_zone_warning_icon.png": "Content/UI",
+        "ps2_jrpg_corrupted_zone_warning_icon.json": "Content/UI"
+      }
+    },
+    {
+      "name": "ps2_jrpg_hp_gauge_icon",
+      "prompt": "ps2 jrpg hp gauge icon",
+      "seed": 113,
+      "family": "ui_icons",
+      "manifest": "ps2_jrpg_hp_gauge_icon.json",
+      "files": {
+        "image": "ps2_jrpg_hp_gauge_icon.png",
+        "manifest": "ps2_jrpg_hp_gauge_icon.json"
+      },
+      "content_target": "Content/UI",
+      "destination_map": {
+        "ps2_jrpg_hp_gauge_icon.png": "Content/UI",
+        "ps2_jrpg_hp_gauge_icon.json": "Content/UI"
+      }
+    },
+    {
+      "name": "ps2_jrpg_mp_gauge_icon",
+      "prompt": "ps2 jrpg mp gauge icon",
+      "seed": 114,
+      "family": "ui_icons",
+      "manifest": "ps2_jrpg_mp_gauge_icon.json",
+      "files": {
+        "image": "ps2_jrpg_mp_gauge_icon.png",
+        "manifest": "ps2_jrpg_mp_gauge_icon.json"
+      },
+      "content_target": "Content/UI",
+      "destination_map": {
+        "ps2_jrpg_mp_gauge_icon.png": "Content/UI",
+        "ps2_jrpg_mp_gauge_icon.json": "Content/UI"
+      }
+    },
+    {
+      "name": "ps2_jrpg_limit_break_ready_icon",
+      "prompt": "ps2 jrpg limit break ready icon",
+      "seed": 115,
+      "family": "ui_icons",
+      "manifest": "ps2_jrpg_limit_break_ready_icon.json",
+      "files": {
+        "image": "ps2_jrpg_limit_break_ready_icon.png",
+        "manifest": "ps2_jrpg_limit_break_ready_icon.json"
+      },
+      "content_target": "Content/UI",
+      "destination_map": {
+        "ps2_jrpg_limit_break_ready_icon.png": "Content/UI",
+        "ps2_jrpg_limit_break_ready_icon.json": "Content/UI"
+      }
+    },
+    {
+      "name": "ps2_jrpg_elemental_fire_skill_icon",
+      "prompt": "ps2 jrpg elemental fire skill icon",
+      "seed": 116,
+      "family": "ui_icons",
+      "manifest": "ps2_jrpg_elemental_fire_skill_icon.json",
+      "files": {
+        "image": "ps2_jrpg_elemental_fire_skill_icon.png",
+        "manifest": "ps2_jrpg_elemental_fire_skill_icon.json"
+      },
+      "content_target": "Content/UI",
+      "destination_map": {
+        "ps2_jrpg_elemental_fire_skill_icon.png": "Content/UI",
+        "ps2_jrpg_elemental_fire_skill_icon.json": "Content/UI"
+      }
+    },
+    {
+      "name": "ps2_jrpg_elemental_ice_skill_icon",
+      "prompt": "ps2 jrpg elemental ice skill icon",
+      "seed": 117,
+      "family": "ui_icons",
+      "manifest": "ps2_jrpg_elemental_ice_skill_icon.json",
+      "files": {
+        "image": "ps2_jrpg_elemental_ice_skill_icon.png",
+        "manifest": "ps2_jrpg_elemental_ice_skill_icon.json"
+      },
+      "content_target": "Content/UI",
+      "destination_map": {
+        "ps2_jrpg_elemental_ice_skill_icon.png": "Content/UI",
+        "ps2_jrpg_elemental_ice_skill_icon.json": "Content/UI"
+      }
+    },
+    {
+      "name": "ps2_jrpg_elemental_lightning_skill_icon",
+      "prompt": "ps2 jrpg elemental lightning skill icon",
+      "seed": 118,
+      "family": "ui_icons",
+      "manifest": "ps2_jrpg_elemental_lightning_skill_icon.json",
+      "files": {
+        "image": "ps2_jrpg_elemental_lightning_skill_icon.png",
+        "manifest": "ps2_jrpg_elemental_lightning_skill_icon.json"
+      },
+      "content_target": "Content/UI",
+      "destination_map": {
+        "ps2_jrpg_elemental_lightning_skill_icon.png": "Content/UI",
+        "ps2_jrpg_elemental_lightning_skill_icon.json": "Content/UI"
+      }
+    },
+    {
+      "name": "ps2_jrpg_party_leader_marker_icon",
+      "prompt": "ps2 jrpg party leader marker icon",
+      "seed": 119,
+      "family": "ui_icons",
+      "manifest": "ps2_jrpg_party_leader_marker_icon.json",
+      "files": {
+        "image": "ps2_jrpg_party_leader_marker_icon.png",
+        "manifest": "ps2_jrpg_party_leader_marker_icon.json"
+      },
+      "content_target": "Content/UI",
+      "destination_map": {
+        "ps2_jrpg_party_leader_marker_icon.png": "Content/UI",
+        "ps2_jrpg_party_leader_marker_icon.json": "Content/UI"
+      }
+    },
+    {
+      "name": "ps2_jrpg_world_map_warp_point_icon",
+      "prompt": "ps2 jrpg world map warp point icon",
+      "seed": 120,
+      "family": "ui_icons",
+      "manifest": "ps2_jrpg_world_map_warp_point_icon.json",
+      "files": {
+        "image": "ps2_jrpg_world_map_warp_point_icon.png",
+        "manifest": "ps2_jrpg_world_map_warp_point_icon.json"
+      },
+      "content_target": "Content/UI",
+      "destination_map": {
+        "ps2_jrpg_world_map_warp_point_icon.png": "Content/UI",
+        "ps2_jrpg_world_map_warp_point_icon.json": "Content/UI"
+      }
+    }
+  ],
+  "destination_map": {
+    "ps2_jrpg_quest_icon.png": "Content/UI",
+    "ps2_jrpg_quest_icon.json": "Content/UI",
+    "ps2_jrpg_shop_icon.png": "Content/UI",
+    "ps2_jrpg_shop_icon.json": "Content/UI",
+    "ps2_jrpg_save_crystal_icon.png": "Content/UI",
+    "ps2_jrpg_save_crystal_icon.json": "Content/UI",
+    "ps2_jrpg_summon_relic_icon.png": "Content/UI",
+    "ps2_jrpg_summon_relic_icon.json": "Content/UI",
+    "ps2_jrpg_imperial_faction_icon.png": "Content/UI",
+    "ps2_jrpg_imperial_faction_icon.json": "Content/UI",
+    "ps2_jrpg_rebel_faction_icon.png": "Content/UI",
+    "ps2_jrpg_rebel_faction_icon.json": "Content/UI",
+    "ps2_jrpg_world_map_region_marker_icon.png": "Content/UI",
+    "ps2_jrpg_world_map_region_marker_icon.json": "Content/UI",
+    "ps2_jrpg_battle_status_effect_icon.png": "Content/UI",
+    "ps2_jrpg_battle_status_effect_icon.json": "Content/UI",
+    "ps2_jrpg_equipment_slot_icon.png": "Content/UI",
+    "ps2_jrpg_equipment_slot_icon.json": "Content/UI",
+    "ps2_jrpg_key_item_relic_icon.png": "Content/UI",
+    "ps2_jrpg_key_item_relic_icon.json": "Content/UI",
+    "ps2_jrpg_sacred_shrine_blessing_icon.png": "Content/UI",
+    "ps2_jrpg_sacred_shrine_blessing_icon.json": "Content/UI",
+    "ps2_jrpg_corrupted_zone_warning_icon.png": "Content/UI",
+    "ps2_jrpg_corrupted_zone_warning_icon.json": "Content/UI",
+    "ps2_jrpg_hp_gauge_icon.png": "Content/UI",
+    "ps2_jrpg_hp_gauge_icon.json": "Content/UI",
+    "ps2_jrpg_mp_gauge_icon.png": "Content/UI",
+    "ps2_jrpg_mp_gauge_icon.json": "Content/UI",
+    "ps2_jrpg_limit_break_ready_icon.png": "Content/UI",
+    "ps2_jrpg_limit_break_ready_icon.json": "Content/UI",
+    "ps2_jrpg_elemental_fire_skill_icon.png": "Content/UI",
+    "ps2_jrpg_elemental_fire_skill_icon.json": "Content/UI",
+    "ps2_jrpg_elemental_ice_skill_icon.png": "Content/UI",
+    "ps2_jrpg_elemental_ice_skill_icon.json": "Content/UI",
+    "ps2_jrpg_elemental_lightning_skill_icon.png": "Content/UI",
+    "ps2_jrpg_elemental_lightning_skill_icon.json": "Content/UI",
+    "ps2_jrpg_party_leader_marker_icon.png": "Content/UI",
+    "ps2_jrpg_party_leader_marker_icon.json": "Content/UI",
+    "ps2_jrpg_world_map_warp_point_icon.png": "Content/UI",
+    "ps2_jrpg_world_map_warp_point_icon.json": "Content/UI"
+  }
+}

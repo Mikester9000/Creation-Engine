@@ -1,0 +1,54 @@
+{
+  "version": "1.0",
+  "asset_family": "enemies_static",
+  "family": "enemies_static",
+  "name": "ps2_jrpg_dungeon_golem_sentinel_enemy",
+  "prompt": "ps2 jrpg dungeon golem sentinel enemy",
+  "seed": 111,
+  "files": {
+    "obj": "ps2_jrpg_dungeon_golem_sentinel_enemy.obj",
+    "mtl": "ps2_jrpg_dungeon_golem_sentinel_enemy.mtl",
+    "manifest": "ps2_jrpg_dungeon_golem_sentinel_enemy.json"
+  },
+  "tags": [
+    "enemies_static",
+    "enemy_beast"
+  ],
+  "source_generator": "creation_engine.mesh.mesh_builder.build_mesh_from_prompt",
+  "content_target": {
+    "model": "Content/Models",
+    "materials": "Content/Materials"
+  },
+  "style_profile": "ps2_ff7_ff12_highest_quality_ps2",
+  "asset_dimension": "3d",
+  "render_pipeline": "3d_pbr",
+  "coordinate_space": "Y_up",
+  "material_slots": [
+    "bone",
+    "leather",
+    "metal"
+  ],
+  "narrative_tags": {
+    "region": "overworld",
+    "faction": "neutral",
+    "era": "present_day",
+    "story_phase": "early_journey",
+    "culture_theme": "mystic"
+  },
+  "world_region_id": "overworld__mystic",
+  "exploration_intent": "overworld_traversal",
+  "placement_intent": "enemy_placeholder",
+  "lod_policy": {
+    "lod0": 0,
+    "lod1": 16,
+    "lod2": 32
+  },
+  "complexity": "medium",
+  "complexity_policy": {
+    "vertex_budget": 512,
+    "part_jitter": 0.04
+  },
+  "vertex_count": 46,
+  "triangle_count": 72,
+  "unit_scale": 1.0
+}

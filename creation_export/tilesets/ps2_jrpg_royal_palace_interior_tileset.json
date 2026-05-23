@@ -1,0 +1,80 @@
+{
+  "version": "1.1",
+  "asset_family": "tilesets",
+  "family": "tilesets",
+  "name": "ps2_jrpg_royal_palace_interior_tileset",
+  "prompt": "ps2 jrpg royal palace interior tileset",
+  "seed": 110,
+  "theme": "overworld",
+  "tileset": "overworld_tileset_v1",
+  "tileset_meta": {
+    "id": "overworld_tileset_v1",
+    "name": "Overworld",
+    "tileSize": 64,
+    "style": "outdoor"
+  },
+  "tiles": [
+    {
+      "id": 0,
+      "name": "grass_plain",
+      "passable": true,
+      "material_family": "grass"
+    },
+    {
+      "id": 1,
+      "name": "cliff_wall",
+      "passable": false,
+      "material_family": "stone"
+    },
+    {
+      "id": 2,
+      "name": "river",
+      "passable": false,
+      "material_family": "water"
+    },
+    {
+      "id": 3,
+      "name": "forest_edge",
+      "passable": true,
+      "material_family": "leaf"
+    },
+    {
+      "id": 4,
+      "name": "dirt_trail",
+      "passable": true,
+      "material_family": "sand"
+    },
+    {
+      "id": 5,
+      "name": "dense_forest",
+      "passable": true,
+      "material_family": "leaf"
+    },
+    {
+      "id": 6,
+      "name": "highland_rock",
+      "passable": true,
+      "material_family": "stone"
+    },
+    {
+      "id": 7,
+      "name": "road",
+      "passable": true,
+      "material_family": "stone"
+    }
+  ],
+  "narrative_tags": {
+    "region": "overworld",
+    "faction": "neutral",
+    "era": "present_day",
+    "story_phase": "early_journey",
+    "culture_theme": "royal"
+  },
+  "world_region_id": "overworld__royal",
+  "exploration_intent": "overworld_traversal",
+  "placement_intent": "world_tileset",
+  "content_target": {
+    "world": "Content/World"
+  },
+  "style_profile": "ps2_ff7_ff12_highest_quality_ps2"
+}

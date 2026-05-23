@@ -1,0 +1,80 @@
+{
+  "version": "1.1",
+  "asset_family": "props",
+  "family": "props",
+  "name": "ps2_jrpg_port_cargo_stamp_brand",
+  "prompt": "ps2 jrpg port cargo stamp brand",
+  "seed": 111,
+  "files": {
+    "albedo": "ps2_jrpg_port_cargo_stamp_brand_albedo.png",
+    "normal": "ps2_jrpg_port_cargo_stamp_brand_normal.png",
+    "roughness": "ps2_jrpg_port_cargo_stamp_brand_roughness.png",
+    "metallic": "ps2_jrpg_port_cargo_stamp_brand_metallic.png",
+    "ao": "ps2_jrpg_port_cargo_stamp_brand_ao.png",
+    "emissive": "ps2_jrpg_port_cargo_stamp_brand_emissive.png"
+  },
+  "tags": [],
+  "source_generator": "creation_engine.texture.texture_gen.generate_pbr_textures",
+  "content_target": {
+    "material": "Content/Materials",
+    "textures": "Content/Textures"
+  },
+  "style_profile": "ps2_ff7_ff12_highest_quality_ps2",
+  "asset_dimension": "3d",
+  "render_pipeline": "3d_pbr",
+  "coordinate_space": "Y_up",
+  "shader": "Shaders/pbr_3d",
+  "width": 64,
+  "height": 64,
+  "channels": [
+    "albedo",
+    "ao",
+    "emissive",
+    "metallic",
+    "normal",
+    "roughness"
+  ],
+  "textures": {
+    "albedo": "ps2_jrpg_port_cargo_stamp_brand_albedo.png",
+    "normal": "ps2_jrpg_port_cargo_stamp_brand_normal.png",
+    "roughness": "ps2_jrpg_port_cargo_stamp_brand_roughness.png",
+    "metallic": "ps2_jrpg_port_cargo_stamp_brand_metallic.png",
+    "ao": "ps2_jrpg_port_cargo_stamp_brand_ao.png",
+    "emissive": "ps2_jrpg_port_cargo_stamp_brand_emissive.png"
+  },
+  "params": {
+    "color": [
+      0.3646,
+      0.4011,
+      0.4598,
+      1.0
+    ],
+    "baseColor": [
+      0.3646,
+      0.4011,
+      0.4598,
+      1.0
+    ]
+  },
+  "mip_levels": true,
+  "wrap_mode": "repeat",
+  "filter_mode": "trilinear",
+  "srgb_albedo": true,
+  "linear_channels": [
+    "normal",
+    "roughness",
+    "metallic",
+    "ao",
+    "emissive"
+  ],
+  "narrative_tags": {
+    "region": "port_town",
+    "faction": "neutral",
+    "era": "present_day",
+    "story_phase": "early_journey",
+    "culture_theme": "maritime"
+  },
+  "world_region_id": "port_town__maritime",
+  "exploration_intent": "settlement_navigation",
+  "placement_intent": "port_town_world_prop"
+}

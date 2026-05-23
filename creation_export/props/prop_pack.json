@@ -1,0 +1,484 @@
+{
+  "version": "1.0",
+  "asset_family": "prop_pack",
+  "family": "prop_pack",
+  "name": "prop_pack",
+  "prompt": "prop pack",
+  "seed": 101,
+  "files": {
+    "ps2_jrpg_treasure_chest": "ps2_jrpg_treasure_chest.json",
+    "ps2_jrpg_merchant_crate": "ps2_jrpg_merchant_crate.json",
+    "ps2_jrpg_shrine_save_crystal_pedestal": "ps2_jrpg_shrine_save_crystal_pedestal.json",
+    "ps2_jrpg_rebel_camp_supply_barrel": "ps2_jrpg_rebel_camp_supply_barrel.json",
+    "ps2_jrpg_imperial_outpost_signal_brazier": "ps2_jrpg_imperial_outpost_signal_brazier.json",
+    "ps2_jrpg_ancient_ruin_stone_tablet": "ps2_jrpg_ancient_ruin_stone_tablet.json",
+    "ps2_jrpg_port_harbor_mooring_post": "ps2_jrpg_port_harbor_mooring_post.json",
+    "ps2_jrpg_royal_banquet_table": "ps2_jrpg_royal_banquet_table.json",
+    "ps2_jrpg_highland_campfire_stones": "ps2_jrpg_highland_campfire_stones.json",
+    "ps2_jrpg_dungeon_iron_torch_sconce": "ps2_jrpg_dungeon_iron_torch_sconce.json",
+    "ps2_jrpg_market_lantern_post": "ps2_jrpg_market_lantern_post.json",
+    "ps2_jrpg_corrupted_ruin_altar_fragment": "ps2_jrpg_corrupted_ruin_altar_fragment.json",
+    "ps2_jrpg_town_square_stone_well": "ps2_jrpg_town_square_stone_well.json",
+    "ps2_jrpg_plaza_marble_fountain": "ps2_jrpg_plaza_marble_fountain.json",
+    "ps2_jrpg_hero_memorial_statue_plinth": "ps2_jrpg_hero_memorial_statue_plinth.json",
+    "ps2_jrpg_crossroads_wooden_sign_post": "ps2_jrpg_crossroads_wooden_sign_post.json",
+    "ps2_jrpg_battlefield_rubble_pile": "ps2_jrpg_battlefield_rubble_pile.json",
+    "ps2_jrpg_ice_cave_crystal_formation": "ps2_jrpg_ice_cave_crystal_formation.json",
+    "ps2_jrpg_harbor_boat_mooring_marker": "ps2_jrpg_harbor_boat_mooring_marker.json",
+    "ps2_jrpg_enemy_lair_spawn_marker": "ps2_jrpg_enemy_lair_spawn_marker.json"
+  },
+  "tags": [
+    "props",
+    "props",
+    "props",
+    "props",
+    "props",
+    "props",
+    "props",
+    "props",
+    "props",
+    "props",
+    "props",
+    "props",
+    "props",
+    "props",
+    "props",
+    "props",
+    "props",
+    "props",
+    "props",
+    "props"
+  ],
+  "source_generator": "creation_engine.engine.CreationEngine",
+  "content_target": {
+    "props": "Content/Models"
+  },
+  "style_profile": "ps2_ff7_ff12_highest_quality_ps2",
+  "asset_dimension": "3d",
+  "render_pipeline": "3d_pbr",
+  "coordinate_space": "Y_up",
+  "assets": [
+    {
+      "name": "ps2_jrpg_treasure_chest",
+      "prompt": "ps2 jrpg treasure chest",
+      "seed": 101,
+      "family": "props",
+      "manifest": "ps2_jrpg_treasure_chest.json",
+      "files": {
+        "obj": "ps2_jrpg_treasure_chest.obj",
+        "mtl": "ps2_jrpg_treasure_chest.mtl",
+        "manifest": "ps2_jrpg_treasure_chest.json"
+      },
+      "content_target": "Content/Models",
+      "destination_map": {
+        "ps2_jrpg_treasure_chest.obj": "Content/Models",
+        "ps2_jrpg_treasure_chest.mtl": "Content/Models",
+        "ps2_jrpg_treasure_chest.json": "Content/Models"
+      }
+    },
+    {
+      "name": "ps2_jrpg_merchant_crate",
+      "prompt": "ps2 jrpg merchant crate",
+      "seed": 102,
+      "family": "props",
+      "manifest": "ps2_jrpg_merchant_crate.json",
+      "files": {
+        "obj": "ps2_jrpg_merchant_crate.obj",
+        "mtl": "ps2_jrpg_merchant_crate.mtl",
+        "manifest": "ps2_jrpg_merchant_crate.json"
+      },
+      "content_target": "Content/Models",
+      "destination_map": {
+        "ps2_jrpg_merchant_crate.obj": "Content/Models",
+        "ps2_jrpg_merchant_crate.mtl": "Content/Models",
+        "ps2_jrpg_merchant_crate.json": "Content/Models"
+      }
+    },
+    {
+      "name": "ps2_jrpg_shrine_save_crystal_pedestal",
+      "prompt": "ps2 jrpg shrine save crystal pedestal",
+      "seed": 103,
+      "family": "props",
+      "manifest": "ps2_jrpg_shrine_save_crystal_pedestal.json",
+      "files": {
+        "obj": "ps2_jrpg_shrine_save_crystal_pedestal.obj",
+        "mtl": "ps2_jrpg_shrine_save_crystal_pedestal.mtl",
+        "manifest": "ps2_jrpg_shrine_save_crystal_pedestal.json"
+      },
+      "content_target": "Content/Models",
+      "destination_map": {
+        "ps2_jrpg_shrine_save_crystal_pedestal.obj": "Content/Models",
+        "ps2_jrpg_shrine_save_crystal_pedestal.mtl": "Content/Models",
+        "ps2_jrpg_shrine_save_crystal_pedestal.json": "Content/Models"
+      }
+    },
+    {
+      "name": "ps2_jrpg_rebel_camp_supply_barrel",
+      "prompt": "ps2 jrpg rebel camp supply barrel",
+      "seed": 104,
+      "family": "props",
+      "manifest": "ps2_jrpg_rebel_camp_supply_barrel.json",
+      "files": {
+        "obj": "ps2_jrpg_rebel_camp_supply_barrel.obj",
+        "mtl": "ps2_jrpg_rebel_camp_supply_barrel.mtl",
+        "manifest": "ps2_jrpg_rebel_camp_supply_barrel.json"
+      },
+      "content_target": "Content/Models",
+      "destination_map": {
+        "ps2_jrpg_rebel_camp_supply_barrel.obj": "Content/Models",
+        "ps2_jrpg_rebel_camp_supply_barrel.mtl": "Content/Models",
+        "ps2_jrpg_rebel_camp_supply_barrel.json": "Content/Models"
+      }
+    },
+    {
+      "name": "ps2_jrpg_imperial_outpost_signal_brazier",
+      "prompt": "ps2 jrpg imperial outpost signal brazier",
+      "seed": 105,
+      "family": "props",
+      "manifest": "ps2_jrpg_imperial_outpost_signal_brazier.json",
+      "files": {
+        "obj": "ps2_jrpg_imperial_outpost_signal_brazier.obj",
+        "mtl": "ps2_jrpg_imperial_outpost_signal_brazier.mtl",
+        "manifest": "ps2_jrpg_imperial_outpost_signal_brazier.json"
+      },
+      "content_target": "Content/Models",
+      "destination_map": {
+        "ps2_jrpg_imperial_outpost_signal_brazier.obj": "Content/Models",
+        "ps2_jrpg_imperial_outpost_signal_brazier.mtl": "Content/Models",
+        "ps2_jrpg_imperial_outpost_signal_brazier.json": "Content/Models"
+      }
+    },
+    {
+      "name": "ps2_jrpg_ancient_ruin_stone_tablet",
+      "prompt": "ps2 jrpg ancient ruin stone tablet",
+      "seed": 106,
+      "family": "props",
+      "manifest": "ps2_jrpg_ancient_ruin_stone_tablet.json",
+      "files": {
+        "obj": "ps2_jrpg_ancient_ruin_stone_tablet.obj",
+        "mtl": "ps2_jrpg_ancient_ruin_stone_tablet.mtl",
+        "manifest": "ps2_jrpg_ancient_ruin_stone_tablet.json"
+      },
+      "content_target": "Content/Models",
+      "destination_map": {
+        "ps2_jrpg_ancient_ruin_stone_tablet.obj": "Content/Models",
+        "ps2_jrpg_ancient_ruin_stone_tablet.mtl": "Content/Models",
+        "ps2_jrpg_ancient_ruin_stone_tablet.json": "Content/Models"
+      }
+    },
+    {
+      "name": "ps2_jrpg_port_harbor_mooring_post",
+      "prompt": "ps2 jrpg port harbor mooring post",
+      "seed": 107,
+      "family": "props",
+      "manifest": "ps2_jrpg_port_harbor_mooring_post.json",
+      "files": {
+        "obj": "ps2_jrpg_port_harbor_mooring_post.obj",
+        "mtl": "ps2_jrpg_port_harbor_mooring_post.mtl",
+        "manifest": "ps2_jrpg_port_harbor_mooring_post.json"
+      },
+      "content_target": "Content/Models",
+      "destination_map": {
+        "ps2_jrpg_port_harbor_mooring_post.obj": "Content/Models",
+        "ps2_jrpg_port_harbor_mooring_post.mtl": "Content/Models",
+        "ps2_jrpg_port_harbor_mooring_post.json": "Content/Models"
+      }
+    },
+    {
+      "name": "ps2_jrpg_royal_banquet_table",
+      "prompt": "ps2 jrpg royal banquet table",
+      "seed": 108,
+      "family": "props",
+      "manifest": "ps2_jrpg_royal_banquet_table.json",
+      "files": {
+        "obj": "ps2_jrpg_royal_banquet_table.obj",
+        "mtl": "ps2_jrpg_royal_banquet_table.mtl",
+        "manifest": "ps2_jrpg_royal_banquet_table.json"
+      },
+      "content_target": "Content/Models",
+      "destination_map": {
+        "ps2_jrpg_royal_banquet_table.obj": "Content/Models",
+        "ps2_jrpg_royal_banquet_table.mtl": "Content/Models",
+        "ps2_jrpg_royal_banquet_table.json": "Content/Models"
+      }
+    },
+    {
+      "name": "ps2_jrpg_highland_campfire_stones",
+      "prompt": "ps2 jrpg highland campfire stones",
+      "seed": 109,
+      "family": "props",
+      "manifest": "ps2_jrpg_highland_campfire_stones.json",
+      "files": {
+        "obj": "ps2_jrpg_highland_campfire_stones.obj",
+        "mtl": "ps2_jrpg_highland_campfire_stones.mtl",
+        "manifest": "ps2_jrpg_highland_campfire_stones.json"
+      },
+      "content_target": "Content/Models",
+      "destination_map": {
+        "ps2_jrpg_highland_campfire_stones.obj": "Content/Models",
+        "ps2_jrpg_highland_campfire_stones.mtl": "Content/Models",
+        "ps2_jrpg_highland_campfire_stones.json": "Content/Models"
+      }
+    },
+    {
+      "name": "ps2_jrpg_dungeon_iron_torch_sconce",
+      "prompt": "ps2 jrpg dungeon iron torch sconce",
+      "seed": 110,
+      "family": "props",
+      "manifest": "ps2_jrpg_dungeon_iron_torch_sconce.json",
+      "files": {
+        "obj": "ps2_jrpg_dungeon_iron_torch_sconce.obj",
+        "mtl": "ps2_jrpg_dungeon_iron_torch_sconce.mtl",
+        "manifest": "ps2_jrpg_dungeon_iron_torch_sconce.json"
+      },
+      "content_target": "Content/Models",
+      "destination_map": {
+        "ps2_jrpg_dungeon_iron_torch_sconce.obj": "Content/Models",
+        "ps2_jrpg_dungeon_iron_torch_sconce.mtl": "Content/Models",
+        "ps2_jrpg_dungeon_iron_torch_sconce.json": "Content/Models"
+      }
+    },
+    {
+      "name": "ps2_jrpg_market_lantern_post",
+      "prompt": "ps2 jrpg market lantern post",
+      "seed": 111,
+      "family": "props",
+      "manifest": "ps2_jrpg_market_lantern_post.json",
+      "files": {
+        "obj": "ps2_jrpg_market_lantern_post.obj",
+        "mtl": "ps2_jrpg_market_lantern_post.mtl",
+        "manifest": "ps2_jrpg_market_lantern_post.json"
+      },
+      "content_target": "Content/Models",
+      "destination_map": {
+        "ps2_jrpg_market_lantern_post.obj": "Content/Models",
+        "ps2_jrpg_market_lantern_post.mtl": "Content/Models",
+        "ps2_jrpg_market_lantern_post.json": "Content/Models"
+      }
+    },
+    {
+      "name": "ps2_jrpg_corrupted_ruin_altar_fragment",
+      "prompt": "ps2 jrpg corrupted ruin altar fragment",
+      "seed": 112,
+      "family": "props",
+      "manifest": "ps2_jrpg_corrupted_ruin_altar_fragment.json",
+      "files": {
+        "obj": "ps2_jrpg_corrupted_ruin_altar_fragment.obj",
+        "mtl": "ps2_jrpg_corrupted_ruin_altar_fragment.mtl",
+        "manifest": "ps2_jrpg_corrupted_ruin_altar_fragment.json"
+      },
+      "content_target": "Content/Models",
+      "destination_map": {
+        "ps2_jrpg_corrupted_ruin_altar_fragment.obj": "Content/Models",
+        "ps2_jrpg_corrupted_ruin_altar_fragment.mtl": "Content/Models",
+        "ps2_jrpg_corrupted_ruin_altar_fragment.json": "Content/Models"
+      }
+    },
+    {
+      "name": "ps2_jrpg_town_square_stone_well",
+      "prompt": "ps2 jrpg town square stone well",
+      "seed": 113,
+      "family": "props",
+      "manifest": "ps2_jrpg_town_square_stone_well.json",
+      "files": {
+        "obj": "ps2_jrpg_town_square_stone_well.obj",
+        "mtl": "ps2_jrpg_town_square_stone_well.mtl",
+        "manifest": "ps2_jrpg_town_square_stone_well.json"
+      },
+      "content_target": "Content/Models",
+      "destination_map": {
+        "ps2_jrpg_town_square_stone_well.obj": "Content/Models",
+        "ps2_jrpg_town_square_stone_well.mtl": "Content/Models",
+        "ps2_jrpg_town_square_stone_well.json": "Content/Models"
+      }
+    },
+    {
+      "name": "ps2_jrpg_plaza_marble_fountain",
+      "prompt": "ps2 jrpg plaza marble fountain",
+      "seed": 114,
+      "family": "props",
+      "manifest": "ps2_jrpg_plaza_marble_fountain.json",
+      "files": {
+        "obj": "ps2_jrpg_plaza_marble_fountain.obj",
+        "mtl": "ps2_jrpg_plaza_marble_fountain.mtl",
+        "manifest": "ps2_jrpg_plaza_marble_fountain.json"
+      },
+      "content_target": "Content/Models",
+      "destination_map": {
+        "ps2_jrpg_plaza_marble_fountain.obj": "Content/Models",
+        "ps2_jrpg_plaza_marble_fountain.mtl": "Content/Models",
+        "ps2_jrpg_plaza_marble_fountain.json": "Content/Models"
+      }
+    },
+    {
+      "name": "ps2_jrpg_hero_memorial_statue_plinth",
+      "prompt": "ps2 jrpg hero memorial statue plinth",
+      "seed": 115,
+      "family": "props",
+      "manifest": "ps2_jrpg_hero_memorial_statue_plinth.json",
+      "files": {
+        "obj": "ps2_jrpg_hero_memorial_statue_plinth.obj",
+        "mtl": "ps2_jrpg_hero_memorial_statue_plinth.mtl",
+        "manifest": "ps2_jrpg_hero_memorial_statue_plinth.json"
+      },
+      "content_target": "Content/Models",
+      "destination_map": {
+        "ps2_jrpg_hero_memorial_statue_plinth.obj": "Content/Models",
+        "ps2_jrpg_hero_memorial_statue_plinth.mtl": "Content/Models",
+        "ps2_jrpg_hero_memorial_statue_plinth.json": "Content/Models"
+      }
+    },
+    {
+      "name": "ps2_jrpg_crossroads_wooden_sign_post",
+      "prompt": "ps2 jrpg crossroads wooden sign post",
+      "seed": 116,
+      "family": "props",
+      "manifest": "ps2_jrpg_crossroads_wooden_sign_post.json",
+      "files": {
+        "obj": "ps2_jrpg_crossroads_wooden_sign_post.obj",
+        "mtl": "ps2_jrpg_crossroads_wooden_sign_post.mtl",
+        "manifest": "ps2_jrpg_crossroads_wooden_sign_post.json"
+      },
+      "content_target": "Content/Models",
+      "destination_map": {
+        "ps2_jrpg_crossroads_wooden_sign_post.obj": "Content/Models",
+        "ps2_jrpg_crossroads_wooden_sign_post.mtl": "Content/Models",
+        "ps2_jrpg_crossroads_wooden_sign_post.json": "Content/Models"
+      }
+    },
+    {
+      "name": "ps2_jrpg_battlefield_rubble_pile",
+      "prompt": "ps2 jrpg battlefield rubble pile",
+      "seed": 117,
+      "family": "props",
+      "manifest": "ps2_jrpg_battlefield_rubble_pile.json",
+      "files": {
+        "obj": "ps2_jrpg_battlefield_rubble_pile.obj",
+        "mtl": "ps2_jrpg_battlefield_rubble_pile.mtl",
+        "manifest": "ps2_jrpg_battlefield_rubble_pile.json"
+      },
+      "content_target": "Content/Models",
+      "destination_map": {
+        "ps2_jrpg_battlefield_rubble_pile.obj": "Content/Models",
+        "ps2_jrpg_battlefield_rubble_pile.mtl": "Content/Models",
+        "ps2_jrpg_battlefield_rubble_pile.json": "Content/Models"
+      }
+    },
+    {
+      "name": "ps2_jrpg_ice_cave_crystal_formation",
+      "prompt": "ps2 jrpg ice cave crystal formation",
+      "seed": 118,
+      "family": "props",
+      "manifest": "ps2_jrpg_ice_cave_crystal_formation.json",
+      "files": {
+        "obj": "ps2_jrpg_ice_cave_crystal_formation.obj",
+        "mtl": "ps2_jrpg_ice_cave_crystal_formation.mtl",
+        "manifest": "ps2_jrpg_ice_cave_crystal_formation.json"
+      },
+      "content_target": "Content/Models",
+      "destination_map": {
+        "ps2_jrpg_ice_cave_crystal_formation.obj": "Content/Models",
+        "ps2_jrpg_ice_cave_crystal_formation.mtl": "Content/Models",
+        "ps2_jrpg_ice_cave_crystal_formation.json": "Content/Models"
+      }
+    },
+    {
+      "name": "ps2_jrpg_harbor_boat_mooring_marker",
+      "prompt": "ps2 jrpg harbor boat mooring marker",
+      "seed": 119,
+      "family": "props",
+      "manifest": "ps2_jrpg_harbor_boat_mooring_marker.json",
+      "files": {
+        "obj": "ps2_jrpg_harbor_boat_mooring_marker.obj",
+        "mtl": "ps2_jrpg_harbor_boat_mooring_marker.mtl",
+        "manifest": "ps2_jrpg_harbor_boat_mooring_marker.json"
+      },
+      "content_target": "Content/Models",
+      "destination_map": {
+        "ps2_jrpg_harbor_boat_mooring_marker.obj": "Content/Models",
+        "ps2_jrpg_harbor_boat_mooring_marker.mtl": "Content/Models",
+        "ps2_jrpg_harbor_boat_mooring_marker.json": "Content/Models"
+      }
+    },
+    {
+      "name": "ps2_jrpg_enemy_lair_spawn_marker",
+      "prompt": "ps2 jrpg enemy lair spawn marker",
+      "seed": 120,
+      "family": "props",
+      "manifest": "ps2_jrpg_enemy_lair_spawn_marker.json",
+      "files": {
+        "obj": "ps2_jrpg_enemy_lair_spawn_marker.obj",
+        "mtl": "ps2_jrpg_enemy_lair_spawn_marker.mtl",
+        "manifest": "ps2_jrpg_enemy_lair_spawn_marker.json"
+      },
+      "content_target": "Content/Models",
+      "destination_map": {
+        "ps2_jrpg_enemy_lair_spawn_marker.obj": "Content/Models",
+        "ps2_jrpg_enemy_lair_spawn_marker.mtl": "Content/Models",
+        "ps2_jrpg_enemy_lair_spawn_marker.json": "Content/Models"
+      }
+    }
+  ],
+  "destination_map": {
+    "ps2_jrpg_treasure_chest.obj": "Content/Models",
+    "ps2_jrpg_treasure_chest.mtl": "Content/Models",
+    "ps2_jrpg_treasure_chest.json": "Content/Models",
+    "ps2_jrpg_merchant_crate.obj": "Content/Models",
+    "ps2_jrpg_merchant_crate.mtl": "Content/Models",
+    "ps2_jrpg_merchant_crate.json": "Content/Models",
+    "ps2_jrpg_shrine_save_crystal_pedestal.obj": "Content/Models",
+    "ps2_jrpg_shrine_save_crystal_pedestal.mtl": "Content/Models",
+    "ps2_jrpg_shrine_save_crystal_pedestal.json": "Content/Models",
+    "ps2_jrpg_rebel_camp_supply_barrel.obj": "Content/Models",
+    "ps2_jrpg_rebel_camp_supply_barrel.mtl": "Content/Models",
+    "ps2_jrpg_rebel_camp_supply_barrel.json": "Content/Models",
+    "ps2_jrpg_imperial_outpost_signal_brazier.obj": "Content/Models",
+    "ps2_jrpg_imperial_outpost_signal_brazier.mtl": "Content/Models",
+    "ps2_jrpg_imperial_outpost_signal_brazier.json": "Content/Models",
+    "ps2_jrpg_ancient_ruin_stone_tablet.obj": "Content/Models",
+    "ps2_jrpg_ancient_ruin_stone_tablet.mtl": "Content/Models",
+    "ps2_jrpg_ancient_ruin_stone_tablet.json": "Content/Models",
+    "ps2_jrpg_port_harbor_mooring_post.obj": "Content/Models",
+    "ps2_jrpg_port_harbor_mooring_post.mtl": "Content/Models",
+    "ps2_jrpg_port_harbor_mooring_post.json": "Content/Models",
+    "ps2_jrpg_royal_banquet_table.obj": "Content/Models",
+    "ps2_jrpg_royal_banquet_table.mtl": "Content/Models",
+    "ps2_jrpg_royal_banquet_table.json": "Content/Models",
+    "ps2_jrpg_highland_campfire_stones.obj": "Content/Models",
+    "ps2_jrpg_highland_campfire_stones.mtl": "Content/Models",
+    "ps2_jrpg_highland_campfire_stones.json": "Content/Models",
+    "ps2_jrpg_dungeon_iron_torch_sconce.obj": "Content/Models",
+    "ps2_jrpg_dungeon_iron_torch_sconce.mtl": "Content/Models",
+    "ps2_jrpg_dungeon_iron_torch_sconce.json": "Content/Models",
+    "ps2_jrpg_market_lantern_post.obj": "Content/Models",
+    "ps2_jrpg_market_lantern_post.mtl": "Content/Models",
+    "ps2_jrpg_market_lantern_post.json": "Content/Models",
+    "ps2_jrpg_corrupted_ruin_altar_fragment.obj": "Content/Models",
+    "ps2_jrpg_corrupted_ruin_altar_fragment.mtl": "Content/Models",
+    "ps2_jrpg_corrupted_ruin_altar_fragment.json": "Content/Models",
+    "ps2_jrpg_town_square_stone_well.obj": "Content/Models",
+    "ps2_jrpg_town_square_stone_well.mtl": "Content/Models",
+    "ps2_jrpg_town_square_stone_well.json": "Content/Models",
+    "ps2_jrpg_plaza_marble_fountain.obj": "Content/Models",
+    "ps2_jrpg_plaza_marble_fountain.mtl": "Content/Models",
+    "ps2_jrpg_plaza_marble_fountain.json": "Content/Models",
+    "ps2_jrpg_hero_memorial_statue_plinth.obj": "Content/Models",
+    "ps2_jrpg_hero_memorial_statue_plinth.mtl": "Content/Models",
+    "ps2_jrpg_hero_memorial_statue_plinth.json": "Content/Models",
+    "ps2_jrpg_crossroads_wooden_sign_post.obj": "Content/Models",
+    "ps2_jrpg_crossroads_wooden_sign_post.mtl": "Content/Models",
+    "ps2_jrpg_crossroads_wooden_sign_post.json": "Content/Models",
+    "ps2_jrpg_battlefield_rubble_pile.obj": "Content/Models",
+    "ps2_jrpg_battlefield_rubble_pile.mtl": "Content/Models",
+    "ps2_jrpg_battlefield_rubble_pile.json": "Content/Models",
+    "ps2_jrpg_ice_cave_crystal_formation.obj": "Content/Models",
+    "ps2_jrpg_ice_cave_crystal_formation.mtl": "Content/Models",
+    "ps2_jrpg_ice_cave_crystal_formation.json": "Content/Models",
+    "ps2_jrpg_harbor_boat_mooring_marker.obj": "Content/Models",
+    "ps2_jrpg_harbor_boat_mooring_marker.mtl": "Content/Models",
+    "ps2_jrpg_harbor_boat_mooring_marker.json": "Content/Models",
+    "ps2_jrpg_enemy_lair_spawn_marker.obj": "Content/Models",
+    "ps2_jrpg_enemy_lair_spawn_marker.mtl": "Content/Models",
+    "ps2_jrpg_enemy_lair_spawn_marker.json": "Content/Models"
+  }
+}
