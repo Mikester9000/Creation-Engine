@@ -102,7 +102,10 @@ def _generate_cpp(
             narrative_tags = extract_narrative_tags(tokenize_prompt(prompt))
             world_region_id = region_id or infer_world_region_id(narrative_tags)
             tileset_name = data.get("tileset", TILESET_SPECS[theme]["id"])
-            tile_array = np.array(data["tiles"])
+            # The C++ backend emits tiles as a flat 1D array (length = width*height).
+            # Reshape to 2D (rows × cols) so downstream code and _generate_height_map
+            # can index it as tiles[row, col].
+            tile_array = np.array(data["tiles"]).reshape(height, width)
             return {
                 "tiles": tile_array,
                 "props": data.get("props", []),
@@ -114,7 +117,7 @@ def _generate_cpp(
                 "chunk": {"x": int(chunk_x), "y": int(chunk_y)},
                 "exploration_intent": infer_exploration_intent(narrative_tags),
                 # 3D terrain elevation data (flat rows × cols, one float per tile)
-                "height_map": _generate_height_map(tile_array, theme, seed or 42),
+                "height_map": _generate_height_map(tile_array, theme, 42 if seed is None else seed),
             }
 
     return _generate_python_fallback(
@@ -375,18 +378,33 @@ def _generate_height_map(tiles: np.ndarray, theme: str, seed: int) -> list[list[
 
     Walls and water tiles use fixed elevations; ground tiles use smooth noise-based
     variation so the rendered terrain has natural-looking depth without spikes.
+    Elevation is derived from each tile's material_family and passability in the
+    current tileset's definitions, so every tileset maps correctly regardless of
+    how numeric IDs are assigned within that tileset.
     """
-    # Base elevation per tile-id for common tile meanings
-    _TILE_BASE_HEIGHT: dict[int, float] = {
-        0: 0.0,   # floor / ground
-        1: 1.0,   # wall
-        2: -0.5,  # water / pit
-        3: 0.1,   # grass / forest edge
-        4: 0.05,  # sand / road / rubble
-        5: 0.2,   # dense vegetation
-        6: 0.15,  # snow / ice
-        7: 0.0,   # road / path
+    # Elevation by material family for passable tiles.
+    # Impassable tiles are treated as walls (1.0) except water/pit tiles (-0.5).
+    _MATERIAL_HEIGHT: dict[str, float] = {
+        "water":   -0.5,
+        "grass":    0.1,
+        "sand":     0.05,
+        "leaf":     0.2,
+        "snow":     0.15,
+        "crystal":  0.15,
+        "stone":    0.0,
+        "marble":   0.0,
+        "wood":     0.0,
+        "metal":    0.0,
     }
+    spec = TILESET_SPECS.get(theme, TILESET_SPECS["overworld"])
+    _TILE_BASE_HEIGHT: dict[int, float] = {}
+    for tile_def in spec["tiles"]:
+        mat = tile_def.get("material_family", "stone")
+        if not tile_def.get("passable", True):
+            h = -0.5 if mat == "water" else 1.0
+        else:
+            h = _MATERIAL_HEIGHT.get(mat, 0.0)
+        _TILE_BASE_HEIGHT[tile_def["id"]] = h
     # Raise overall elevation for highland/mountain themes
     _THEME_BASE_LIFT: dict[str, float] = {
         "highlands": 0.5,
