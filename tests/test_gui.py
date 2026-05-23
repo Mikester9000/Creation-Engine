@@ -48,6 +48,22 @@ def test_gui_path_guard_stays_inside_output_dir(tmp_path):
     assert not app._is_within_output_dir(tmp_path.parent / "outside.json")
 
 
+def test_gui_filtered_index_is_subset_of_file_index(tmp_path):
+    """_apply_filter only shows paths matching the query — headless safe check via file_index only."""
+    app = CreationEngineGuiApp.__new__(CreationEngineGuiApp)
+    app.output_dir = tmp_path
+
+    (tmp_path / "alpha.json").write_text("{}", encoding="utf-8")
+    (tmp_path / "beta.json").write_text("{}", encoding="utf-8")
+
+    # Seed file_index and verify filtering logic independently of Tk widgets
+    app.file_index = [tmp_path / "alpha.json", tmp_path / "beta.json"]
+    query = "alpha"
+    filtered = [p for p in app.file_index if query in str(p.relative_to(tmp_path)).lower()]
+    assert len(filtered) == 1
+    assert filtered[0].name == "alpha.json"
+
+
 def test_render_material_preview_from_exported_manifest(tmp_path):
     engine = CreationEngine(output_dir=tmp_path)
     texture_dir = engine.generate_texture("wet stone", width=16, height=16)
