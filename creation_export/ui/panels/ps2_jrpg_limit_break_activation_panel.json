@@ -1,0 +1,38 @@
+{
+  "version": "1.0",
+  "asset_family": "ui_panels",
+  "family": "ui_panels",
+  "name": "ps2_jrpg_limit_break_activation_panel",
+  "prompt": "ps2 jrpg limit break activation panel",
+  "seed": 120,
+  "files": {
+    "image": "ps2_jrpg_limit_break_activation_panel.png",
+    "manifest": "ps2_jrpg_limit_break_activation_panel.json"
+  },
+  "tags": [
+    "ui_panels"
+  ],
+  "source_generator": "creation_engine.ui.panel_gen.generate_ui_panel",
+  "content_target": {
+    "ui": "Content/UI"
+  },
+  "style_profile": "ps2_ff7_ff12_highest_quality_ps2",
+  "asset_dimension": "3d",
+  "render_pipeline": "3d_pbr",
+  "coordinate_space": "Y_up",
+  "width": 128,
+  "height": 64,
+  "channels": [
+    "image"
+  ],
+  "narrative_tags": {
+    "region": "overworld",
+    "faction": "neutral",
+    "era": "present_day",
+    "story_phase": "early_journey",
+    "culture_theme": "mystic"
+  },
+  "world_region_id": "overworld__mystic",
+  "exploration_intent": "overworld_traversal",
+  "placement_intent": "ui_container"
+}

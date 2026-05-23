@@ -1,0 +1,424 @@
+{
+  "version": "1.0",
+  "asset_family": "ui_panel_pack",
+  "family": "ui_panel_pack",
+  "name": "ui_panel_pack",
+  "prompt": "ui panel pack",
+  "seed": 101,
+  "files": {
+    "ps2_jrpg_inventory_panel": "ps2_jrpg_inventory_panel.json",
+    "ps2_jrpg_dialog_box": "ps2_jrpg_dialog_box.json",
+    "ps2_jrpg_world_map_panel": "ps2_jrpg_world_map_panel.json",
+    "ps2_jrpg_quest_log_frame": "ps2_jrpg_quest_log_frame.json",
+    "ps2_jrpg_imperial_command_hud": "ps2_jrpg_imperial_command_hud.json",
+    "ps2_jrpg_rebel_camp_hud": "ps2_jrpg_rebel_camp_hud.json",
+    "ps2_jrpg_character_status_panel": "ps2_jrpg_character_status_panel.json",
+    "ps2_jrpg_battle_command_menu": "ps2_jrpg_battle_command_menu.json",
+    "ps2_jrpg_region_travel_select_panel": "ps2_jrpg_region_travel_select_panel.json",
+    "ps2_jrpg_shop_trade_interface_panel": "ps2_jrpg_shop_trade_interface_panel.json",
+    "ps2_jrpg_sacred_shrine_blessing_menu": "ps2_jrpg_sacred_shrine_blessing_menu.json",
+    "ps2_jrpg_summon_call_interface_panel": "ps2_jrpg_summon_call_interface_panel.json",
+    "ps2_jrpg_party_formation_screen_frame": "ps2_jrpg_party_formation_screen_frame.json",
+    "ps2_jrpg_battle_victory_results_panel": "ps2_jrpg_battle_victory_results_panel.json",
+    "ps2_jrpg_inn_rest_menu_frame": "ps2_jrpg_inn_rest_menu_frame.json",
+    "ps2_jrpg_skill_learn_ability_panel": "ps2_jrpg_skill_learn_ability_panel.json",
+    "ps2_jrpg_game_over_screen_frame": "ps2_jrpg_game_over_screen_frame.json",
+    "ps2_jrpg_title_screen_hud_frame": "ps2_jrpg_title_screen_hud_frame.json",
+    "ps2_jrpg_world_region_transition_panel": "ps2_jrpg_world_region_transition_panel.json",
+    "ps2_jrpg_limit_break_activation_panel": "ps2_jrpg_limit_break_activation_panel.json"
+  },
+  "tags": [
+    "ui_panels",
+    "ui_panels",
+    "ui_panels",
+    "ui_panels",
+    "ui_panels",
+    "ui_panels",
+    "ui_panels",
+    "ui_panels",
+    "ui_panels",
+    "ui_panels",
+    "ui_panels",
+    "ui_panels",
+    "ui_panels",
+    "ui_panels",
+    "ui_panels",
+    "ui_panels",
+    "ui_panels",
+    "ui_panels",
+    "ui_panels",
+    "ui_panels"
+  ],
+  "source_generator": "creation_engine.engine.CreationEngine",
+  "content_target": {
+    "ui_panels": "Content/UI"
+  },
+  "style_profile": "ps2_ff7_ff12_highest_quality_ps2",
+  "asset_dimension": "3d",
+  "render_pipeline": "3d_pbr",
+  "coordinate_space": "Y_up",
+  "assets": [
+    {
+      "name": "ps2_jrpg_inventory_panel",
+      "prompt": "ps2 jrpg inventory panel",
+      "seed": 101,
+      "family": "ui_panels",
+      "manifest": "ps2_jrpg_inventory_panel.json",
+      "files": {
+        "image": "ps2_jrpg_inventory_panel.png",
+        "manifest": "ps2_jrpg_inventory_panel.json"
+      },
+      "content_target": "Content/UI",
+      "destination_map": {
+        "ps2_jrpg_inventory_panel.png": "Content/UI",
+        "ps2_jrpg_inventory_panel.json": "Content/UI"
+      }
+    },
+    {
+      "name": "ps2_jrpg_dialog_box",
+      "prompt": "ps2 jrpg dialog box",
+      "seed": 102,
+      "family": "ui_panels",
+      "manifest": "ps2_jrpg_dialog_box.json",
+      "files": {
+        "image": "ps2_jrpg_dialog_box.png",
+        "manifest": "ps2_jrpg_dialog_box.json"
+      },
+      "content_target": "Content/UI",
+      "destination_map": {
+        "ps2_jrpg_dialog_box.png": "Content/UI",
+        "ps2_jrpg_dialog_box.json": "Content/UI"
+      }
+    },
+    {
+      "name": "ps2_jrpg_world_map_panel",
+      "prompt": "ps2 jrpg world map panel",
+      "seed": 103,
+      "family": "ui_panels",
+      "manifest": "ps2_jrpg_world_map_panel.json",
+      "files": {
+        "image": "ps2_jrpg_world_map_panel.png",
+        "manifest": "ps2_jrpg_world_map_panel.json"
+      },
+      "content_target": "Content/UI",
+      "destination_map": {
+        "ps2_jrpg_world_map_panel.png": "Content/UI",
+        "ps2_jrpg_world_map_panel.json": "Content/UI"
+      }
+    },
+    {
+      "name": "ps2_jrpg_quest_log_frame",
+      "prompt": "ps2 jrpg quest log frame",
+      "seed": 104,
+      "family": "ui_panels",
+      "manifest": "ps2_jrpg_quest_log_frame.json",
+      "files": {
+        "image": "ps2_jrpg_quest_log_frame.png",
+        "manifest": "ps2_jrpg_quest_log_frame.json"
+      },
+      "content_target": "Content/UI",
+      "destination_map": {
+        "ps2_jrpg_quest_log_frame.png": "Content/UI",
+        "ps2_jrpg_quest_log_frame.json": "Content/UI"
+      }
+    },
+    {
+      "name": "ps2_jrpg_imperial_command_hud",
+      "prompt": "ps2 jrpg imperial command hud",
+      "seed": 105,
+      "family": "ui_panels",
+      "manifest": "ps2_jrpg_imperial_command_hud.json",
+      "files": {
+        "image": "ps2_jrpg_imperial_command_hud.png",
+        "manifest": "ps2_jrpg_imperial_command_hud.json"
+      },
+      "content_target": "Content/UI",
+      "destination_map": {
+        "ps2_jrpg_imperial_command_hud.png": "Content/UI",
+        "ps2_jrpg_imperial_command_hud.json": "Content/UI"
+      }
+    },
+    {
+      "name": "ps2_jrpg_rebel_camp_hud",
+      "prompt": "ps2 jrpg rebel camp hud",
+      "seed": 106,
+      "family": "ui_panels",
+      "manifest": "ps2_jrpg_rebel_camp_hud.json",
+      "files": {
+        "image": "ps2_jrpg_rebel_camp_hud.png",
+        "manifest": "ps2_jrpg_rebel_camp_hud.json"
+      },
+      "content_target": "Content/UI",
+      "destination_map": {
+        "ps2_jrpg_rebel_camp_hud.png": "Content/UI",
+        "ps2_jrpg_rebel_camp_hud.json": "Content/UI"
+      }
+    },
+    {
+      "name": "ps2_jrpg_character_status_panel",
+      "prompt": "ps2 jrpg character status panel",
+      "seed": 107,
+      "family": "ui_panels",
+      "manifest": "ps2_jrpg_character_status_panel.json",
+      "files": {
+        "image": "ps2_jrpg_character_status_panel.png",
+        "manifest": "ps2_jrpg_character_status_panel.json"
+      },
+      "content_target": "Content/UI",
+      "destination_map": {
+        "ps2_jrpg_character_status_panel.png": "Content/UI",
+        "ps2_jrpg_character_status_panel.json": "Content/UI"
+      }
+    },
+    {
+      "name": "ps2_jrpg_battle_command_menu",
+      "prompt": "ps2 jrpg battle command menu",
+      "seed": 108,
+      "family": "ui_panels",
+      "manifest": "ps2_jrpg_battle_command_menu.json",
+      "files": {
+        "image": "ps2_jrpg_battle_command_menu.png",
+        "manifest": "ps2_jrpg_battle_command_menu.json"
+      },
+      "content_target": "Content/UI",
+      "destination_map": {
+        "ps2_jrpg_battle_command_menu.png": "Content/UI",
+        "ps2_jrpg_battle_command_menu.json": "Content/UI"
+      }
+    },
+    {
+      "name": "ps2_jrpg_region_travel_select_panel",
+      "prompt": "ps2 jrpg region travel select panel",
+      "seed": 109,
+      "family": "ui_panels",
+      "manifest": "ps2_jrpg_region_travel_select_panel.json",
+      "files": {
+        "image": "ps2_jrpg_region_travel_select_panel.png",
+        "manifest": "ps2_jrpg_region_travel_select_panel.json"
+      },
+      "content_target": "Content/UI",
+      "destination_map": {
+        "ps2_jrpg_region_travel_select_panel.png": "Content/UI",
+        "ps2_jrpg_region_travel_select_panel.json": "Content/UI"
+      }
+    },
+    {
+      "name": "ps2_jrpg_shop_trade_interface_panel",
+      "prompt": "ps2 jrpg shop trade interface panel",
+      "seed": 110,
+      "family": "ui_panels",
+      "manifest": "ps2_jrpg_shop_trade_interface_panel.json",
+      "files": {
+        "image": "ps2_jrpg_shop_trade_interface_panel.png",
+        "manifest": "ps2_jrpg_shop_trade_interface_panel.json"
+      },
+      "content_target": "Content/UI",
+      "destination_map": {
+        "ps2_jrpg_shop_trade_interface_panel.png": "Content/UI",
+        "ps2_jrpg_shop_trade_interface_panel.json": "Content/UI"
+      }
+    },
+    {
+      "name": "ps2_jrpg_sacred_shrine_blessing_menu",
+      "prompt": "ps2 jrpg sacred shrine blessing menu",
+      "seed": 111,
+      "family": "ui_panels",
+      "manifest": "ps2_jrpg_sacred_shrine_blessing_menu.json",
+      "files": {
+        "image": "ps2_jrpg_sacred_shrine_blessing_menu.png",
+        "manifest": "ps2_jrpg_sacred_shrine_blessing_menu.json"
+      },
+      "content_target": "Content/UI",
+      "destination_map": {
+        "ps2_jrpg_sacred_shrine_blessing_menu.png": "Content/UI",
+        "ps2_jrpg_sacred_shrine_blessing_menu.json": "Content/UI"
+      }
+    },
+    {
+      "name": "ps2_jrpg_summon_call_interface_panel",
+      "prompt": "ps2 jrpg summon call interface panel",
+      "seed": 112,
+      "family": "ui_panels",
+      "manifest": "ps2_jrpg_summon_call_interface_panel.json",
+      "files": {
+        "image": "ps2_jrpg_summon_call_interface_panel.png",
+        "manifest": "ps2_jrpg_summon_call_interface_panel.json"
+      },
+      "content_target": "Content/UI",
+      "destination_map": {
+        "ps2_jrpg_summon_call_interface_panel.png": "Content/UI",
+        "ps2_jrpg_summon_call_interface_panel.json": "Content/UI"
+      }
+    },
+    {
+      "name": "ps2_jrpg_party_formation_screen_frame",
+      "prompt": "ps2 jrpg party formation screen frame",
+      "seed": 113,
+      "family": "ui_panels",
+      "manifest": "ps2_jrpg_party_formation_screen_frame.json",
+      "files": {
+        "image": "ps2_jrpg_party_formation_screen_frame.png",
+        "manifest": "ps2_jrpg_party_formation_screen_frame.json"
+      },
+      "content_target": "Content/UI",
+      "destination_map": {
+        "ps2_jrpg_party_formation_screen_frame.png": "Content/UI",
+        "ps2_jrpg_party_formation_screen_frame.json": "Content/UI"
+      }
+    },
+    {
+      "name": "ps2_jrpg_battle_victory_results_panel",
+      "prompt": "ps2 jrpg battle victory results panel",
+      "seed": 114,
+      "family": "ui_panels",
+      "manifest": "ps2_jrpg_battle_victory_results_panel.json",
+      "files": {
+        "image": "ps2_jrpg_battle_victory_results_panel.png",
+        "manifest": "ps2_jrpg_battle_victory_results_panel.json"
+      },
+      "content_target": "Content/UI",
+      "destination_map": {
+        "ps2_jrpg_battle_victory_results_panel.png": "Content/UI",
+        "ps2_jrpg_battle_victory_results_panel.json": "Content/UI"
+      }
+    },
+    {
+      "name": "ps2_jrpg_inn_rest_menu_frame",
+      "prompt": "ps2 jrpg inn rest menu frame",
+      "seed": 115,
+      "family": "ui_panels",
+      "manifest": "ps2_jrpg_inn_rest_menu_frame.json",
+      "files": {
+        "image": "ps2_jrpg_inn_rest_menu_frame.png",
+        "manifest": "ps2_jrpg_inn_rest_menu_frame.json"
+      },
+      "content_target": "Content/UI",
+      "destination_map": {
+        "ps2_jrpg_inn_rest_menu_frame.png": "Content/UI",
+        "ps2_jrpg_inn_rest_menu_frame.json": "Content/UI"
+      }
+    },
+    {
+      "name": "ps2_jrpg_skill_learn_ability_panel",
+      "prompt": "ps2 jrpg skill learn ability panel",
+      "seed": 116,
+      "family": "ui_panels",
+      "manifest": "ps2_jrpg_skill_learn_ability_panel.json",
+      "files": {
+        "image": "ps2_jrpg_skill_learn_ability_panel.png",
+        "manifest": "ps2_jrpg_skill_learn_ability_panel.json"
+      },
+      "content_target": "Content/UI",
+      "destination_map": {
+        "ps2_jrpg_skill_learn_ability_panel.png": "Content/UI",
+        "ps2_jrpg_skill_learn_ability_panel.json": "Content/UI"
+      }
+    },
+    {
+      "name": "ps2_jrpg_game_over_screen_frame",
+      "prompt": "ps2 jrpg game over screen frame",
+      "seed": 117,
+      "family": "ui_panels",
+      "manifest": "ps2_jrpg_game_over_screen_frame.json",
+      "files": {
+        "image": "ps2_jrpg_game_over_screen_frame.png",
+        "manifest": "ps2_jrpg_game_over_screen_frame.json"
+      },
+      "content_target": "Content/UI",
+      "destination_map": {
+        "ps2_jrpg_game_over_screen_frame.png": "Content/UI",
+        "ps2_jrpg_game_over_screen_frame.json": "Content/UI"
+      }
+    },
+    {
+      "name": "ps2_jrpg_title_screen_hud_frame",
+      "prompt": "ps2 jrpg title screen hud frame",
+      "seed": 118,
+      "family": "ui_panels",
+      "manifest": "ps2_jrpg_title_screen_hud_frame.json",
+      "files": {
+        "image": "ps2_jrpg_title_screen_hud_frame.png",
+        "manifest": "ps2_jrpg_title_screen_hud_frame.json"
+      },
+      "content_target": "Content/UI",
+      "destination_map": {
+        "ps2_jrpg_title_screen_hud_frame.png": "Content/UI",
+        "ps2_jrpg_title_screen_hud_frame.json": "Content/UI"
+      }
+    },
+    {
+      "name": "ps2_jrpg_world_region_transition_panel",
+      "prompt": "ps2 jrpg world region transition panel",
+      "seed": 119,
+      "family": "ui_panels",
+      "manifest": "ps2_jrpg_world_region_transition_panel.json",
+      "files": {
+        "image": "ps2_jrpg_world_region_transition_panel.png",
+        "manifest": "ps2_jrpg_world_region_transition_panel.json"
+      },
+      "content_target": "Content/UI",
+      "destination_map": {
+        "ps2_jrpg_world_region_transition_panel.png": "Content/UI",
+        "ps2_jrpg_world_region_transition_panel.json": "Content/UI"
+      }
+    },
+    {
+      "name": "ps2_jrpg_limit_break_activation_panel",
+      "prompt": "ps2 jrpg limit break activation panel",
+      "seed": 120,
+      "family": "ui_panels",
+      "manifest": "ps2_jrpg_limit_break_activation_panel.json",
+      "files": {
+        "image": "ps2_jrpg_limit_break_activation_panel.png",
+        "manifest": "ps2_jrpg_limit_break_activation_panel.json"
+      },
+      "content_target": "Content/UI",
+      "destination_map": {
+        "ps2_jrpg_limit_break_activation_panel.png": "Content/UI",
+        "ps2_jrpg_limit_break_activation_panel.json": "Content/UI"
+      }
+    }
+  ],
+  "destination_map": {
+    "ps2_jrpg_inventory_panel.png": "Content/UI",
+    "ps2_jrpg_inventory_panel.json": "Content/UI",
+    "ps2_jrpg_dialog_box.png": "Content/UI",
+    "ps2_jrpg_dialog_box.json": "Content/UI",
+    "ps2_jrpg_world_map_panel.png": "Content/UI",
+    "ps2_jrpg_world_map_panel.json": "Content/UI",
+    "ps2_jrpg_quest_log_frame.png": "Content/UI",
+    "ps2_jrpg_quest_log_frame.json": "Content/UI",
+    "ps2_jrpg_imperial_command_hud.png": "Content/UI",
+    "ps2_jrpg_imperial_command_hud.json": "Content/UI",
+    "ps2_jrpg_rebel_camp_hud.png": "Content/UI",
+    "ps2_jrpg_rebel_camp_hud.json": "Content/UI",
+    "ps2_jrpg_character_status_panel.png": "Content/UI",
+    "ps2_jrpg_character_status_panel.json": "Content/UI",
+    "ps2_jrpg_battle_command_menu.png": "Content/UI",
+    "ps2_jrpg_battle_command_menu.json": "Content/UI",
+    "ps2_jrpg_region_travel_select_panel.png": "Content/UI",
+    "ps2_jrpg_region_travel_select_panel.json": "Content/UI",
+    "ps2_jrpg_shop_trade_interface_panel.png": "Content/UI",
+    "ps2_jrpg_shop_trade_interface_panel.json": "Content/UI",
+    "ps2_jrpg_sacred_shrine_blessing_menu.png": "Content/UI",
+    "ps2_jrpg_sacred_shrine_blessing_menu.json": "Content/UI",
+    "ps2_jrpg_summon_call_interface_panel.png": "Content/UI",
+    "ps2_jrpg_summon_call_interface_panel.json": "Content/UI",
+    "ps2_jrpg_party_formation_screen_frame.png": "Content/UI",
+    "ps2_jrpg_party_formation_screen_frame.json": "Content/UI",
+    "ps2_jrpg_battle_victory_results_panel.png": "Content/UI",
+    "ps2_jrpg_battle_victory_results_panel.json": "Content/UI",
+    "ps2_jrpg_inn_rest_menu_frame.png": "Content/UI",
+    "ps2_jrpg_inn_rest_menu_frame.json": "Content/UI",
+    "ps2_jrpg_skill_learn_ability_panel.png": "Content/UI",
+    "ps2_jrpg_skill_learn_ability_panel.json": "Content/UI",
+    "ps2_jrpg_game_over_screen_frame.png": "Content/UI",
+    "ps2_jrpg_game_over_screen_frame.json": "Content/UI",
+    "ps2_jrpg_title_screen_hud_frame.png": "Content/UI",
+    "ps2_jrpg_title_screen_hud_frame.json": "Content/UI",
+    "ps2_jrpg_world_region_transition_panel.png": "Content/UI",
+    "ps2_jrpg_world_region_transition_panel.json": "Content/UI",
+    "ps2_jrpg_limit_break_activation_panel.png": "Content/UI",
+    "ps2_jrpg_limit_break_activation_panel.json": "Content/UI"
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "version": "1.0",
+  "asset_family": "ui_portraits",
+  "family": "ui_portraits",
+  "name": "ps2_jrpg_merchant_elder_portrait",
+  "prompt": "ps2 jrpg merchant elder portrait",
+  "seed": 108,
+  "files": {
+    "image": "ps2_jrpg_merchant_elder_portrait.png",
+    "manifest": "ps2_jrpg_merchant_elder_portrait.json"
+  },
+  "tags": [
+    "ui_portraits"
+  ],
+  "source_generator": "creation_engine.ui.portrait_gen.generate_ui_portrait",
+  "content_target": {
+    "ui": "Content/UI"
+  },
+  "style_profile": "ps2_ff7_ff12_highest_quality_ps2",
+  "asset_dimension": "3d",
+  "render_pipeline": "3d_pbr",
+  "coordinate_space": "Y_up",
+  "width": 96,
+  "height": 96,
+  "channels": [
+    "image"
+  ],
+  "narrative_tags": {
+    "region": "overworld",
+    "faction": "merchant_guild",
+    "era": "present_day",
+    "story_phase": "early_journey",
+    "culture_theme": "mystic"
+  },
+  "world_region_id": "overworld__mystic",
+  "exploration_intent": "overworld_traversal",
+  "placement_intent": "ui_character_card"
+}

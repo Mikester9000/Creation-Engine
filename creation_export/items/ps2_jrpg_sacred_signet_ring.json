@@ -1,0 +1,53 @@
+{
+  "version": "1.0",
+  "asset_family": "items",
+  "family": "items",
+  "name": "ps2_jrpg_sacred_signet_ring",
+  "prompt": "ps2 jrpg sacred signet ring",
+  "seed": 115,
+  "files": {
+    "obj": "ps2_jrpg_sacred_signet_ring.obj",
+    "mtl": "ps2_jrpg_sacred_signet_ring.mtl",
+    "manifest": "ps2_jrpg_sacred_signet_ring.json"
+  },
+  "tags": [
+    "items",
+    "ring_icon_mesh"
+  ],
+  "source_generator": "creation_engine.mesh.mesh_builder.build_mesh_from_prompt",
+  "content_target": {
+    "model": "Content/Models",
+    "materials": "Content/Materials"
+  },
+  "style_profile": "ps2_ff7_ff12_highest_quality_ps2",
+  "asset_dimension": "3d",
+  "render_pipeline": "3d_pbr",
+  "coordinate_space": "Y_up",
+  "material_slots": [
+    "metal",
+    "crystal"
+  ],
+  "narrative_tags": {
+    "region": "overworld",
+    "faction": "neutral",
+    "era": "present_day",
+    "story_phase": "early_journey",
+    "culture_theme": "sacred"
+  },
+  "world_region_id": "overworld__sacred",
+  "exploration_intent": "overworld_traversal",
+  "placement_intent": "overworld_loot_or_interactable",
+  "lod_policy": {
+    "lod0": 0,
+    "lod1": 12,
+    "lod2": 24
+  },
+  "complexity": "medium",
+  "complexity_policy": {
+    "vertex_budget": 512,
+    "part_jitter": 0.04
+  },
+  "vertex_count": 58,
+  "triangle_count": 104,
+  "unit_scale": 1.0
+}

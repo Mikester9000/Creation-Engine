@@ -1,0 +1,484 @@
+{
+  "version": "1.0",
+  "asset_family": "item_pack",
+  "family": "item_pack",
+  "name": "item_pack",
+  "prompt": "item pack",
+  "seed": 101,
+  "files": {
+    "ps2_jrpg_potion": "ps2_jrpg_potion.json",
+    "ps2_jrpg_sword": "ps2_jrpg_sword.json",
+    "ps2_jrpg_phoenix_relic_token": "ps2_jrpg_phoenix_relic_token.json",
+    "ps2_jrpg_crystal_charm": "ps2_jrpg_crystal_charm.json",
+    "ps2_jrpg_imperial_insignia": "ps2_jrpg_imperial_insignia.json",
+    "ps2_jrpg_rebel_field_kit": "ps2_jrpg_rebel_field_kit.json",
+    "ps2_jrpg_ancient_summon_relic_orb": "ps2_jrpg_ancient_summon_relic_orb.json",
+    "ps2_jrpg_holy_staff_icon_mesh": "ps2_jrpg_holy_staff_icon_mesh.json",
+    "ps2_jrpg_dark_blade_corrupted_relic": "ps2_jrpg_dark_blade_corrupted_relic.json",
+    "ps2_jrpg_highland_ranger_bow": "ps2_jrpg_highland_ranger_bow.json",
+    "ps2_jrpg_port_trade_cargo_pouch": "ps2_jrpg_port_trade_cargo_pouch.json",
+    "ps2_jrpg_royal_crest_medallion": "ps2_jrpg_royal_crest_medallion.json",
+    "ps2_jrpg_imperial_guard_shield": "ps2_jrpg_imperial_guard_shield.json",
+    "ps2_jrpg_knight_plate_armor_chestpiece": "ps2_jrpg_knight_plate_armor_chestpiece.json",
+    "ps2_jrpg_sacred_signet_ring": "ps2_jrpg_sacred_signet_ring.json",
+    "ps2_jrpg_elemental_essence_gem_jewel": "ps2_jrpg_elemental_essence_gem_jewel.json",
+    "ps2_jrpg_longbow_rebel_scout": "ps2_jrpg_longbow_rebel_scout.json",
+    "ps2_jrpg_ancient_relic_crystal_vial": "ps2_jrpg_ancient_relic_crystal_vial.json",
+    "ps2_jrpg_dungeon_key_carved_stone": "ps2_jrpg_dungeon_key_carved_stone.json",
+    "ps2_jrpg_highland_field_ration_supply_pack": "ps2_jrpg_highland_field_ration_supply_pack.json"
+  },
+  "tags": [
+    "items",
+    "items",
+    "items",
+    "items",
+    "items",
+    "items",
+    "items",
+    "items",
+    "items",
+    "items",
+    "items",
+    "items",
+    "items",
+    "items",
+    "items",
+    "items",
+    "items",
+    "items",
+    "items",
+    "items"
+  ],
+  "source_generator": "creation_engine.engine.CreationEngine",
+  "content_target": {
+    "items": "Content/Models"
+  },
+  "style_profile": "ps2_ff7_ff12_highest_quality_ps2",
+  "asset_dimension": "3d",
+  "render_pipeline": "3d_pbr",
+  "coordinate_space": "Y_up",
+  "assets": [
+    {
+      "name": "ps2_jrpg_potion",
+      "prompt": "ps2 jrpg potion",
+      "seed": 101,
+      "family": "items",
+      "manifest": "ps2_jrpg_potion.json",
+      "files": {
+        "obj": "ps2_jrpg_potion.obj",
+        "mtl": "ps2_jrpg_potion.mtl",
+        "manifest": "ps2_jrpg_potion.json"
+      },
+      "content_target": "Content/Models",
+      "destination_map": {
+        "ps2_jrpg_potion.obj": "Content/Models",
+        "ps2_jrpg_potion.mtl": "Content/Models",
+        "ps2_jrpg_potion.json": "Content/Models"
+      }
+    },
+    {
+      "name": "ps2_jrpg_sword",
+      "prompt": "ps2 jrpg sword",
+      "seed": 102,
+      "family": "items",
+      "manifest": "ps2_jrpg_sword.json",
+      "files": {
+        "obj": "ps2_jrpg_sword.obj",
+        "mtl": "ps2_jrpg_sword.mtl",
+        "manifest": "ps2_jrpg_sword.json"
+      },
+      "content_target": "Content/Models",
+      "destination_map": {
+        "ps2_jrpg_sword.obj": "Content/Models",
+        "ps2_jrpg_sword.mtl": "Content/Models",
+        "ps2_jrpg_sword.json": "Content/Models"
+      }
+    },
+    {
+      "name": "ps2_jrpg_phoenix_relic_token",
+      "prompt": "ps2 jrpg phoenix relic token",
+      "seed": 103,
+      "family": "items",
+      "manifest": "ps2_jrpg_phoenix_relic_token.json",
+      "files": {
+        "obj": "ps2_jrpg_phoenix_relic_token.obj",
+        "mtl": "ps2_jrpg_phoenix_relic_token.mtl",
+        "manifest": "ps2_jrpg_phoenix_relic_token.json"
+      },
+      "content_target": "Content/Models",
+      "destination_map": {
+        "ps2_jrpg_phoenix_relic_token.obj": "Content/Models",
+        "ps2_jrpg_phoenix_relic_token.mtl": "Content/Models",
+        "ps2_jrpg_phoenix_relic_token.json": "Content/Models"
+      }
+    },
+    {
+      "name": "ps2_jrpg_crystal_charm",
+      "prompt": "ps2 jrpg crystal charm",
+      "seed": 104,
+      "family": "items",
+      "manifest": "ps2_jrpg_crystal_charm.json",
+      "files": {
+        "obj": "ps2_jrpg_crystal_charm.obj",
+        "mtl": "ps2_jrpg_crystal_charm.mtl",
+        "manifest": "ps2_jrpg_crystal_charm.json"
+      },
+      "content_target": "Content/Models",
+      "destination_map": {
+        "ps2_jrpg_crystal_charm.obj": "Content/Models",
+        "ps2_jrpg_crystal_charm.mtl": "Content/Models",
+        "ps2_jrpg_crystal_charm.json": "Content/Models"
+      }
+    },
+    {
+      "name": "ps2_jrpg_imperial_insignia",
+      "prompt": "ps2 jrpg imperial insignia",
+      "seed": 105,
+      "family": "items",
+      "manifest": "ps2_jrpg_imperial_insignia.json",
+      "files": {
+        "obj": "ps2_jrpg_imperial_insignia.obj",
+        "mtl": "ps2_jrpg_imperial_insignia.mtl",
+        "manifest": "ps2_jrpg_imperial_insignia.json"
+      },
+      "content_target": "Content/Models",
+      "destination_map": {
+        "ps2_jrpg_imperial_insignia.obj": "Content/Models",
+        "ps2_jrpg_imperial_insignia.mtl": "Content/Models",
+        "ps2_jrpg_imperial_insignia.json": "Content/Models"
+      }
+    },
+    {
+      "name": "ps2_jrpg_rebel_field_kit",
+      "prompt": "ps2 jrpg rebel field kit",
+      "seed": 106,
+      "family": "items",
+      "manifest": "ps2_jrpg_rebel_field_kit.json",
+      "files": {
+        "obj": "ps2_jrpg_rebel_field_kit.obj",
+        "mtl": "ps2_jrpg_rebel_field_kit.mtl",
+        "manifest": "ps2_jrpg_rebel_field_kit.json"
+      },
+      "content_target": "Content/Models",
+      "destination_map": {
+        "ps2_jrpg_rebel_field_kit.obj": "Content/Models",
+        "ps2_jrpg_rebel_field_kit.mtl": "Content/Models",
+        "ps2_jrpg_rebel_field_kit.json": "Content/Models"
+      }
+    },
+    {
+      "name": "ps2_jrpg_ancient_summon_relic_orb",
+      "prompt": "ps2 jrpg ancient summon relic orb",
+      "seed": 107,
+      "family": "items",
+      "manifest": "ps2_jrpg_ancient_summon_relic_orb.json",
+      "files": {
+        "obj": "ps2_jrpg_ancient_summon_relic_orb.obj",
+        "mtl": "ps2_jrpg_ancient_summon_relic_orb.mtl",
+        "manifest": "ps2_jrpg_ancient_summon_relic_orb.json"
+      },
+      "content_target": "Content/Models",
+      "destination_map": {
+        "ps2_jrpg_ancient_summon_relic_orb.obj": "Content/Models",
+        "ps2_jrpg_ancient_summon_relic_orb.mtl": "Content/Models",
+        "ps2_jrpg_ancient_summon_relic_orb.json": "Content/Models"
+      }
+    },
+    {
+      "name": "ps2_jrpg_holy_staff_icon_mesh",
+      "prompt": "ps2 jrpg holy staff icon mesh",
+      "seed": 108,
+      "family": "items",
+      "manifest": "ps2_jrpg_holy_staff_icon_mesh.json",
+      "files": {
+        "obj": "ps2_jrpg_holy_staff_icon_mesh.obj",
+        "mtl": "ps2_jrpg_holy_staff_icon_mesh.mtl",
+        "manifest": "ps2_jrpg_holy_staff_icon_mesh.json"
+      },
+      "content_target": "Content/Models",
+      "destination_map": {
+        "ps2_jrpg_holy_staff_icon_mesh.obj": "Content/Models",
+        "ps2_jrpg_holy_staff_icon_mesh.mtl": "Content/Models",
+        "ps2_jrpg_holy_staff_icon_mesh.json": "Content/Models"
+      }
+    },
+    {
+      "name": "ps2_jrpg_dark_blade_corrupted_relic",
+      "prompt": "ps2 jrpg dark blade corrupted relic",
+      "seed": 109,
+      "family": "items",
+      "manifest": "ps2_jrpg_dark_blade_corrupted_relic.json",
+      "files": {
+        "obj": "ps2_jrpg_dark_blade_corrupted_relic.obj",
+        "mtl": "ps2_jrpg_dark_blade_corrupted_relic.mtl",
+        "manifest": "ps2_jrpg_dark_blade_corrupted_relic.json"
+      },
+      "content_target": "Content/Models",
+      "destination_map": {
+        "ps2_jrpg_dark_blade_corrupted_relic.obj": "Content/Models",
+        "ps2_jrpg_dark_blade_corrupted_relic.mtl": "Content/Models",
+        "ps2_jrpg_dark_blade_corrupted_relic.json": "Content/Models"
+      }
+    },
+    {
+      "name": "ps2_jrpg_highland_ranger_bow",
+      "prompt": "ps2 jrpg highland ranger bow",
+      "seed": 110,
+      "family": "items",
+      "manifest": "ps2_jrpg_highland_ranger_bow.json",
+      "files": {
+        "obj": "ps2_jrpg_highland_ranger_bow.obj",
+        "mtl": "ps2_jrpg_highland_ranger_bow.mtl",
+        "manifest": "ps2_jrpg_highland_ranger_bow.json"
+      },
+      "content_target": "Content/Models",
+      "destination_map": {
+        "ps2_jrpg_highland_ranger_bow.obj": "Content/Models",
+        "ps2_jrpg_highland_ranger_bow.mtl": "Content/Models",
+        "ps2_jrpg_highland_ranger_bow.json": "Content/Models"
+      }
+    },
+    {
+      "name": "ps2_jrpg_port_trade_cargo_pouch",
+      "prompt": "ps2 jrpg port trade cargo pouch",
+      "seed": 111,
+      "family": "items",
+      "manifest": "ps2_jrpg_port_trade_cargo_pouch.json",
+      "files": {
+        "obj": "ps2_jrpg_port_trade_cargo_pouch.obj",
+        "mtl": "ps2_jrpg_port_trade_cargo_pouch.mtl",
+        "manifest": "ps2_jrpg_port_trade_cargo_pouch.json"
+      },
+      "content_target": "Content/Models",
+      "destination_map": {
+        "ps2_jrpg_port_trade_cargo_pouch.obj": "Content/Models",
+        "ps2_jrpg_port_trade_cargo_pouch.mtl": "Content/Models",
+        "ps2_jrpg_port_trade_cargo_pouch.json": "Content/Models"
+      }
+    },
+    {
+      "name": "ps2_jrpg_royal_crest_medallion",
+      "prompt": "ps2 jrpg royal crest medallion",
+      "seed": 112,
+      "family": "items",
+      "manifest": "ps2_jrpg_royal_crest_medallion.json",
+      "files": {
+        "obj": "ps2_jrpg_royal_crest_medallion.obj",
+        "mtl": "ps2_jrpg_royal_crest_medallion.mtl",
+        "manifest": "ps2_jrpg_royal_crest_medallion.json"
+      },
+      "content_target": "Content/Models",
+      "destination_map": {
+        "ps2_jrpg_royal_crest_medallion.obj": "Content/Models",
+        "ps2_jrpg_royal_crest_medallion.mtl": "Content/Models",
+        "ps2_jrpg_royal_crest_medallion.json": "Content/Models"
+      }
+    },
+    {
+      "name": "ps2_jrpg_imperial_guard_shield",
+      "prompt": "ps2 jrpg imperial guard shield",
+      "seed": 113,
+      "family": "items",
+      "manifest": "ps2_jrpg_imperial_guard_shield.json",
+      "files": {
+        "obj": "ps2_jrpg_imperial_guard_shield.obj",
+        "mtl": "ps2_jrpg_imperial_guard_shield.mtl",
+        "manifest": "ps2_jrpg_imperial_guard_shield.json"
+      },
+      "content_target": "Content/Models",
+      "destination_map": {
+        "ps2_jrpg_imperial_guard_shield.obj": "Content/Models",
+        "ps2_jrpg_imperial_guard_shield.mtl": "Content/Models",
+        "ps2_jrpg_imperial_guard_shield.json": "Content/Models"
+      }
+    },
+    {
+      "name": "ps2_jrpg_knight_plate_armor_chestpiece",
+      "prompt": "ps2 jrpg knight plate armor chestpiece",
+      "seed": 114,
+      "family": "items",
+      "manifest": "ps2_jrpg_knight_plate_armor_chestpiece.json",
+      "files": {
+        "obj": "ps2_jrpg_knight_plate_armor_chestpiece.obj",
+        "mtl": "ps2_jrpg_knight_plate_armor_chestpiece.mtl",
+        "manifest": "ps2_jrpg_knight_plate_armor_chestpiece.json"
+      },
+      "content_target": "Content/Models",
+      "destination_map": {
+        "ps2_jrpg_knight_plate_armor_chestpiece.obj": "Content/Models",
+        "ps2_jrpg_knight_plate_armor_chestpiece.mtl": "Content/Models",
+        "ps2_jrpg_knight_plate_armor_chestpiece.json": "Content/Models"
+      }
+    },
+    {
+      "name": "ps2_jrpg_sacred_signet_ring",
+      "prompt": "ps2 jrpg sacred signet ring",
+      "seed": 115,
+      "family": "items",
+      "manifest": "ps2_jrpg_sacred_signet_ring.json",
+      "files": {
+        "obj": "ps2_jrpg_sacred_signet_ring.obj",
+        "mtl": "ps2_jrpg_sacred_signet_ring.mtl",
+        "manifest": "ps2_jrpg_sacred_signet_ring.json"
+      },
+      "content_target": "Content/Models",
+      "destination_map": {
+        "ps2_jrpg_sacred_signet_ring.obj": "Content/Models",
+        "ps2_jrpg_sacred_signet_ring.mtl": "Content/Models",
+        "ps2_jrpg_sacred_signet_ring.json": "Content/Models"
+      }
+    },
+    {
+      "name": "ps2_jrpg_elemental_essence_gem_jewel",
+      "prompt": "ps2 jrpg elemental essence gem jewel",
+      "seed": 116,
+      "family": "items",
+      "manifest": "ps2_jrpg_elemental_essence_gem_jewel.json",
+      "files": {
+        "obj": "ps2_jrpg_elemental_essence_gem_jewel.obj",
+        "mtl": "ps2_jrpg_elemental_essence_gem_jewel.mtl",
+        "manifest": "ps2_jrpg_elemental_essence_gem_jewel.json"
+      },
+      "content_target": "Content/Models",
+      "destination_map": {
+        "ps2_jrpg_elemental_essence_gem_jewel.obj": "Content/Models",
+        "ps2_jrpg_elemental_essence_gem_jewel.mtl": "Content/Models",
+        "ps2_jrpg_elemental_essence_gem_jewel.json": "Content/Models"
+      }
+    },
+    {
+      "name": "ps2_jrpg_longbow_rebel_scout",
+      "prompt": "ps2 jrpg longbow rebel scout",
+      "seed": 117,
+      "family": "items",
+      "manifest": "ps2_jrpg_longbow_rebel_scout.json",
+      "files": {
+        "obj": "ps2_jrpg_longbow_rebel_scout.obj",
+        "mtl": "ps2_jrpg_longbow_rebel_scout.mtl",
+        "manifest": "ps2_jrpg_longbow_rebel_scout.json"
+      },
+      "content_target": "Content/Models",
+      "destination_map": {
+        "ps2_jrpg_longbow_rebel_scout.obj": "Content/Models",
+        "ps2_jrpg_longbow_rebel_scout.mtl": "Content/Models",
+        "ps2_jrpg_longbow_rebel_scout.json": "Content/Models"
+      }
+    },
+    {
+      "name": "ps2_jrpg_ancient_relic_crystal_vial",
+      "prompt": "ps2 jrpg ancient relic crystal vial",
+      "seed": 118,
+      "family": "items",
+      "manifest": "ps2_jrpg_ancient_relic_crystal_vial.json",
+      "files": {
+        "obj": "ps2_jrpg_ancient_relic_crystal_vial.obj",
+        "mtl": "ps2_jrpg_ancient_relic_crystal_vial.mtl",
+        "manifest": "ps2_jrpg_ancient_relic_crystal_vial.json"
+      },
+      "content_target": "Content/Models",
+      "destination_map": {
+        "ps2_jrpg_ancient_relic_crystal_vial.obj": "Content/Models",
+        "ps2_jrpg_ancient_relic_crystal_vial.mtl": "Content/Models",
+        "ps2_jrpg_ancient_relic_crystal_vial.json": "Content/Models"
+      }
+    },
+    {
+      "name": "ps2_jrpg_dungeon_key_carved_stone",
+      "prompt": "ps2 jrpg dungeon key carved stone",
+      "seed": 119,
+      "family": "items",
+      "manifest": "ps2_jrpg_dungeon_key_carved_stone.json",
+      "files": {
+        "obj": "ps2_jrpg_dungeon_key_carved_stone.obj",
+        "mtl": "ps2_jrpg_dungeon_key_carved_stone.mtl",
+        "manifest": "ps2_jrpg_dungeon_key_carved_stone.json"
+      },
+      "content_target": "Content/Models",
+      "destination_map": {
+        "ps2_jrpg_dungeon_key_carved_stone.obj": "Content/Models",
+        "ps2_jrpg_dungeon_key_carved_stone.mtl": "Content/Models",
+        "ps2_jrpg_dungeon_key_carved_stone.json": "Content/Models"
+      }
+    },
+    {
+      "name": "ps2_jrpg_highland_field_ration_supply_pack",
+      "prompt": "ps2 jrpg highland field ration supply pack",
+      "seed": 120,
+      "family": "items",
+      "manifest": "ps2_jrpg_highland_field_ration_supply_pack.json",
+      "files": {
+        "obj": "ps2_jrpg_highland_field_ration_supply_pack.obj",
+        "mtl": "ps2_jrpg_highland_field_ration_supply_pack.mtl",
+        "manifest": "ps2_jrpg_highland_field_ration_supply_pack.json"
+      },
+      "content_target": "Content/Models",
+      "destination_map": {
+        "ps2_jrpg_highland_field_ration_supply_pack.obj": "Content/Models",
+        "ps2_jrpg_highland_field_ration_supply_pack.mtl": "Content/Models",
+        "ps2_jrpg_highland_field_ration_supply_pack.json": "Content/Models"
+      }
+    }
+  ],
+  "destination_map": {
+    "ps2_jrpg_potion.obj": "Content/Models",
+    "ps2_jrpg_potion.mtl": "Content/Models",
+    "ps2_jrpg_potion.json": "Content/Models",
+    "ps2_jrpg_sword.obj": "Content/Models",
+    "ps2_jrpg_sword.mtl": "Content/Models",
+    "ps2_jrpg_sword.json": "Content/Models",
+    "ps2_jrpg_phoenix_relic_token.obj": "Content/Models",
+    "ps2_jrpg_phoenix_relic_token.mtl": "Content/Models",
+    "ps2_jrpg_phoenix_relic_token.json": "Content/Models",
+    "ps2_jrpg_crystal_charm.obj": "Content/Models",
+    "ps2_jrpg_crystal_charm.mtl": "Content/Models",
+    "ps2_jrpg_crystal_charm.json": "Content/Models",
+    "ps2_jrpg_imperial_insignia.obj": "Content/Models",
+    "ps2_jrpg_imperial_insignia.mtl": "Content/Models",
+    "ps2_jrpg_imperial_insignia.json": "Content/Models",
+    "ps2_jrpg_rebel_field_kit.obj": "Content/Models",
+    "ps2_jrpg_rebel_field_kit.mtl": "Content/Models",
+    "ps2_jrpg_rebel_field_kit.json": "Content/Models",
+    "ps2_jrpg_ancient_summon_relic_orb.obj": "Content/Models",
+    "ps2_jrpg_ancient_summon_relic_orb.mtl": "Content/Models",
+    "ps2_jrpg_ancient_summon_relic_orb.json": "Content/Models",
+    "ps2_jrpg_holy_staff_icon_mesh.obj": "Content/Models",
+    "ps2_jrpg_holy_staff_icon_mesh.mtl": "Content/Models",
+    "ps2_jrpg_holy_staff_icon_mesh.json": "Content/Models",
+    "ps2_jrpg_dark_blade_corrupted_relic.obj": "Content/Models",
+    "ps2_jrpg_dark_blade_corrupted_relic.mtl": "Content/Models",
+    "ps2_jrpg_dark_blade_corrupted_relic.json": "Content/Models",
+    "ps2_jrpg_highland_ranger_bow.obj": "Content/Models",
+    "ps2_jrpg_highland_ranger_bow.mtl": "Content/Models",
+    "ps2_jrpg_highland_ranger_bow.json": "Content/Models",
+    "ps2_jrpg_port_trade_cargo_pouch.obj": "Content/Models",
+    "ps2_jrpg_port_trade_cargo_pouch.mtl": "Content/Models",
+    "ps2_jrpg_port_trade_cargo_pouch.json": "Content/Models",
+    "ps2_jrpg_royal_crest_medallion.obj": "Content/Models",
+    "ps2_jrpg_royal_crest_medallion.mtl": "Content/Models",
+    "ps2_jrpg_royal_crest_medallion.json": "Content/Models",
+    "ps2_jrpg_imperial_guard_shield.obj": "Content/Models",
+    "ps2_jrpg_imperial_guard_shield.mtl": "Content/Models",
+    "ps2_jrpg_imperial_guard_shield.json": "Content/Models",
+    "ps2_jrpg_knight_plate_armor_chestpiece.obj": "Content/Models",
+    "ps2_jrpg_knight_plate_armor_chestpiece.mtl": "Content/Models",
+    "ps2_jrpg_knight_plate_armor_chestpiece.json": "Content/Models",
+    "ps2_jrpg_sacred_signet_ring.obj": "Content/Models",
+    "ps2_jrpg_sacred_signet_ring.mtl": "Content/Models",
+    "ps2_jrpg_sacred_signet_ring.json": "Content/Models",
+    "ps2_jrpg_elemental_essence_gem_jewel.obj": "Content/Models",
+    "ps2_jrpg_elemental_essence_gem_jewel.mtl": "Content/Models",
+    "ps2_jrpg_elemental_essence_gem_jewel.json": "Content/Models",
+    "ps2_jrpg_longbow_rebel_scout.obj": "Content/Models",
+    "ps2_jrpg_longbow_rebel_scout.mtl": "Content/Models",
+    "ps2_jrpg_longbow_rebel_scout.json": "Content/Models",
+    "ps2_jrpg_ancient_relic_crystal_vial.obj": "Content/Models",
+    "ps2_jrpg_ancient_relic_crystal_vial.mtl": "Content/Models",
+    "ps2_jrpg_ancient_relic_crystal_vial.json": "Content/Models",
+    "ps2_jrpg_dungeon_key_carved_stone.obj": "Content/Models",
+    "ps2_jrpg_dungeon_key_carved_stone.mtl": "Content/Models",
+    "ps2_jrpg_dungeon_key_carved_stone.json": "Content/Models",
+    "ps2_jrpg_highland_field_ration_supply_pack.obj": "Content/Models",
+    "ps2_jrpg_highland_field_ration_supply_pack.mtl": "Content/Models",
+    "ps2_jrpg_highland_field_ration_supply_pack.json": "Content/Models"
+  }
+}

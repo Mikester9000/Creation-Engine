@@ -1,0 +1,484 @@
+{
+  "version": "1.0",
+  "asset_family": "character_static_pack",
+  "family": "character_static_pack",
+  "name": "character_static_pack",
+  "prompt": "character static pack",
+  "seed": 101,
+  "files": {
+    "ps2_jrpg_npc_humanoid": "ps2_jrpg_npc_humanoid.json",
+    "ps2_jrpg_merchant_npc": "ps2_jrpg_merchant_npc.json",
+    "ps2_jrpg_imperial_guard_npc": "ps2_jrpg_imperial_guard_npc.json",
+    "ps2_jrpg_rebel_scout_npc": "ps2_jrpg_rebel_scout_npc.json",
+    "ps2_jrpg_shrine_priest_npc": "ps2_jrpg_shrine_priest_npc.json",
+    "ps2_jrpg_port_town_villager_npc": "ps2_jrpg_port_town_villager_npc.json",
+    "ps2_jrpg_highland_ranger_npc": "ps2_jrpg_highland_ranger_npc.json",
+    "ps2_jrpg_royal_court_advisor_npc": "ps2_jrpg_royal_court_advisor_npc.json",
+    "ps2_jrpg_ruins_archaeologist_npc": "ps2_jrpg_ruins_archaeologist_npc.json",
+    "ps2_jrpg_corrupted_cultist_npc": "ps2_jrpg_corrupted_cultist_npc.json",
+    "ps2_jrpg_inn_keeper_npc": "ps2_jrpg_inn_keeper_npc.json",
+    "ps2_jrpg_elder_village_chief_npc": "ps2_jrpg_elder_village_chief_npc.json",
+    "ps2_jrpg_knight_paladin_npc": "ps2_jrpg_knight_paladin_npc.json",
+    "ps2_jrpg_sage_mystic_scholar_npc": "ps2_jrpg_sage_mystic_scholar_npc.json",
+    "ps2_jrpg_blacksmith_smith_npc": "ps2_jrpg_blacksmith_smith_npc.json",
+    "ps2_jrpg_mage_wizard_arcanist_npc": "ps2_jrpg_mage_wizard_arcanist_npc.json",
+    "ps2_jrpg_thief_rogue_bandit_npc": "ps2_jrpg_thief_rogue_bandit_npc.json",
+    "ps2_jrpg_capital_city_soldier_guard_npc": "ps2_jrpg_capital_city_soldier_guard_npc.json",
+    "ps2_jrpg_sacred_shrine_acolyte_npc": "ps2_jrpg_sacred_shrine_acolyte_npc.json",
+    "ps2_jrpg_wasteland_survivor_npc": "ps2_jrpg_wasteland_survivor_npc.json"
+  },
+  "tags": [
+    "characters_static",
+    "characters_static",
+    "characters_static",
+    "characters_static",
+    "characters_static",
+    "characters_static",
+    "characters_static",
+    "characters_static",
+    "characters_static",
+    "characters_static",
+    "characters_static",
+    "characters_static",
+    "characters_static",
+    "characters_static",
+    "characters_static",
+    "characters_static",
+    "characters_static",
+    "characters_static",
+    "characters_static",
+    "characters_static"
+  ],
+  "source_generator": "creation_engine.engine.CreationEngine",
+  "content_target": {
+    "characters_static": "Content/Models"
+  },
+  "style_profile": "ps2_ff7_ff12_highest_quality_ps2",
+  "asset_dimension": "3d",
+  "render_pipeline": "3d_pbr",
+  "coordinate_space": "Y_up",
+  "assets": [
+    {
+      "name": "ps2_jrpg_npc_humanoid",
+      "prompt": "ps2 jrpg npc humanoid",
+      "seed": 101,
+      "family": "characters_static",
+      "manifest": "ps2_jrpg_npc_humanoid.json",
+      "files": {
+        "obj": "ps2_jrpg_npc_humanoid.obj",
+        "mtl": "ps2_jrpg_npc_humanoid.mtl",
+        "manifest": "ps2_jrpg_npc_humanoid.json"
+      },
+      "content_target": "Content/Models",
+      "destination_map": {
+        "ps2_jrpg_npc_humanoid.obj": "Content/Models",
+        "ps2_jrpg_npc_humanoid.mtl": "Content/Models",
+        "ps2_jrpg_npc_humanoid.json": "Content/Models"
+      }
+    },
+    {
+      "name": "ps2_jrpg_merchant_npc",
+      "prompt": "ps2 jrpg merchant npc",
+      "seed": 102,
+      "family": "characters_static",
+      "manifest": "ps2_jrpg_merchant_npc.json",
+      "files": {
+        "obj": "ps2_jrpg_merchant_npc.obj",
+        "mtl": "ps2_jrpg_merchant_npc.mtl",
+        "manifest": "ps2_jrpg_merchant_npc.json"
+      },
+      "content_target": "Content/Models",
+      "destination_map": {
+        "ps2_jrpg_merchant_npc.obj": "Content/Models",
+        "ps2_jrpg_merchant_npc.mtl": "Content/Models",
+        "ps2_jrpg_merchant_npc.json": "Content/Models"
+      }
+    },
+    {
+      "name": "ps2_jrpg_imperial_guard_npc",
+      "prompt": "ps2 jrpg imperial guard npc",
+      "seed": 103,
+      "family": "characters_static",
+      "manifest": "ps2_jrpg_imperial_guard_npc.json",
+      "files": {
+        "obj": "ps2_jrpg_imperial_guard_npc.obj",
+        "mtl": "ps2_jrpg_imperial_guard_npc.mtl",
+        "manifest": "ps2_jrpg_imperial_guard_npc.json"
+      },
+      "content_target": "Content/Models",
+      "destination_map": {
+        "ps2_jrpg_imperial_guard_npc.obj": "Content/Models",
+        "ps2_jrpg_imperial_guard_npc.mtl": "Content/Models",
+        "ps2_jrpg_imperial_guard_npc.json": "Content/Models"
+      }
+    },
+    {
+      "name": "ps2_jrpg_rebel_scout_npc",
+      "prompt": "ps2 jrpg rebel scout npc",
+      "seed": 104,
+      "family": "characters_static",
+      "manifest": "ps2_jrpg_rebel_scout_npc.json",
+      "files": {
+        "obj": "ps2_jrpg_rebel_scout_npc.obj",
+        "mtl": "ps2_jrpg_rebel_scout_npc.mtl",
+        "manifest": "ps2_jrpg_rebel_scout_npc.json"
+      },
+      "content_target": "Content/Models",
+      "destination_map": {
+        "ps2_jrpg_rebel_scout_npc.obj": "Content/Models",
+        "ps2_jrpg_rebel_scout_npc.mtl": "Content/Models",
+        "ps2_jrpg_rebel_scout_npc.json": "Content/Models"
+      }
+    },
+    {
+      "name": "ps2_jrpg_shrine_priest_npc",
+      "prompt": "ps2 jrpg shrine priest npc",
+      "seed": 105,
+      "family": "characters_static",
+      "manifest": "ps2_jrpg_shrine_priest_npc.json",
+      "files": {
+        "obj": "ps2_jrpg_shrine_priest_npc.obj",
+        "mtl": "ps2_jrpg_shrine_priest_npc.mtl",
+        "manifest": "ps2_jrpg_shrine_priest_npc.json"
+      },
+      "content_target": "Content/Models",
+      "destination_map": {
+        "ps2_jrpg_shrine_priest_npc.obj": "Content/Models",
+        "ps2_jrpg_shrine_priest_npc.mtl": "Content/Models",
+        "ps2_jrpg_shrine_priest_npc.json": "Content/Models"
+      }
+    },
+    {
+      "name": "ps2_jrpg_port_town_villager_npc",
+      "prompt": "ps2 jrpg port town villager npc",
+      "seed": 106,
+      "family": "characters_static",
+      "manifest": "ps2_jrpg_port_town_villager_npc.json",
+      "files": {
+        "obj": "ps2_jrpg_port_town_villager_npc.obj",
+        "mtl": "ps2_jrpg_port_town_villager_npc.mtl",
+        "manifest": "ps2_jrpg_port_town_villager_npc.json"
+      },
+      "content_target": "Content/Models",
+      "destination_map": {
+        "ps2_jrpg_port_town_villager_npc.obj": "Content/Models",
+        "ps2_jrpg_port_town_villager_npc.mtl": "Content/Models",
+        "ps2_jrpg_port_town_villager_npc.json": "Content/Models"
+      }
+    },
+    {
+      "name": "ps2_jrpg_highland_ranger_npc",
+      "prompt": "ps2 jrpg highland ranger npc",
+      "seed": 107,
+      "family": "characters_static",
+      "manifest": "ps2_jrpg_highland_ranger_npc.json",
+      "files": {
+        "obj": "ps2_jrpg_highland_ranger_npc.obj",
+        "mtl": "ps2_jrpg_highland_ranger_npc.mtl",
+        "manifest": "ps2_jrpg_highland_ranger_npc.json"
+      },
+      "content_target": "Content/Models",
+      "destination_map": {
+        "ps2_jrpg_highland_ranger_npc.obj": "Content/Models",
+        "ps2_jrpg_highland_ranger_npc.mtl": "Content/Models",
+        "ps2_jrpg_highland_ranger_npc.json": "Content/Models"
+      }
+    },
+    {
+      "name": "ps2_jrpg_royal_court_advisor_npc",
+      "prompt": "ps2 jrpg royal court advisor npc",
+      "seed": 108,
+      "family": "characters_static",
+      "manifest": "ps2_jrpg_royal_court_advisor_npc.json",
+      "files": {
+        "obj": "ps2_jrpg_royal_court_advisor_npc.obj",
+        "mtl": "ps2_jrpg_royal_court_advisor_npc.mtl",
+        "manifest": "ps2_jrpg_royal_court_advisor_npc.json"
+      },
+      "content_target": "Content/Models",
+      "destination_map": {
+        "ps2_jrpg_royal_court_advisor_npc.obj": "Content/Models",
+        "ps2_jrpg_royal_court_advisor_npc.mtl": "Content/Models",
+        "ps2_jrpg_royal_court_advisor_npc.json": "Content/Models"
+      }
+    },
+    {
+      "name": "ps2_jrpg_ruins_archaeologist_npc",
+      "prompt": "ps2 jrpg ruins archaeologist npc",
+      "seed": 109,
+      "family": "characters_static",
+      "manifest": "ps2_jrpg_ruins_archaeologist_npc.json",
+      "files": {
+        "obj": "ps2_jrpg_ruins_archaeologist_npc.obj",
+        "mtl": "ps2_jrpg_ruins_archaeologist_npc.mtl",
+        "manifest": "ps2_jrpg_ruins_archaeologist_npc.json"
+      },
+      "content_target": "Content/Models",
+      "destination_map": {
+        "ps2_jrpg_ruins_archaeologist_npc.obj": "Content/Models",
+        "ps2_jrpg_ruins_archaeologist_npc.mtl": "Content/Models",
+        "ps2_jrpg_ruins_archaeologist_npc.json": "Content/Models"
+      }
+    },
+    {
+      "name": "ps2_jrpg_corrupted_cultist_npc",
+      "prompt": "ps2 jrpg corrupted cultist npc",
+      "seed": 110,
+      "family": "characters_static",
+      "manifest": "ps2_jrpg_corrupted_cultist_npc.json",
+      "files": {
+        "obj": "ps2_jrpg_corrupted_cultist_npc.obj",
+        "mtl": "ps2_jrpg_corrupted_cultist_npc.mtl",
+        "manifest": "ps2_jrpg_corrupted_cultist_npc.json"
+      },
+      "content_target": "Content/Models",
+      "destination_map": {
+        "ps2_jrpg_corrupted_cultist_npc.obj": "Content/Models",
+        "ps2_jrpg_corrupted_cultist_npc.mtl": "Content/Models",
+        "ps2_jrpg_corrupted_cultist_npc.json": "Content/Models"
+      }
+    },
+    {
+      "name": "ps2_jrpg_inn_keeper_npc",
+      "prompt": "ps2 jrpg inn keeper npc",
+      "seed": 111,
+      "family": "characters_static",
+      "manifest": "ps2_jrpg_inn_keeper_npc.json",
+      "files": {
+        "obj": "ps2_jrpg_inn_keeper_npc.obj",
+        "mtl": "ps2_jrpg_inn_keeper_npc.mtl",
+        "manifest": "ps2_jrpg_inn_keeper_npc.json"
+      },
+      "content_target": "Content/Models",
+      "destination_map": {
+        "ps2_jrpg_inn_keeper_npc.obj": "Content/Models",
+        "ps2_jrpg_inn_keeper_npc.mtl": "Content/Models",
+        "ps2_jrpg_inn_keeper_npc.json": "Content/Models"
+      }
+    },
+    {
+      "name": "ps2_jrpg_elder_village_chief_npc",
+      "prompt": "ps2 jrpg elder village chief npc",
+      "seed": 112,
+      "family": "characters_static",
+      "manifest": "ps2_jrpg_elder_village_chief_npc.json",
+      "files": {
+        "obj": "ps2_jrpg_elder_village_chief_npc.obj",
+        "mtl": "ps2_jrpg_elder_village_chief_npc.mtl",
+        "manifest": "ps2_jrpg_elder_village_chief_npc.json"
+      },
+      "content_target": "Content/Models",
+      "destination_map": {
+        "ps2_jrpg_elder_village_chief_npc.obj": "Content/Models",
+        "ps2_jrpg_elder_village_chief_npc.mtl": "Content/Models",
+        "ps2_jrpg_elder_village_chief_npc.json": "Content/Models"
+      }
+    },
+    {
+      "name": "ps2_jrpg_knight_paladin_npc",
+      "prompt": "ps2 jrpg knight paladin npc",
+      "seed": 113,
+      "family": "characters_static",
+      "manifest": "ps2_jrpg_knight_paladin_npc.json",
+      "files": {
+        "obj": "ps2_jrpg_knight_paladin_npc.obj",
+        "mtl": "ps2_jrpg_knight_paladin_npc.mtl",
+        "manifest": "ps2_jrpg_knight_paladin_npc.json"
+      },
+      "content_target": "Content/Models",
+      "destination_map": {
+        "ps2_jrpg_knight_paladin_npc.obj": "Content/Models",
+        "ps2_jrpg_knight_paladin_npc.mtl": "Content/Models",
+        "ps2_jrpg_knight_paladin_npc.json": "Content/Models"
+      }
+    },
+    {
+      "name": "ps2_jrpg_sage_mystic_scholar_npc",
+      "prompt": "ps2 jrpg sage mystic scholar npc",
+      "seed": 114,
+      "family": "characters_static",
+      "manifest": "ps2_jrpg_sage_mystic_scholar_npc.json",
+      "files": {
+        "obj": "ps2_jrpg_sage_mystic_scholar_npc.obj",
+        "mtl": "ps2_jrpg_sage_mystic_scholar_npc.mtl",
+        "manifest": "ps2_jrpg_sage_mystic_scholar_npc.json"
+      },
+      "content_target": "Content/Models",
+      "destination_map": {
+        "ps2_jrpg_sage_mystic_scholar_npc.obj": "Content/Models",
+        "ps2_jrpg_sage_mystic_scholar_npc.mtl": "Content/Models",
+        "ps2_jrpg_sage_mystic_scholar_npc.json": "Content/Models"
+      }
+    },
+    {
+      "name": "ps2_jrpg_blacksmith_smith_npc",
+      "prompt": "ps2 jrpg blacksmith smith npc",
+      "seed": 115,
+      "family": "characters_static",
+      "manifest": "ps2_jrpg_blacksmith_smith_npc.json",
+      "files": {
+        "obj": "ps2_jrpg_blacksmith_smith_npc.obj",
+        "mtl": "ps2_jrpg_blacksmith_smith_npc.mtl",
+        "manifest": "ps2_jrpg_blacksmith_smith_npc.json"
+      },
+      "content_target": "Content/Models",
+      "destination_map": {
+        "ps2_jrpg_blacksmith_smith_npc.obj": "Content/Models",
+        "ps2_jrpg_blacksmith_smith_npc.mtl": "Content/Models",
+        "ps2_jrpg_blacksmith_smith_npc.json": "Content/Models"
+      }
+    },
+    {
+      "name": "ps2_jrpg_mage_wizard_arcanist_npc",
+      "prompt": "ps2 jrpg mage wizard arcanist npc",
+      "seed": 116,
+      "family": "characters_static",
+      "manifest": "ps2_jrpg_mage_wizard_arcanist_npc.json",
+      "files": {
+        "obj": "ps2_jrpg_mage_wizard_arcanist_npc.obj",
+        "mtl": "ps2_jrpg_mage_wizard_arcanist_npc.mtl",
+        "manifest": "ps2_jrpg_mage_wizard_arcanist_npc.json"
+      },
+      "content_target": "Content/Models",
+      "destination_map": {
+        "ps2_jrpg_mage_wizard_arcanist_npc.obj": "Content/Models",
+        "ps2_jrpg_mage_wizard_arcanist_npc.mtl": "Content/Models",
+        "ps2_jrpg_mage_wizard_arcanist_npc.json": "Content/Models"
+      }
+    },
+    {
+      "name": "ps2_jrpg_thief_rogue_bandit_npc",
+      "prompt": "ps2 jrpg thief rogue bandit npc",
+      "seed": 117,
+      "family": "characters_static",
+      "manifest": "ps2_jrpg_thief_rogue_bandit_npc.json",
+      "files": {
+        "obj": "ps2_jrpg_thief_rogue_bandit_npc.obj",
+        "mtl": "ps2_jrpg_thief_rogue_bandit_npc.mtl",
+        "manifest": "ps2_jrpg_thief_rogue_bandit_npc.json"
+      },
+      "content_target": "Content/Models",
+      "destination_map": {
+        "ps2_jrpg_thief_rogue_bandit_npc.obj": "Content/Models",
+        "ps2_jrpg_thief_rogue_bandit_npc.mtl": "Content/Models",
+        "ps2_jrpg_thief_rogue_bandit_npc.json": "Content/Models"
+      }
+    },
+    {
+      "name": "ps2_jrpg_capital_city_soldier_guard_npc",
+      "prompt": "ps2 jrpg capital city soldier guard npc",
+      "seed": 118,
+      "family": "characters_static",
+      "manifest": "ps2_jrpg_capital_city_soldier_guard_npc.json",
+      "files": {
+        "obj": "ps2_jrpg_capital_city_soldier_guard_npc.obj",
+        "mtl": "ps2_jrpg_capital_city_soldier_guard_npc.mtl",
+        "manifest": "ps2_jrpg_capital_city_soldier_guard_npc.json"
+      },
+      "content_target": "Content/Models",
+      "destination_map": {
+        "ps2_jrpg_capital_city_soldier_guard_npc.obj": "Content/Models",
+        "ps2_jrpg_capital_city_soldier_guard_npc.mtl": "Content/Models",
+        "ps2_jrpg_capital_city_soldier_guard_npc.json": "Content/Models"
+      }
+    },
+    {
+      "name": "ps2_jrpg_sacred_shrine_acolyte_npc",
+      "prompt": "ps2 jrpg sacred shrine acolyte npc",
+      "seed": 119,
+      "family": "characters_static",
+      "manifest": "ps2_jrpg_sacred_shrine_acolyte_npc.json",
+      "files": {
+        "obj": "ps2_jrpg_sacred_shrine_acolyte_npc.obj",
+        "mtl": "ps2_jrpg_sacred_shrine_acolyte_npc.mtl",
+        "manifest": "ps2_jrpg_sacred_shrine_acolyte_npc.json"
+      },
+      "content_target": "Content/Models",
+      "destination_map": {
+        "ps2_jrpg_sacred_shrine_acolyte_npc.obj": "Content/Models",
+        "ps2_jrpg_sacred_shrine_acolyte_npc.mtl": "Content/Models",
+        "ps2_jrpg_sacred_shrine_acolyte_npc.json": "Content/Models"
+      }
+    },
+    {
+      "name": "ps2_jrpg_wasteland_survivor_npc",
+      "prompt": "ps2 jrpg wasteland survivor npc",
+      "seed": 120,
+      "family": "characters_static",
+      "manifest": "ps2_jrpg_wasteland_survivor_npc.json",
+      "files": {
+        "obj": "ps2_jrpg_wasteland_survivor_npc.obj",
+        "mtl": "ps2_jrpg_wasteland_survivor_npc.mtl",
+        "manifest": "ps2_jrpg_wasteland_survivor_npc.json"
+      },
+      "content_target": "Content/Models",
+      "destination_map": {
+        "ps2_jrpg_wasteland_survivor_npc.obj": "Content/Models",
+        "ps2_jrpg_wasteland_survivor_npc.mtl": "Content/Models",
+        "ps2_jrpg_wasteland_survivor_npc.json": "Content/Models"
+      }
+    }
+  ],
+  "destination_map": {
+    "ps2_jrpg_npc_humanoid.obj": "Content/Models",
+    "ps2_jrpg_npc_humanoid.mtl": "Content/Models",
+    "ps2_jrpg_npc_humanoid.json": "Content/Models",
+    "ps2_jrpg_merchant_npc.obj": "Content/Models",
+    "ps2_jrpg_merchant_npc.mtl": "Content/Models",
+    "ps2_jrpg_merchant_npc.json": "Content/Models",
+    "ps2_jrpg_imperial_guard_npc.obj": "Content/Models",
+    "ps2_jrpg_imperial_guard_npc.mtl": "Content/Models",
+    "ps2_jrpg_imperial_guard_npc.json": "Content/Models",
+    "ps2_jrpg_rebel_scout_npc.obj": "Content/Models",
+    "ps2_jrpg_rebel_scout_npc.mtl": "Content/Models",
+    "ps2_jrpg_rebel_scout_npc.json": "Content/Models",
+    "ps2_jrpg_shrine_priest_npc.obj": "Content/Models",
+    "ps2_jrpg_shrine_priest_npc.mtl": "Content/Models",
+    "ps2_jrpg_shrine_priest_npc.json": "Content/Models",
+    "ps2_jrpg_port_town_villager_npc.obj": "Content/Models",
+    "ps2_jrpg_port_town_villager_npc.mtl": "Content/Models",
+    "ps2_jrpg_port_town_villager_npc.json": "Content/Models",
+    "ps2_jrpg_highland_ranger_npc.obj": "Content/Models",
+    "ps2_jrpg_highland_ranger_npc.mtl": "Content/Models",
+    "ps2_jrpg_highland_ranger_npc.json": "Content/Models",
+    "ps2_jrpg_royal_court_advisor_npc.obj": "Content/Models",
+    "ps2_jrpg_royal_court_advisor_npc.mtl": "Content/Models",
+    "ps2_jrpg_royal_court_advisor_npc.json": "Content/Models",
+    "ps2_jrpg_ruins_archaeologist_npc.obj": "Content/Models",
+    "ps2_jrpg_ruins_archaeologist_npc.mtl": "Content/Models",
+    "ps2_jrpg_ruins_archaeologist_npc.json": "Content/Models",
+    "ps2_jrpg_corrupted_cultist_npc.obj": "Content/Models",
+    "ps2_jrpg_corrupted_cultist_npc.mtl": "Content/Models",
+    "ps2_jrpg_corrupted_cultist_npc.json": "Content/Models",
+    "ps2_jrpg_inn_keeper_npc.obj": "Content/Models",
+    "ps2_jrpg_inn_keeper_npc.mtl": "Content/Models",
+    "ps2_jrpg_inn_keeper_npc.json": "Content/Models",
+    "ps2_jrpg_elder_village_chief_npc.obj": "Content/Models",
+    "ps2_jrpg_elder_village_chief_npc.mtl": "Content/Models",
+    "ps2_jrpg_elder_village_chief_npc.json": "Content/Models",
+    "ps2_jrpg_knight_paladin_npc.obj": "Content/Models",
+    "ps2_jrpg_knight_paladin_npc.mtl": "Content/Models",
+    "ps2_jrpg_knight_paladin_npc.json": "Content/Models",
+    "ps2_jrpg_sage_mystic_scholar_npc.obj": "Content/Models",
+    "ps2_jrpg_sage_mystic_scholar_npc.mtl": "Content/Models",
+    "ps2_jrpg_sage_mystic_scholar_npc.json": "Content/Models",
+    "ps2_jrpg_blacksmith_smith_npc.obj": "Content/Models",
+    "ps2_jrpg_blacksmith_smith_npc.mtl": "Content/Models",
+    "ps2_jrpg_blacksmith_smith_npc.json": "Content/Models",
+    "ps2_jrpg_mage_wizard_arcanist_npc.obj": "Content/Models",
+    "ps2_jrpg_mage_wizard_arcanist_npc.mtl": "Content/Models",
+    "ps2_jrpg_mage_wizard_arcanist_npc.json": "Content/Models",
+    "ps2_jrpg_thief_rogue_bandit_npc.obj": "Content/Models",
+    "ps2_jrpg_thief_rogue_bandit_npc.mtl": "Content/Models",
+    "ps2_jrpg_thief_rogue_bandit_npc.json": "Content/Models",
+    "ps2_jrpg_capital_city_soldier_guard_npc.obj": "Content/Models",
+    "ps2_jrpg_capital_city_soldier_guard_npc.mtl": "Content/Models",
+    "ps2_jrpg_capital_city_soldier_guard_npc.json": "Content/Models",
+    "ps2_jrpg_sacred_shrine_acolyte_npc.obj": "Content/Models",
+    "ps2_jrpg_sacred_shrine_acolyte_npc.mtl": "Content/Models",
+    "ps2_jrpg_sacred_shrine_acolyte_npc.json": "Content/Models",
+    "ps2_jrpg_wasteland_survivor_npc.obj": "Content/Models",
+    "ps2_jrpg_wasteland_survivor_npc.mtl": "Content/Models",
+    "ps2_jrpg_wasteland_survivor_npc.json": "Content/Models"
+  }
+}

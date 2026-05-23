@@ -1,0 +1,364 @@
+{
+  "version": "1.0",
+  "asset_family": "tileset_pack",
+  "family": "tileset_pack",
+  "name": "tileset_pack",
+  "prompt": "tileset pack",
+  "seed": 101,
+  "files": {
+    "ps2_jrpg_overworld_tileset": "ps2_jrpg_overworld_tileset.json",
+    "ps2_jrpg_dungeon_tileset": "ps2_jrpg_dungeon_tileset.json",
+    "ps2_jrpg_imperial_city_tileset": "ps2_jrpg_imperial_city_tileset.json",
+    "ps2_jrpg_port_town_tileset": "ps2_jrpg_port_town_tileset.json",
+    "ps2_jrpg_sacred_ruins_tileset": "ps2_jrpg_sacred_ruins_tileset.json",
+    "ps2_jrpg_volcanic_wasteland_tileset": "ps2_jrpg_volcanic_wasteland_tileset.json",
+    "ps2_jrpg_highland_snowfield_tileset": "ps2_jrpg_highland_snowfield_tileset.json",
+    "ps2_jrpg_forest_wilderness_tileset": "ps2_jrpg_forest_wilderness_tileset.json",
+    "ps2_jrpg_rebel_camp_tileset": "ps2_jrpg_rebel_camp_tileset.json",
+    "ps2_jrpg_royal_palace_interior_tileset": "ps2_jrpg_royal_palace_interior_tileset.json",
+    "ps2_jrpg_coastal_harbor_tileset": "ps2_jrpg_coastal_harbor_tileset.json",
+    "ps2_jrpg_crystal_sanctum_tileset": "ps2_jrpg_crystal_sanctum_tileset.json",
+    "ps2_jrpg_swamp_marshland_tileset": "ps2_jrpg_swamp_marshland_tileset.json",
+    "ps2_jrpg_underground_cave_tileset": "ps2_jrpg_underground_cave_tileset.json",
+    "ps2_jrpg_highland_fortress_tileset": "ps2_jrpg_highland_fortress_tileset.json",
+    "ps2_jrpg_ancient_civilized_ruins_tileset": "ps2_jrpg_ancient_civilized_ruins_tileset.json",
+    "ps2_jrpg_desert_oasis_town_tileset": "ps2_jrpg_desert_oasis_town_tileset.json",
+    "ps2_jrpg_arena_encounter_tileset": "ps2_jrpg_arena_encounter_tileset.json",
+    "ps2_jrpg_river_delta_tileset": "ps2_jrpg_river_delta_tileset.json",
+    "ps2_jrpg_capital_city_market_tileset": "ps2_jrpg_capital_city_market_tileset.json"
+  },
+  "tags": [
+    "tilesets",
+    "tilesets",
+    "tilesets",
+    "tilesets",
+    "tilesets",
+    "tilesets",
+    "tilesets",
+    "tilesets",
+    "tilesets",
+    "tilesets",
+    "tilesets",
+    "tilesets",
+    "tilesets",
+    "tilesets",
+    "tilesets",
+    "tilesets",
+    "tilesets",
+    "tilesets",
+    "tilesets",
+    "tilesets"
+  ],
+  "source_generator": "creation_engine.engine.CreationEngine",
+  "content_target": {
+    "tilesets": "Content/World"
+  },
+  "style_profile": "ps2_ff7_ff12_highest_quality_ps2",
+  "asset_dimension": "3d",
+  "render_pipeline": "3d_pbr",
+  "coordinate_space": "Y_up",
+  "assets": [
+    {
+      "name": "ps2_jrpg_overworld_tileset",
+      "prompt": "ps2 jrpg overworld tileset",
+      "seed": 101,
+      "family": "tilesets",
+      "manifest": "ps2_jrpg_overworld_tileset.json",
+      "files": {
+        "manifest": "ps2_jrpg_overworld_tileset.json"
+      },
+      "content_target": "Content/World",
+      "destination_map": {
+        "ps2_jrpg_overworld_tileset.json": "Content/World"
+      }
+    },
+    {
+      "name": "ps2_jrpg_dungeon_tileset",
+      "prompt": "ps2 jrpg dungeon tileset",
+      "seed": 102,
+      "family": "tilesets",
+      "manifest": "ps2_jrpg_dungeon_tileset.json",
+      "files": {
+        "manifest": "ps2_jrpg_dungeon_tileset.json"
+      },
+      "content_target": "Content/World",
+      "destination_map": {
+        "ps2_jrpg_dungeon_tileset.json": "Content/World"
+      }
+    },
+    {
+      "name": "ps2_jrpg_imperial_city_tileset",
+      "prompt": "ps2 jrpg imperial city tileset",
+      "seed": 103,
+      "family": "tilesets",
+      "manifest": "ps2_jrpg_imperial_city_tileset.json",
+      "files": {
+        "manifest": "ps2_jrpg_imperial_city_tileset.json"
+      },
+      "content_target": "Content/World",
+      "destination_map": {
+        "ps2_jrpg_imperial_city_tileset.json": "Content/World"
+      }
+    },
+    {
+      "name": "ps2_jrpg_port_town_tileset",
+      "prompt": "ps2 jrpg port town tileset",
+      "seed": 104,
+      "family": "tilesets",
+      "manifest": "ps2_jrpg_port_town_tileset.json",
+      "files": {
+        "manifest": "ps2_jrpg_port_town_tileset.json"
+      },
+      "content_target": "Content/World",
+      "destination_map": {
+        "ps2_jrpg_port_town_tileset.json": "Content/World"
+      }
+    },
+    {
+      "name": "ps2_jrpg_sacred_ruins_tileset",
+      "prompt": "ps2 jrpg sacred ruins tileset",
+      "seed": 105,
+      "family": "tilesets",
+      "manifest": "ps2_jrpg_sacred_ruins_tileset.json",
+      "files": {
+        "manifest": "ps2_jrpg_sacred_ruins_tileset.json"
+      },
+      "content_target": "Content/World",
+      "destination_map": {
+        "ps2_jrpg_sacred_ruins_tileset.json": "Content/World"
+      }
+    },
+    {
+      "name": "ps2_jrpg_volcanic_wasteland_tileset",
+      "prompt": "ps2 jrpg volcanic wasteland tileset",
+      "seed": 106,
+      "family": "tilesets",
+      "manifest": "ps2_jrpg_volcanic_wasteland_tileset.json",
+      "files": {
+        "manifest": "ps2_jrpg_volcanic_wasteland_tileset.json"
+      },
+      "content_target": "Content/World",
+      "destination_map": {
+        "ps2_jrpg_volcanic_wasteland_tileset.json": "Content/World"
+      }
+    },
+    {
+      "name": "ps2_jrpg_highland_snowfield_tileset",
+      "prompt": "ps2 jrpg highland snowfield tileset",
+      "seed": 107,
+      "family": "tilesets",
+      "manifest": "ps2_jrpg_highland_snowfield_tileset.json",
+      "files": {
+        "manifest": "ps2_jrpg_highland_snowfield_tileset.json"
+      },
+      "content_target": "Content/World",
+      "destination_map": {
+        "ps2_jrpg_highland_snowfield_tileset.json": "Content/World"
+      }
+    },
+    {
+      "name": "ps2_jrpg_forest_wilderness_tileset",
+      "prompt": "ps2 jrpg forest wilderness tileset",
+      "seed": 108,
+      "family": "tilesets",
+      "manifest": "ps2_jrpg_forest_wilderness_tileset.json",
+      "files": {
+        "manifest": "ps2_jrpg_forest_wilderness_tileset.json"
+      },
+      "content_target": "Content/World",
+      "destination_map": {
+        "ps2_jrpg_forest_wilderness_tileset.json": "Content/World"
+      }
+    },
+    {
+      "name": "ps2_jrpg_rebel_camp_tileset",
+      "prompt": "ps2 jrpg rebel camp tileset",
+      "seed": 109,
+      "family": "tilesets",
+      "manifest": "ps2_jrpg_rebel_camp_tileset.json",
+      "files": {
+        "manifest": "ps2_jrpg_rebel_camp_tileset.json"
+      },
+      "content_target": "Content/World",
+      "destination_map": {
+        "ps2_jrpg_rebel_camp_tileset.json": "Content/World"
+      }
+    },
+    {
+      "name": "ps2_jrpg_royal_palace_interior_tileset",
+      "prompt": "ps2 jrpg royal palace interior tileset",
+      "seed": 110,
+      "family": "tilesets",
+      "manifest": "ps2_jrpg_royal_palace_interior_tileset.json",
+      "files": {
+        "manifest": "ps2_jrpg_royal_palace_interior_tileset.json"
+      },
+      "content_target": "Content/World",
+      "destination_map": {
+        "ps2_jrpg_royal_palace_interior_tileset.json": "Content/World"
+      }
+    },
+    {
+      "name": "ps2_jrpg_coastal_harbor_tileset",
+      "prompt": "ps2 jrpg coastal harbor tileset",
+      "seed": 111,
+      "family": "tilesets",
+      "manifest": "ps2_jrpg_coastal_harbor_tileset.json",
+      "files": {
+        "manifest": "ps2_jrpg_coastal_harbor_tileset.json"
+      },
+      "content_target": "Content/World",
+      "destination_map": {
+        "ps2_jrpg_coastal_harbor_tileset.json": "Content/World"
+      }
+    },
+    {
+      "name": "ps2_jrpg_crystal_sanctum_tileset",
+      "prompt": "ps2 jrpg crystal sanctum tileset",
+      "seed": 112,
+      "family": "tilesets",
+      "manifest": "ps2_jrpg_crystal_sanctum_tileset.json",
+      "files": {
+        "manifest": "ps2_jrpg_crystal_sanctum_tileset.json"
+      },
+      "content_target": "Content/World",
+      "destination_map": {
+        "ps2_jrpg_crystal_sanctum_tileset.json": "Content/World"
+      }
+    },
+    {
+      "name": "ps2_jrpg_swamp_marshland_tileset",
+      "prompt": "ps2 jrpg swamp marshland tileset",
+      "seed": 113,
+      "family": "tilesets",
+      "manifest": "ps2_jrpg_swamp_marshland_tileset.json",
+      "files": {
+        "manifest": "ps2_jrpg_swamp_marshland_tileset.json"
+      },
+      "content_target": "Content/World",
+      "destination_map": {
+        "ps2_jrpg_swamp_marshland_tileset.json": "Content/World"
+      }
+    },
+    {
+      "name": "ps2_jrpg_underground_cave_tileset",
+      "prompt": "ps2 jrpg underground cave tileset",
+      "seed": 114,
+      "family": "tilesets",
+      "manifest": "ps2_jrpg_underground_cave_tileset.json",
+      "files": {
+        "manifest": "ps2_jrpg_underground_cave_tileset.json"
+      },
+      "content_target": "Content/World",
+      "destination_map": {
+        "ps2_jrpg_underground_cave_tileset.json": "Content/World"
+      }
+    },
+    {
+      "name": "ps2_jrpg_highland_fortress_tileset",
+      "prompt": "ps2 jrpg highland fortress tileset",
+      "seed": 115,
+      "family": "tilesets",
+      "manifest": "ps2_jrpg_highland_fortress_tileset.json",
+      "files": {
+        "manifest": "ps2_jrpg_highland_fortress_tileset.json"
+      },
+      "content_target": "Content/World",
+      "destination_map": {
+        "ps2_jrpg_highland_fortress_tileset.json": "Content/World"
+      }
+    },
+    {
+      "name": "ps2_jrpg_ancient_civilized_ruins_tileset",
+      "prompt": "ps2 jrpg ancient civilized ruins tileset",
+      "seed": 116,
+      "family": "tilesets",
+      "manifest": "ps2_jrpg_ancient_civilized_ruins_tileset.json",
+      "files": {
+        "manifest": "ps2_jrpg_ancient_civilized_ruins_tileset.json"
+      },
+      "content_target": "Content/World",
+      "destination_map": {
+        "ps2_jrpg_ancient_civilized_ruins_tileset.json": "Content/World"
+      }
+    },
+    {
+      "name": "ps2_jrpg_desert_oasis_town_tileset",
+      "prompt": "ps2 jrpg desert oasis town tileset",
+      "seed": 117,
+      "family": "tilesets",
+      "manifest": "ps2_jrpg_desert_oasis_town_tileset.json",
+      "files": {
+        "manifest": "ps2_jrpg_desert_oasis_town_tileset.json"
+      },
+      "content_target": "Content/World",
+      "destination_map": {
+        "ps2_jrpg_desert_oasis_town_tileset.json": "Content/World"
+      }
+    },
+    {
+      "name": "ps2_jrpg_arena_encounter_tileset",
+      "prompt": "ps2 jrpg arena encounter tileset",
+      "seed": 118,
+      "family": "tilesets",
+      "manifest": "ps2_jrpg_arena_encounter_tileset.json",
+      "files": {
+        "manifest": "ps2_jrpg_arena_encounter_tileset.json"
+      },
+      "content_target": "Content/World",
+      "destination_map": {
+        "ps2_jrpg_arena_encounter_tileset.json": "Content/World"
+      }
+    },
+    {
+      "name": "ps2_jrpg_river_delta_tileset",
+      "prompt": "ps2 jrpg river delta tileset",
+      "seed": 119,
+      "family": "tilesets",
+      "manifest": "ps2_jrpg_river_delta_tileset.json",
+      "files": {
+        "manifest": "ps2_jrpg_river_delta_tileset.json"
+      },
+      "content_target": "Content/World",
+      "destination_map": {
+        "ps2_jrpg_river_delta_tileset.json": "Content/World"
+      }
+    },
+    {
+      "name": "ps2_jrpg_capital_city_market_tileset",
+      "prompt": "ps2 jrpg capital city market tileset",
+      "seed": 120,
+      "family": "tilesets",
+      "manifest": "ps2_jrpg_capital_city_market_tileset.json",
+      "files": {
+        "manifest": "ps2_jrpg_capital_city_market_tileset.json"
+      },
+      "content_target": "Content/World",
+      "destination_map": {
+        "ps2_jrpg_capital_city_market_tileset.json": "Content/World"
+      }
+    }
+  ],
+  "destination_map": {
+    "ps2_jrpg_overworld_tileset.json": "Content/World",
+    "ps2_jrpg_dungeon_tileset.json": "Content/World",
+    "ps2_jrpg_imperial_city_tileset.json": "Content/World",
+    "ps2_jrpg_port_town_tileset.json": "Content/World",
+    "ps2_jrpg_sacred_ruins_tileset.json": "Content/World",
+    "ps2_jrpg_volcanic_wasteland_tileset.json": "Content/World",
+    "ps2_jrpg_highland_snowfield_tileset.json": "Content/World",
+    "ps2_jrpg_forest_wilderness_tileset.json": "Content/World",
+    "ps2_jrpg_rebel_camp_tileset.json": "Content/World",
+    "ps2_jrpg_royal_palace_interior_tileset.json": "Content/World",
+    "ps2_jrpg_coastal_harbor_tileset.json": "Content/World",
+    "ps2_jrpg_crystal_sanctum_tileset.json": "Content/World",
+    "ps2_jrpg_swamp_marshland_tileset.json": "Content/World",
+    "ps2_jrpg_underground_cave_tileset.json": "Content/World",
+    "ps2_jrpg_highland_fortress_tileset.json": "Content/World",
+    "ps2_jrpg_ancient_civilized_ruins_tileset.json": "Content/World",
+    "ps2_jrpg_desert_oasis_town_tileset.json": "Content/World",
+    "ps2_jrpg_arena_encounter_tileset.json": "Content/World",
+    "ps2_jrpg_river_delta_tileset.json": "Content/World",
+    "ps2_jrpg_capital_city_market_tileset.json": "Content/World"
+  }
+}

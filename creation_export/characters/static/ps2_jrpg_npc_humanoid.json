@@ -1,0 +1,54 @@
+{
+  "version": "1.0",
+  "asset_family": "characters_static",
+  "family": "characters_static",
+  "name": "ps2_jrpg_npc_humanoid",
+  "prompt": "ps2 jrpg npc humanoid",
+  "seed": 101,
+  "files": {
+    "obj": "ps2_jrpg_npc_humanoid.obj",
+    "mtl": "ps2_jrpg_npc_humanoid.mtl",
+    "manifest": "ps2_jrpg_npc_humanoid.json"
+  },
+  "tags": [
+    "characters_static",
+    "npc_humanoid"
+  ],
+  "source_generator": "creation_engine.mesh.mesh_builder.build_mesh_from_prompt",
+  "content_target": {
+    "model": "Content/Models",
+    "materials": "Content/Materials"
+  },
+  "style_profile": "ps2_ff7_ff12_highest_quality_ps2",
+  "asset_dimension": "3d",
+  "render_pipeline": "3d_pbr",
+  "coordinate_space": "Y_up",
+  "material_slots": [
+    "cloth",
+    "leather",
+    "metal"
+  ],
+  "narrative_tags": {
+    "region": "overworld",
+    "faction": "neutral",
+    "era": "present_day",
+    "story_phase": "early_journey",
+    "culture_theme": "mystic"
+  },
+  "world_region_id": "overworld__mystic",
+  "exploration_intent": "overworld_traversal",
+  "placement_intent": "npc_placeholder",
+  "lod_policy": {
+    "lod0": 0,
+    "lod1": 16,
+    "lod2": 32
+  },
+  "complexity": "medium",
+  "complexity_policy": {
+    "vertex_budget": 512,
+    "part_jitter": 0.04
+  },
+  "vertex_count": 48,
+  "triangle_count": 72,
+  "unit_scale": 1.0
+}

@@ -1,0 +1,80 @@
+{
+  "version": "1.1",
+  "asset_family": "props",
+  "family": "props",
+  "name": "ps2_jrpg_ruins_overgrown_grass_cracks",
+  "prompt": "ps2 jrpg ruins overgrown grass cracks",
+  "seed": 116,
+  "files": {
+    "albedo": "ps2_jrpg_ruins_overgrown_grass_cracks_albedo.png",
+    "normal": "ps2_jrpg_ruins_overgrown_grass_cracks_normal.png",
+    "roughness": "ps2_jrpg_ruins_overgrown_grass_cracks_roughness.png",
+    "metallic": "ps2_jrpg_ruins_overgrown_grass_cracks_metallic.png",
+    "ao": "ps2_jrpg_ruins_overgrown_grass_cracks_ao.png",
+    "emissive": "ps2_jrpg_ruins_overgrown_grass_cracks_emissive.png"
+  },
+  "tags": [],
+  "source_generator": "creation_engine.texture.texture_gen.generate_pbr_textures",
+  "content_target": {
+    "material": "Content/Materials",
+    "textures": "Content/Textures"
+  },
+  "style_profile": "ps2_ff7_ff12_highest_quality_ps2",
+  "asset_dimension": "3d",
+  "render_pipeline": "3d_pbr",
+  "coordinate_space": "Y_up",
+  "shader": "Shaders/pbr_3d",
+  "width": 64,
+  "height": 64,
+  "channels": [
+    "albedo",
+    "ao",
+    "emissive",
+    "metallic",
+    "normal",
+    "roughness"
+  ],
+  "textures": {
+    "albedo": "ps2_jrpg_ruins_overgrown_grass_cracks_albedo.png",
+    "normal": "ps2_jrpg_ruins_overgrown_grass_cracks_normal.png",
+    "roughness": "ps2_jrpg_ruins_overgrown_grass_cracks_roughness.png",
+    "metallic": "ps2_jrpg_ruins_overgrown_grass_cracks_metallic.png",
+    "ao": "ps2_jrpg_ruins_overgrown_grass_cracks_ao.png",
+    "emissive": "ps2_jrpg_ruins_overgrown_grass_cracks_emissive.png"
+  },
+  "params": {
+    "color": [
+      0.2434,
+      0.3459,
+      0.2036,
+      1.0
+    ],
+    "baseColor": [
+      0.2434,
+      0.3459,
+      0.2036,
+      1.0
+    ]
+  },
+  "mip_levels": true,
+  "wrap_mode": "repeat",
+  "filter_mode": "trilinear",
+  "srgb_albedo": true,
+  "linear_channels": [
+    "normal",
+    "roughness",
+    "metallic",
+    "ao",
+    "emissive"
+  ],
+  "narrative_tags": {
+    "region": "ruins",
+    "faction": "neutral",
+    "era": "present_day",
+    "story_phase": "early_journey",
+    "culture_theme": "mystic"
+  },
+  "world_region_id": "ruins__mystic",
+  "exploration_intent": "dungeon_exploration",
+  "placement_intent": "ruins_world_prop"
+}

@@ -1,0 +1,53 @@
+{
+  "version": "1.0",
+  "asset_family": "foliage",
+  "family": "foliage",
+  "name": "ps2_jrpg_sacred_ancient_fern_frond",
+  "prompt": "ps2 jrpg sacred ancient fern frond",
+  "seed": 115,
+  "files": {
+    "obj": "ps2_jrpg_sacred_ancient_fern_frond.obj",
+    "mtl": "ps2_jrpg_sacred_ancient_fern_frond.mtl",
+    "manifest": "ps2_jrpg_sacred_ancient_fern_frond.json"
+  },
+  "tags": [
+    "foliage",
+    "sacred_shrub"
+  ],
+  "source_generator": "creation_engine.mesh.mesh_builder.build_mesh_from_prompt",
+  "content_target": {
+    "model": "Content/Models",
+    "materials": "Content/Materials"
+  },
+  "style_profile": "ps2_ff7_ff12_highest_quality_ps2",
+  "asset_dimension": "3d",
+  "render_pipeline": "3d_pbr",
+  "coordinate_space": "Y_up",
+  "material_slots": [
+    "leaf",
+    "crystal"
+  ],
+  "narrative_tags": {
+    "region": "overworld",
+    "faction": "ancients",
+    "era": "ancient",
+    "story_phase": "early_journey",
+    "culture_theme": "sacred"
+  },
+  "world_region_id": "overworld__sacred",
+  "exploration_intent": "overworld_traversal",
+  "placement_intent": "overworld_biome_decoration",
+  "lod_policy": {
+    "lod0": 0,
+    "lod1": 18,
+    "lod2": 35
+  },
+  "complexity": "medium",
+  "complexity_policy": {
+    "vertex_budget": 512,
+    "part_jitter": 0.04
+  },
+  "vertex_count": 40,
+  "triangle_count": 68,
+  "unit_scale": 1.0
+}

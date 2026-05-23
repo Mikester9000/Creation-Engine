@@ -1,0 +1,80 @@
+{
+  "version": "1.1",
+  "asset_family": "props",
+  "family": "props",
+  "name": "ps2_jrpg_capital_city_heraldry_banner",
+  "prompt": "ps2 jrpg capital city heraldry banner",
+  "seed": 114,
+  "files": {
+    "albedo": "ps2_jrpg_capital_city_heraldry_banner_albedo.png",
+    "normal": "ps2_jrpg_capital_city_heraldry_banner_normal.png",
+    "roughness": "ps2_jrpg_capital_city_heraldry_banner_roughness.png",
+    "metallic": "ps2_jrpg_capital_city_heraldry_banner_metallic.png",
+    "ao": "ps2_jrpg_capital_city_heraldry_banner_ao.png",
+    "emissive": "ps2_jrpg_capital_city_heraldry_banner_emissive.png"
+  },
+  "tags": [],
+  "source_generator": "creation_engine.texture.texture_gen.generate_pbr_textures",
+  "content_target": {
+    "material": "Content/Materials",
+    "textures": "Content/Textures"
+  },
+  "style_profile": "ps2_ff7_ff12_highest_quality_ps2",
+  "asset_dimension": "3d",
+  "render_pipeline": "3d_pbr",
+  "coordinate_space": "Y_up",
+  "shader": "Shaders/pbr_3d",
+  "width": 64,
+  "height": 64,
+  "channels": [
+    "albedo",
+    "ao",
+    "emissive",
+    "metallic",
+    "normal",
+    "roughness"
+  ],
+  "textures": {
+    "albedo": "ps2_jrpg_capital_city_heraldry_banner_albedo.png",
+    "normal": "ps2_jrpg_capital_city_heraldry_banner_normal.png",
+    "roughness": "ps2_jrpg_capital_city_heraldry_banner_roughness.png",
+    "metallic": "ps2_jrpg_capital_city_heraldry_banner_metallic.png",
+    "ao": "ps2_jrpg_capital_city_heraldry_banner_ao.png",
+    "emissive": "ps2_jrpg_capital_city_heraldry_banner_emissive.png"
+  },
+  "params": {
+    "color": [
+      0.4743,
+      0.4906,
+      0.5294,
+      1.0
+    ],
+    "baseColor": [
+      0.4743,
+      0.4906,
+      0.5294,
+      1.0
+    ]
+  },
+  "mip_levels": true,
+  "wrap_mode": "repeat",
+  "filter_mode": "trilinear",
+  "srgb_albedo": true,
+  "linear_channels": [
+    "normal",
+    "roughness",
+    "metallic",
+    "ao",
+    "emissive"
+  ],
+  "narrative_tags": {
+    "region": "capital",
+    "faction": "neutral",
+    "era": "present_day",
+    "story_phase": "early_journey",
+    "culture_theme": "mystic"
+  },
+  "world_region_id": "capital__mystic",
+  "exploration_intent": "settlement_navigation",
+  "placement_intent": "capital_world_prop"
+}

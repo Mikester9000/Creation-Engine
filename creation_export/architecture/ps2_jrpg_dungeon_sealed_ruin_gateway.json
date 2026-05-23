@@ -1,0 +1,52 @@
+{
+  "version": "1.0",
+  "asset_family": "props",
+  "family": "props",
+  "name": "ps2_jrpg_dungeon_sealed_ruin_gateway",
+  "prompt": "ps2 jrpg dungeon sealed ruin gateway",
+  "seed": 112,
+  "files": {
+    "obj": "ps2_jrpg_dungeon_sealed_ruin_gateway.obj",
+    "mtl": "ps2_jrpg_dungeon_sealed_ruin_gateway.mtl",
+    "manifest": "ps2_jrpg_dungeon_sealed_ruin_gateway.json"
+  },
+  "tags": [
+    "props",
+    "crate"
+  ],
+  "source_generator": "creation_engine.mesh.mesh_builder.build_mesh_from_prompt",
+  "content_target": {
+    "model": "Content/Models",
+    "materials": "Content/Materials"
+  },
+  "style_profile": "ps2_ff7_ff12_highest_quality_ps2",
+  "asset_dimension": "3d",
+  "render_pipeline": "3d_pbr",
+  "coordinate_space": "Y_up",
+  "material_slots": [
+    "wood"
+  ],
+  "narrative_tags": {
+    "region": "ruins",
+    "faction": "neutral",
+    "era": "present_day",
+    "story_phase": "early_journey",
+    "culture_theme": "mystic"
+  },
+  "world_region_id": "ruins__mystic",
+  "exploration_intent": "dungeon_exploration",
+  "placement_intent": "ruins_world_prop",
+  "lod_policy": {
+    "lod0": 0,
+    "lod1": 15,
+    "lod2": 30
+  },
+  "complexity": "medium",
+  "complexity_policy": {
+    "vertex_budget": 512,
+    "part_jitter": 0.04
+  },
+  "vertex_count": 16,
+  "triangle_count": 24,
+  "unit_scale": 1.0
+}

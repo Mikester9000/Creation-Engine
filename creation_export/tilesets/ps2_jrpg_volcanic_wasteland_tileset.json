@@ -1,0 +1,80 @@
+{
+  "version": "1.1",
+  "asset_family": "tilesets",
+  "family": "tilesets",
+  "name": "ps2_jrpg_volcanic_wasteland_tileset",
+  "prompt": "ps2 jrpg volcanic wasteland tileset",
+  "seed": 106,
+  "theme": "volcanic",
+  "tileset": "volcanic_tileset_v1",
+  "tileset_meta": {
+    "id": "volcanic_tileset_v1",
+    "name": "Volcanic Zone",
+    "tileSize": 64,
+    "style": "desert"
+  },
+  "tiles": [
+    {
+      "id": 0,
+      "name": "ash_flat",
+      "passable": true,
+      "material_family": "stone"
+    },
+    {
+      "id": 1,
+      "name": "obsidian_wall",
+      "passable": false,
+      "material_family": "stone"
+    },
+    {
+      "id": 2,
+      "name": "lava_flow",
+      "passable": false,
+      "material_family": "water"
+    },
+    {
+      "id": 3,
+      "name": "cooled_lava_rock",
+      "passable": true,
+      "material_family": "stone"
+    },
+    {
+      "id": 4,
+      "name": "volcanic_crater_edge",
+      "passable": true,
+      "material_family": "stone"
+    },
+    {
+      "id": 5,
+      "name": "ember_zone",
+      "passable": true,
+      "material_family": "stone"
+    },
+    {
+      "id": 6,
+      "name": "obsidian_road",
+      "passable": true,
+      "material_family": "stone"
+    },
+    {
+      "id": 7,
+      "name": "lava_tube_floor",
+      "passable": true,
+      "material_family": "stone"
+    }
+  ],
+  "narrative_tags": {
+    "region": "volcanic",
+    "faction": "neutral",
+    "era": "present_day",
+    "story_phase": "early_journey",
+    "culture_theme": "mystic"
+  },
+  "world_region_id": "volcanic__mystic",
+  "exploration_intent": "open_world_traversal",
+  "placement_intent": "world_tileset",
+  "content_target": {
+    "world": "Content/World"
+  },
+  "style_profile": "ps2_ff7_ff12_highest_quality_ps2"
+}
