@@ -94,6 +94,10 @@ def build_mesh_from_variant(
         "complexity_policy": complexity_policy,
         "vertex_count": int(mesh_vertices.shape[0]),
         "triangle_count": int(mesh_indices.shape[0] // 3),
+        # 3D enforcement: all meshes are authored in Y-up world space.
+        "asset_dimension": "3d",
+        "coordinate_space": "Y_up",
+        "unit_scale": 1.0,
     }
 
 

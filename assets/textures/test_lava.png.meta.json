@@ -3,5 +3,11 @@
   "width": 64,
   "height": 64,
   "type": "cellular",
-  "seed": 123
+  "seed": 123,
+  "asset_dimension": "3d",
+  "render_pipeline": "3d_pbr",
+  "mip_levels": true,
+  "wrap_mode": "repeat",
+  "filter_mode": "trilinear",
+  "srgb_albedo": true
 }

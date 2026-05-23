@@ -33,5 +33,9 @@
       "name": "bfloor",
       "solid": false
     }
-  ]
+  ],
+  "asset_dimension": "3d",
+  "render_mode": "3d",
+  "coordinate_space": "Y_up",
+  "tile_height_scale": 1.0
 }

@@ -85,6 +85,9 @@ def export_obj(
             "complexity_policy",
             "vertex_count",
             "triangle_count",
+            "asset_dimension",
+            "coordinate_space",
+            "unit_scale",
         )
         if key in mesh_data
     }

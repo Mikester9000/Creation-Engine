@@ -102,8 +102,9 @@ def _generate_cpp(
             narrative_tags = extract_narrative_tags(tokenize_prompt(prompt))
             world_region_id = region_id or infer_world_region_id(narrative_tags)
             tileset_name = data.get("tileset", TILESET_SPECS[theme]["id"])
+            tile_array = np.array(data["tiles"])
             return {
-                "tiles": np.array(data["tiles"]),
+                "tiles": tile_array,
                 "props": data.get("props", []),
                 "tileset": tileset_name,
                 "theme": theme,
@@ -112,6 +113,8 @@ def _generate_cpp(
                 "world_region_id": world_region_id,
                 "chunk": {"x": int(chunk_x), "y": int(chunk_y)},
                 "exploration_intent": infer_exploration_intent(narrative_tags),
+                # 3D terrain elevation data (flat rows × cols, one float per tile)
+                "height_map": _generate_height_map(tile_array, theme, seed or 42),
             }
 
     return _generate_python_fallback(
@@ -178,6 +181,8 @@ def _generate_python_fallback(
         "world_region_id": world_region_id,
         "chunk": {"x": int(chunk_x), "y": int(chunk_y)},
         "exploration_intent": infer_exploration_intent(narrative_tags),
+        # 3D terrain elevation data (flat rows × cols, one float per tile)
+        "height_map": _generate_height_map(tiles, theme, seed_value),
     }
 
 
@@ -363,3 +368,45 @@ def _blend_neighbor_theme(
     else:
         out[mask] = 3
     return out
+
+
+def _generate_height_map(tiles: np.ndarray, theme: str, seed: int) -> list[list[float]]:
+    """Generate per-tile elevation values (Y-axis, in world units) for 3D terrain rendering.
+
+    Walls and water tiles use fixed elevations; ground tiles use smooth noise-based
+    variation so the rendered terrain has natural-looking depth without spikes.
+    """
+    # Base elevation per tile-id for common tile meanings
+    _TILE_BASE_HEIGHT: dict[int, float] = {
+        0: 0.0,   # floor / ground
+        1: 1.0,   # wall
+        2: -0.5,  # water / pit
+        3: 0.1,   # grass / forest edge
+        4: 0.05,  # sand / road / rubble
+        5: 0.2,   # dense vegetation
+        6: 0.15,  # snow / ice
+        7: 0.0,   # road / path
+    }
+    # Raise overall elevation for highland/mountain themes
+    _THEME_BASE_LIFT: dict[str, float] = {
+        "highlands": 0.5,
+        "volcanic": 0.4,
+        "snowfield": 0.3,
+        "ruins": 0.1,
+        "cave": -0.2,
+        "dungeon": 0.0,
+    }
+    rng = np.random.default_rng(seed + sum(ord(c) for c in theme))
+    h, w = tiles.shape
+    noise = rng.uniform(-0.08, 0.08, size=(h, w))
+    theme_lift = _THEME_BASE_LIFT.get(theme, 0.0)
+    height_map: list[list[float]] = []
+    for row_idx in range(h):
+        row: list[float] = []
+        for col_idx in range(w):
+            tile_id = int(tiles[row_idx, col_idx])
+            base = _TILE_BASE_HEIGHT.get(tile_id, 0.0)
+            elevation = round(float(base + theme_lift + noise[row_idx, col_idx]), 4)
+            row.append(elevation)
+        height_map.append(row)
+    return height_map
