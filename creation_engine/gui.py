@@ -43,6 +43,11 @@ def _read_image_array(path: Path, size: tuple[int, int]) -> np.ndarray:
     return np.asarray(image, dtype=np.float32) / 255.0
 
 
+def _filter_file_index(file_index: list[Path], output_dir: Path, query: str) -> list[Path]:
+    lowered_query = query.lower()
+    return [path for path in file_index if lowered_query in str(path.relative_to(output_dir)).lower()]
+
+
 def render_material_preview(manifest: dict[str, Any], manifest_path: Path) -> Image.Image:
     files = _manifest_files(manifest)
     albedo_name = files.get("albedo") or files.get("image")
@@ -546,15 +551,26 @@ class CreationEngineGuiApp:
         def _worker() -> None:
             try:
                 result = fn(*args)
-                if on_done:
-                    self.root.after(0, lambda: on_done(result))
-                self.root.after(0, lambda: self.refresh_file_browser())
-                self.root.after(0, lambda: self._set_status("Done."))
+                def _finish_success() -> None:
+                    try:
+                        if on_done:
+                            on_done(result)
+                        self.refresh_file_browser()
+                        if on_done is None:
+                            self._set_status("Done.")
+                    finally:
+                        self._busy = False
+
+                self.root.after(0, _finish_success)
             except Exception as exc:
-                self.root.after(0, lambda: self._set_meta(f"Error: {exc}"))
-                self.root.after(0, lambda: self._set_status(f"Error: {exc}"))
-            finally:
-                self._busy = False
+                error_text = f"Error: {exc}"
+
+                def _finish_error() -> None:
+                    self._set_meta(error_text)
+                    self._set_status(error_text)
+                    self._busy = False
+
+                self.root.after(0, _finish_error)
 
         threading.Thread(target=_worker, daemon=True).start()
 
@@ -683,13 +699,11 @@ class CreationEngineGuiApp:
         from tkinter import END
 
         query = self._filter_var.get().lower()
-        self._filtered_index: list[Path] = []
+        self._filtered_index = _filter_file_index(self.file_index, self.output_dir, query)
         self.file_list.delete(0, END)
-        for path in self.file_index:
+        for path in self._filtered_index:
             rel = str(path.relative_to(self.output_dir))
-            if query in rel.lower():
-                self._filtered_index.append(path)
-                self.file_list.insert(END, rel)
+            self.file_list.insert(END, rel)
 
     def refresh_file_browser(self) -> None:
         self.file_index = []
@@ -871,58 +885,71 @@ class CreationEngineGuiApp:
 
     def run_quality_check_ui(self) -> None:
         self._set_status("Running quality check…")
-        result = run_quality_check(self.output_dir)
-        if result.ok:
-            msg = f"Quality check passed. Manifests validated: {result.checked_manifests}"
+
+        def _done(result: Any) -> None:
+            if result.ok:
+                msg = f"Quality check passed. Manifests validated: {result.checked_manifests}"
+                self._set_meta(
+                    "Quality check passed.\n"
+                    f"Validated manifests: {result.checked_manifests}\n"
+                    "Ready for GameRewritten import validation."
+                )
+                self._set_status(msg)
+                return
+            joined = "\n".join(f"- {item}" for item in result.errors[:8])
             self._set_meta(
-                "Quality check passed.\n"
+                "Quality check failed.\n"
                 f"Validated manifests: {result.checked_manifests}\n"
-                "Ready for GameRewritten import validation."
+                f"Top issues:\n{joined}"
             )
-            self._set_status(msg)
-            return
-        joined = "\n".join(f"- {item}" for item in result.errors[:8])
-        self._set_meta(
-            "Quality check failed.\n"
-            f"Validated manifests: {result.checked_manifests}\n"
-            f"Top issues:\n{joined}"
-        )
-        self._set_status(f"Quality check FAILED — {len(result.errors)} issue(s) found.")
+            self._set_status(f"Quality check FAILED — {len(result.errors)} issue(s) found.")
+
+        self._run_in_thread(run_quality_check, self.output_dir, on_done=_done)
 
     def run_bundle_audit_ui(self) -> None:
         self._set_status("Running bundle audit…")
-        result = run_bundle_audit(self.output_dir)
-        family_lines = "\n".join(f"  {k}: {v}" for k, v in result.family_counts.items())
-        nc = result.narrative_coverage
-        sc = result.style_coverage
-        report = (
-            f"Bundle Audit — manifests checked: {result.checked_manifests}\n"
-            f"Family counts:\n{family_lines}\n"
-            f"Narrative coverage: {nc['present']}/{nc['required']}\n"
-            f"Style coverage: {sc['passing']}/{sc['required']}\n"
-            f"FF aesthetic: {'PASS ✓' if result.ff_aesthetic_compliant else 'FAIL ✗'}"
-        )
-        if result.errors:
-            report += "\nErrors:\n" + "\n".join(f"  - {e}" for e in result.errors[:6])
-        self._set_meta(report)
-        status = "Bundle audit: FF aesthetic PASS" if result.ff_aesthetic_compliant else f"Bundle audit: FAIL — {len(result.errors)} issues"
-        self._set_status(status)
+
+        def _done(result: Any) -> None:
+            family_lines = "\n".join(f"  {k}: {v}" for k, v in result.family_counts.items())
+            nc = result.narrative_coverage
+            sc = result.style_coverage
+            report = (
+                f"Bundle Audit — manifests checked: {result.checked_manifests}\n"
+                f"Family counts:\n{family_lines}\n"
+                f"Narrative coverage: {nc['present']}/{nc['required']}\n"
+                f"Style coverage: {sc['passing']}/{sc['required']}\n"
+                f"FF aesthetic: {'PASS ✓' if result.ff_aesthetic_compliant else 'FAIL ✗'}"
+            )
+            if result.errors:
+                report += "\nErrors:\n" + "\n".join(f"  - {e}" for e in result.errors[:6])
+            self._set_meta(report)
+            status = (
+                "Bundle audit: FF aesthetic PASS"
+                if result.ff_aesthetic_compliant
+                else f"Bundle audit: FAIL — {len(result.errors)} issues"
+            )
+            self._set_status(status)
+
+        self._run_in_thread(run_bundle_audit, self.output_dir, on_done=_done)
 
     def run_release_check_ui(self) -> None:
         self._set_status("Running release readiness check…")
-        result = run_release_readiness_check(self.output_dir)
-        if result.ok:
-            msg = (
-                f"Release check PASSED ✓\n"
-                f"Manifests: {result.checked_manifests} | Bundle: {result.bundle_manifests_checked}\n"
-                "Asset bundle is production-ready for GameRewritten import."
-            )
-            self._set_meta(msg)
-            self._set_status("Release check PASSED — bundle is production ready.")
-            return
-        joined = "\n".join(f"- {e}" for e in result.errors[:10])
-        self._set_meta(f"Release check FAILED ✗\n{joined}")
-        self._set_status(f"Release check FAILED — {len(result.errors)} issue(s).")
+
+        def _done(result: Any) -> None:
+            if result.ok:
+                msg = (
+                    f"Release check PASSED ✓\n"
+                    f"Manifests: {result.checked_manifests} | Bundle: {result.bundle_manifests_checked}\n"
+                    "Asset bundle is production-ready for GameRewritten import."
+                )
+                self._set_meta(msg)
+                self._set_status("Release check PASSED — bundle is production ready.")
+                return
+            joined = "\n".join(f"- {e}" for e in result.errors[:10])
+            self._set_meta(f"Release check FAILED ✗\n{joined}")
+            self._set_status(f"Release check FAILED — {len(result.errors)} issue(s).")
+
+        self._run_in_thread(run_release_readiness_check, self.output_dir, on_done=_done)
 
     def _show_image_preview(self, image: Image.Image) -> None:
         from PIL import ImageTk
