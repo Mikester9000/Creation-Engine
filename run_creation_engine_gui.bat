@@ -29,7 +29,6 @@ if not exist ".venv\Scripts\python.exe" (
 )
 
 set "VENV_PY=.venv\Scripts\python.exe"
-set "VENV_PIP=.venv\Scripts\pip.exe"
 
 if not exist "%VENV_PY%" (
     echo Virtual environment Python executable missing.

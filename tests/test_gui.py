@@ -1,7 +1,10 @@
 import json
 
+import pytest
+
 from creation_engine.engine import CreationEngine
 from creation_engine.gui import (
+    CreationEngineGuiApp,
     render_map_3d_preview,
     render_map_preview,
     render_material_preview,
@@ -30,6 +33,19 @@ def test_render_map_3d_preview_from_exported_map(tmp_path):
     image = render_map_3d_preview(map_data, tile_px=12)
     assert image.width > 0
     assert image.height > 0
+
+
+def test_render_map_3d_preview_rejects_too_small_tile_size():
+    with pytest.raises(ValueError, match="tile_px"):
+        render_map_3d_preview({"width": 1, "height": 1, "tiles": [0]}, tile_px=1)
+
+
+def test_gui_path_guard_stays_inside_output_dir(tmp_path):
+    app = CreationEngineGuiApp.__new__(CreationEngineGuiApp)
+    app.output_dir = tmp_path
+
+    assert app._is_within_output_dir(tmp_path / "materials" / "new_asset.json")
+    assert not app._is_within_output_dir(tmp_path.parent / "outside.json")
 
 
 def test_render_material_preview_from_exported_manifest(tmp_path):

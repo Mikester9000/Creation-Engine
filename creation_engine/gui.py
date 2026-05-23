@@ -159,6 +159,8 @@ def render_map_3d_preview(map_data: dict[str, Any], tile_px: int = 18) -> Image.
         raw_tiles = flattened
     if len(raw_tiles) != width * height:
         raise ValueError("Map tile data length does not match width*height.")
+    if tile_px < 2:
+        raise ValueError("tile_px must be >= 2 for 3D map preview rendering.")
 
     color_map: dict[int, tuple[int, int, int]] = {
         0: (118, 101, 90),
@@ -416,6 +418,11 @@ class CreationEngineGuiApp:
     def _open_selected_file_event(self, _event: Any) -> None:
         self.open_selected_file()
 
+    def _is_within_output_dir(self, path: Path) -> bool:
+        output_root = self.output_dir.resolve()
+        resolved = path.resolve()
+        return resolved == output_root or output_root in resolved.parents
+
     def open_selected_file(self) -> None:
         selection = self.file_list.curselection()
         if not selection:
@@ -426,14 +433,20 @@ class CreationEngineGuiApp:
         self.load_file(self.file_index[index])
 
     def load_file_dialog(self) -> None:
-        from tkinter import filedialog
+        from tkinter import filedialog, messagebox
 
         selected = filedialog.askopenfilename(
             title="Open file",
             initialdir=str(self.output_dir),
         )
-        if selected:
-            self.load_file(Path(selected))
+        if not selected:
+            return
+
+        selected_path = Path(selected)
+        if not self._is_within_output_dir(selected_path):
+            messagebox.showerror("Invalid path", "File must be inside the selected output directory.")
+            return
+        self.load_file(selected_path)
 
     def new_file_dialog(self) -> None:
         from tkinter import messagebox, simpledialog
@@ -447,8 +460,11 @@ class CreationEngineGuiApp:
             return
         target = (self.output_dir / relative_path).resolve()
         output_root = self.output_dir.resolve()
-        if output_root not in target.parents and target != output_root:
+        if not self._is_within_output_dir(target):
             messagebox.showerror("Invalid path", "File must be inside the selected output directory.")
+            return
+        if target == output_root or target.exists() and target.is_dir():
+            messagebox.showerror("Invalid path", "Please provide a file path, not a directory.")
             return
 
         if target.exists() and not messagebox.askyesno("Overwrite", f"Overwrite existing file?\n{target}"):
@@ -494,6 +510,9 @@ class CreationEngineGuiApp:
         if self.current_is_binary:
             self._set_meta("Binary image sources are read-only in this editor. Use external image tools.")
             return
+        if not self._is_within_output_dir(self.current_path):
+            self._set_meta("Save blocked: file must be inside the selected output directory.")
+            return
 
         self.current_path.parent.mkdir(parents=True, exist_ok=True)
         self.current_path.write_text(self.editor.get("1.0", "end-1c"), encoding="utf-8")
@@ -502,7 +521,7 @@ class CreationEngineGuiApp:
         self.refresh_preview()
 
     def save_as_dialog(self) -> None:
-        from tkinter import filedialog
+        from tkinter import filedialog, messagebox
 
         target = filedialog.asksaveasfilename(
             title="Save As",
@@ -511,7 +530,11 @@ class CreationEngineGuiApp:
         )
         if not target:
             return
-        self.current_path = Path(target)
+        target_path = Path(target)
+        if not self._is_within_output_dir(target_path):
+            messagebox.showerror("Invalid path", "File must be inside the selected output directory.")
+            return
+        self.current_path = target_path
         self.current_is_binary = False
         self.path_label.configure(text=str(self.current_path))
         self.save_current()
@@ -522,6 +545,9 @@ class CreationEngineGuiApp:
         if self.current_path is None:
             return
         if not self.current_path.exists():
+            return
+        if not self._is_within_output_dir(self.current_path):
+            messagebox.showerror("Invalid path", "File must be inside the selected output directory.")
             return
         if not messagebox.askyesno("Delete file", f"Delete file?\n{self.current_path}"):
             return
