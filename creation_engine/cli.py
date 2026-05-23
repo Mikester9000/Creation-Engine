@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+import sys
 
 from creation_engine.backend import BackendRegistry
 from creation_engine.engine import CreationEngine
@@ -136,7 +137,14 @@ def main(argv: list[str] | None = None) -> int:
     if args.command == "gui":
         from creation_engine.gui import run_gui
 
-        run_gui(output_dir=args.output, initial_file=args.file)
+        try:
+            run_gui(output_dir=args.output, initial_file=args.file)
+        except RuntimeError as exc:
+            print(f"GUI launch failed: {exc}", file=sys.stderr)
+            return 1
+        except Exception as exc:
+            print(f"GUI launch failed: {exc}", file=sys.stderr)
+            return 1
         return 0
 
     if args.command in {"texture", "map", "mesh"}:

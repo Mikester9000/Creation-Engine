@@ -187,3 +187,14 @@ def test_gui_command_dispatches(monkeypatch, tmp_path):
     assert rc == 0
     assert called["output_dir"] == str(tmp_path)
     assert called["initial_file"] == str(tmp_path / "stone.json")
+
+
+def test_gui_command_returns_error_when_launch_fails(monkeypatch, tmp_path, capsys):
+    def _stub_run_gui(*, output_dir, initial_file):
+        raise RuntimeError("Tkinter is required to run the GUI.")
+
+    monkeypatch.setattr(creation_engine.gui, "run_gui", _stub_run_gui)
+    rc = main(["gui", "--output", str(tmp_path)])
+    err = capsys.readouterr().err
+    assert rc == 1
+    assert "GUI launch failed: Tkinter is required to run the GUI." in err

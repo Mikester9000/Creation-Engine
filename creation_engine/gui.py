@@ -8,13 +8,21 @@ import numpy as np
 from PIL import Image, ImageOps
 
 
+def _manifest_files(manifest: dict[str, Any]) -> dict[str, Any]:
+    if isinstance(manifest.get("files"), dict):
+        return manifest["files"]
+    if isinstance(manifest.get("textures"), dict):
+        return manifest["textures"]
+    return {}
+
+
 def _read_image_array(path: Path, size: tuple[int, int]) -> np.ndarray:
     image = Image.open(path).convert("RGB").resize(size, Image.Resampling.NEAREST)
     return np.asarray(image, dtype=np.float32) / 255.0
 
 
 def render_material_preview(manifest: dict[str, Any], manifest_path: Path) -> Image.Image:
-    files = manifest.get("files", {})
+    files = _manifest_files(manifest)
     albedo_name = files.get("albedo") or files.get("image")
     if not isinstance(albedo_name, str):
         raise ValueError("Manifest has no previewable texture entry.")
@@ -118,7 +126,7 @@ def render_map_preview(map_data: dict[str, Any], tile_px: int = 10) -> Image.Ima
 def render_preview_from_json(parsed: dict[str, Any], source_path: Path) -> Image.Image:
     if "tiles" in parsed and "width" in parsed and "height" in parsed:
         return render_map_preview(parsed)
-    if "files" in parsed:
+    if "files" in parsed or "textures" in parsed:
         return render_material_preview(parsed, source_path)
     raise ValueError("No preview renderer available for this JSON schema.")
 
@@ -261,7 +269,7 @@ class CreationEngineGuiApp:
             parsed = json.loads(text)
             preview_image = render_preview_from_json(parsed, self.current_path)
             self._show_image_preview(preview_image)
-            if "files" in parsed:
+            if "files" in parsed or "textures" in parsed:
                 self._set_meta(
                     "GameRewritten-style material preview.\n"
                     "This approximates in-game lighting using albedo/normal/roughness/metallic/emissive."

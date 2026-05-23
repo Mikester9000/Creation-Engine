@@ -302,11 +302,17 @@ OutputTarget resolveOutputTarget(
  * _mkdir (Windows) or mkdir (POSIX). We don't treat "already exists" as
  * an error since that's the common case in incremental workflows.
  */
-void ensureDir(const std::string& dir)
+bool ensureDir(const std::string& dir)
 {
-    if (dir.empty()) return;
+    if (dir.empty()) return true;
     std::error_code ec;
     fs::create_directories(fs::path(dir), ec);
+    if (ec) {
+        std::cerr << "[ERROR] Failed to create output directory '" << dir
+                  << "': " << ec.message() << "\n";
+        return false;
+    }
+    return true;
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -350,7 +356,9 @@ int cmdTexture(const std::vector<std::string>& args)
     OutputTarget output = resolveOutputTarget(rawOut, name, inferredName, ".png");
     const std::string outDir = output.outDir.string();
     name = output.assetName;
-    ensureDir(outDir);
+    if (!ensureDir(outDir)) {
+        return 1;
+    }
 
     std::cout << "[creation-engine] Generating textures for: \"" << prompt << "\"\n"
               << "  Seed     : " << seed  << "\n"
@@ -435,7 +443,9 @@ int cmdMap(const std::vector<std::string>& args)
     const std::string outDir = output.outDir.string();
     name = output.assetName;
 
-    ensureDir(outDir);
+    if (!ensureDir(outDir)) {
+        return 1;
+    }
 
     std::cout << "[creation-engine] Generating map for: \"" << prompt << "\"\n"
               << "  Seed   : " << seed   << "\n"

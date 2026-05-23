@@ -46,7 +46,7 @@ make -j4
 
 ### Windows one-click GUI launcher
 
-Double-click `/tmp/workspace/Mikester9000/Creation-Engine/run_creation_engine_gui.bat` in File Explorer.
+Double-click `run_creation_engine_gui.bat` (or `.\\run_creation_engine_gui.bat`) in File Explorer.
 
 The script will:
 - create a local `.venv/`
