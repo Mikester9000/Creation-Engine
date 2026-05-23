@@ -17,7 +17,7 @@ into generator parameters.
 | **Export formats** | PNG (textures) · JSON (materials & maps) |
 | **AI Assist** | Offline rule-based prompt → PBR parameter mapping |
 | **Deterministic** | Same seed = same output every time |
-| **CLI-first** | Runs anywhere; GUI can be added later |
+| **CLI + GUI** | Runs from CLI and includes a desktop GUI for editing and preview |
 | **No network** | Zero runtime dependencies beyond a C++17 compiler |
 
 ---
@@ -43,6 +43,16 @@ mkdir build && cd build
 cmake ..
 make -j4
 ```
+
+### Windows one-click GUI launcher
+
+Double-click `run_creation_engine_gui.bat` (or `.\\run_creation_engine_gui.bat`) in File Explorer.
+
+The script will:
+- create a local `.venv/`
+- install required Python dependencies
+- install Creation Engine in editable mode
+- launch the GUI
 
 ### Generate textures
 
@@ -199,6 +209,7 @@ Materials now include a GameRewritten-compatible `shader` field and RGBA `params
 creation-engine <command> [options]
 
 Commands:
+  gui                     Launch desktop GUI (load/edit/save + asset preview)
   texture                 Generate PBR textures + material JSON
   map                     Generate a procedural tilemap JSON
   mesh                    Generate a static mesh OBJ + manifest

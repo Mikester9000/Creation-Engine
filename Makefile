@@ -10,7 +10,10 @@ CXXFLAGS := -std=c++17 -Wall -Wextra -O2 -Isrc -Ivendor
 TARGET   := creation-engine
 SRCDIR   := src
 
-SRCS := $(wildcard $(SRCDIR)/*.cpp)
+SRCS := $(wildcard $(SRCDIR)/*.cpp) \
+        $(wildcard $(SRCDIR)/ai/*.cpp) \
+        $(wildcard $(SRCDIR)/map/*.cpp) \
+        $(wildcard $(SRCDIR)/texture/*.cpp)
 OBJS := $(SRCS:.cpp=.o)
 
 .PHONY: all clean test
@@ -25,7 +28,7 @@ $(SRCDIR)/%.o: $(SRCDIR)/%.cpp
 	$(CXX) $(CXXFLAGS) -c -o $@ $<
 
 clean:
-	rm -f $(SRCDIR)/*.o $(TARGET)
+	rm -f $(OBJS) $(TARGET)
 	@echo "Cleaned."
 
 test: $(TARGET)

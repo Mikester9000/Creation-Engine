@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+import sys
 
 from creation_engine.backend import BackendRegistry
 from creation_engine.engine import CreationEngine
@@ -57,6 +58,10 @@ def build_parser() -> argparse.ArgumentParser:
         pack = subparsers.add_parser(command, help=help_text)
         pack.add_argument("--seed", type=int, default=42)
         pack.add_argument("--output", default="assets")
+
+    gui = subparsers.add_parser("gui", help="Launch desktop GUI")
+    gui.add_argument("--output", default="assets")
+    gui.add_argument("--file")
 
     quality_check = subparsers.add_parser(
         "quality-check",
@@ -127,6 +132,18 @@ def main(argv: list[str] | None = None) -> int:
             print("Bundle audit errors:")
             for error in result.errors:
                 print(f"- {error}")
+            return 1
+        return 0
+    if args.command == "gui":
+        from creation_engine.gui import run_gui
+
+        try:
+            run_gui(output_dir=args.output, initial_file=args.file)
+        except RuntimeError as exc:
+            print(f"GUI launch failed: {exc}", file=sys.stderr)
+            return 1
+        except Exception as exc:
+            print(f"GUI launch failed: {exc}", file=sys.stderr)
             return 1
         return 0
 
