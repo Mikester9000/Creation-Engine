@@ -370,7 +370,7 @@ class CreationEngineGuiApp:
         root.geometry("1600x920")
 
         import tkinter as tk
-        from tkinter import BOTH, BOTTOM, END, LEFT, RIGHT, TOP, W, X, Button, Frame, Label, Listbox, PanedWindow, Text
+        from tkinter import BOTH, BOTTOM, LEFT, TOP, W, X, Button, Frame, Label, Listbox, PanedWindow, Text
         from tkinter.scrolledtext import ScrolledText
         from tkinter import ttk
 

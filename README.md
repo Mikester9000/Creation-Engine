@@ -140,16 +140,15 @@ The desktop editor now includes:
 {
   "version": "1.1",
   "name": "wet_stone",
-  "shader": "Shaders/basic3d",
+  "asset_dimension": "3d",
+  "render_pipeline": "3d_pbr",
+  "coordinate_space": "Y_up",
+  "shader": "Shaders/pbr_3d",
   "prompt": "wet stone",
   "seed": 123,
   "params": {
     "color":     [0.256, 0.24, 0.224, 1.0],
-    "baseColor": [0.256, 0.24, 0.224, 1.0],
-    "roughness": 0.3825,
-    "metallic": 0,
-    "ao": 1,
-    "emissive": [0, 0, 0]
+    "baseColor": [0.256, 0.24, 0.224, 1.0]
   },
   "textures": {
     "albedo":    "wet_stone_albedo.png",
@@ -162,7 +161,7 @@ The desktop editor now includes:
 }
 ```
 
-Materials now include a GameRewritten-compatible `shader` field and RGBA `params.color`. The legacy `params.baseColor` key is also emitted with identical values so that existing tooling continues to work without modification. The format version has been bumped to `1.1` to signal the schema change (added `shader`; canonical color key renamed to `color`).
+Materials now include the required 3D manifest contract fields (`asset_dimension`, `render_pipeline`, `coordinate_space`, `shader`) plus RGBA `params.color`. The legacy `params.baseColor` key is also emitted with identical values so that existing tooling continues to work without modification. The format version is `1.1` to signal the schema change (added `shader`; canonical color key renamed to `color`).
 
 **PBR channel descriptions:**
 
@@ -281,7 +280,8 @@ Run this deterministic release path for non-audio/non-animation asset delivery:
 ./creation-engine quality-check --output assets
 ./creation-engine bundle-audit --output assets
 ./creation-engine release-check --output assets
-python -m pytest tests/test_backend_and_api.py tests/test_cli.py
+python -m pytest tests/test_backend_and_api.py tests/test_cli.py tests/test_gui.py
+bash tests/run_tests.sh
 ```
 
 Acceptance gates:
