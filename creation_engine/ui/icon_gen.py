@@ -13,13 +13,11 @@ def generate_ui_icon(prompt: str, seed: int = 42, size: int = 64) -> np.ndarray:
         size = size[0]
     image = np.zeros((size, size, 3), dtype=np.uint8)
     image[...] = palette[0]
-    image = _draw_icon_shape(image, family, palette, tokens=prompt.lower().split())
+    image = _draw_icon_shape(image, family, palette)
     return image
 
 
-def _draw_icon_shape(
-    image: np.ndarray, family: str, palette: np.ndarray, tokens: list[str] | None = None
-) -> np.ndarray:
+def _draw_icon_shape(image: np.ndarray, family: str, palette: np.ndarray) -> np.ndarray:
     out = image.copy()
     h, w = out.shape[:2]
     yy, xx = np.ogrid[:h, :w]

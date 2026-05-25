@@ -2,7 +2,10 @@
 
   "version": "1.1",
   "name": "test_lava",
-  "shader": "Shaders/basic3d",
+  "shader": "Shaders/pbr_3d",
+  "asset_dimension": "3d",
+  "render_pipeline": "3d_pbr",
+  "coordinate_space": "Y_up",
   "prompt": "lava rock",
   "seed": 123,
   "params": {

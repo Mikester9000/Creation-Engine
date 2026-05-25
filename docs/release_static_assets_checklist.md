@@ -175,7 +175,7 @@ find assets/ui -name "*.json" | wc -l
 Sample a minimum of 5 assets from each of these families and inspect the generated PNG files:
 
 - `assets/materials/` — Check albedo texture colour palette against PS2-era FF hue range.
-- `assets/terrain/` — Verify biome ground textures read clearly at 64×64.
+- `assets/terrain/` — Verify biome ground textures read clearly at 128×128.
 - `assets/props/` — Confirm 3-D silhouette is stylized, not hyper-detailed.
 - `assets/architecture/` — Landmark structures should have clear JRPG fantasy silhouette.
 - `assets/ui/` (icons) — Icons must read at small scale with bold colour separation.
@@ -287,4 +287,3 @@ Cross-reference with `assets/bundles/full_static.json` → `destination_map` ent
 Release is **APPROVED** only if all gates above are marked PASS.
 Any gate marked FAIL means **REJECTED** — fix and re-run from the failed step before
 re-attempting the release decision.
-

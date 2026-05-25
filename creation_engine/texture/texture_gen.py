@@ -57,7 +57,8 @@ def _fbm_noise(
 def _normal_from_height(height_map: np.ndarray, strength: float = 1.0) -> np.ndarray:
     """Derive a tangent-space normal map from a float32 [0,1] height field.
 
-    Returns uint8 RGB packed as (R=X+128, G=Y+128, B=Z+255).
+    Returns uint8 RGB packed by remapping each normalized component with
+    (component * 0.5 + 0.5) * 255.
     Neighbours are clamped so edge pixels are correct.
     """
     h, w = height_map.shape

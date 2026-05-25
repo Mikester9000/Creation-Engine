@@ -99,7 +99,7 @@ All 20 tasks are complete. The following production-ready components exist:
 - `tests/test_backend_and_api.py` — multi-family bundle, narrative metadata, tileset fallback tests
 - `tests/test_cli.py` — narrative tags, aesthetic gate, completeness matrix, GUI, all CLI commands
 - `tests/test_gui.py` — GUI smoke tests
-- `tests/run_tests.sh` — C++ asset generation integration tests (requires compiled binary)
+- `tests/run_tests.sh` — Python CLI integration + quality gates (requires `creation-engine` on PATH, e.g. `pip install -e .`)
 
 Current repo can do:
 

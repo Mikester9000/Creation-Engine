@@ -6,6 +6,11 @@ echo "--- Generating test assets (Python pipeline) ---"
 TMP_OUT="$(mktemp -d)"
 trap 'rm -rf "$TMP_OUT"' EXIT
 
+if ! command -v creation-engine >/dev/null 2>&1; then
+  echo "Error: creation-engine CLI not found on PATH. Install it with: pip install -e ."
+  exit 1
+fi
+
 creation-engine texture --prompt "ps2 jrpg stone" --seed 42 --output "$TMP_OUT"
 creation-engine texture --prompt "ps2 jrpg lava rock" --seed 123 --output "$TMP_OUT"
 creation-engine map --prompt "forest" --width 20 --height 15 --seed 42 --output "$TMP_OUT"
