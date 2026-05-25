@@ -80,6 +80,36 @@ MATERIAL_PRESETS = {
     "glass": {"base_color": (148, 188, 210), "roughness": 0.08, "metallic": 0.00, "ao": 0.99},
     "shadow_metal": {"base_color": (46, 44, 58), "roughness": 0.34, "metallic": 0.88, "ao": 0.93},
     "holy_crystal": {"base_color": (232, 220, 164), "roughness": 0.14, "metallic": 0.04, "ao": 0.98},
+    # FF7-specific: Midgar industrial, Mako reactor, Shinra tech, Cetra
+    "mako": {"base_color": (24, 180, 120), "roughness": 0.28, "metallic": 0.18, "ao": 0.94},
+    "magitek": {"base_color": (52, 68, 96), "roughness": 0.40, "metallic": 0.78, "ao": 0.91},
+    "midgar_steel": {"base_color": (78, 82, 88), "roughness": 0.48, "metallic": 0.86, "ao": 0.92},
+    "reactor_plate": {"base_color": (44, 52, 64), "roughness": 0.52, "metallic": 0.90, "ao": 0.90},
+    "slum_concrete": {"base_color": (96, 90, 82), "roughness": 0.90, "metallic": 0.02, "ao": 0.85},
+    "lifestream": {"base_color": (32, 220, 140), "roughness": 0.18, "metallic": 0.04, "ao": 0.97},
+    "cetra_stone": {"base_color": (188, 196, 176), "roughness": 0.62, "metallic": 0.04, "ao": 0.93},
+    "cetra_crystal": {"base_color": (164, 216, 200), "roughness": 0.14, "metallic": 0.06, "ao": 0.97},
+    "materia": {"base_color": (100, 160, 240), "roughness": 0.12, "metallic": 0.06, "ao": 0.98},
+    # FF8-specific: Balamb Garden, Galbadia military, Timber timber, Esthar hi-tech
+    "gf_stone": {"base_color": (72, 88, 120), "roughness": 0.60, "metallic": 0.08, "ao": 0.91},
+    "garden_tile": {"base_color": (196, 200, 210), "roughness": 0.55, "metallic": 0.12, "ao": 0.93},
+    "garden_glass": {"base_color": (164, 192, 220), "roughness": 0.10, "metallic": 0.08, "ao": 0.98},
+    "galbadia_plate": {"base_color": (64, 72, 84), "roughness": 0.45, "metallic": 0.82, "ao": 0.91},
+    "esthar_alloy": {"base_color": (136, 168, 200), "roughness": 0.22, "metallic": 0.92, "ao": 0.94},
+    "para_magic": {"base_color": (200, 140, 220), "roughness": 0.20, "metallic": 0.10, "ao": 0.96},
+    "dollet_brick": {"base_color": (156, 124, 96), "roughness": 0.76, "metallic": 0.02, "ao": 0.89},
+    "timber_wood": {"base_color": (120, 86, 58), "roughness": 0.82, "metallic": 0.00, "ao": 0.88},
+    # FF10-specific: Spira tropical, Zanarkand, Al Bhed, Bevelle, Fayth
+    "spira_stone": {"base_color": (164, 148, 120), "roughness": 0.72, "metallic": 0.03, "ao": 0.90},
+    "spira_sand": {"base_color": (216, 192, 148), "roughness": 0.95, "metallic": 0.00, "ao": 0.87},
+    "zanarkand_chrome": {"base_color": (140, 160, 188), "roughness": 0.20, "metallic": 0.88, "ao": 0.94},
+    "zanarkand_glass": {"base_color": (96, 148, 210), "roughness": 0.08, "metallic": 0.04, "ao": 0.98},
+    "bevelle_gold": {"base_color": (200, 172, 80), "roughness": 0.18, "metallic": 0.92, "ao": 0.94},
+    "bevelle_marble": {"base_color": (220, 212, 196), "roughness": 0.38, "metallic": 0.06, "ao": 0.95},
+    "al_bhed_metal": {"base_color": (88, 120, 96), "roughness": 0.34, "metallic": 0.80, "ao": 0.92},
+    "pyrefly": {"base_color": (220, 200, 80), "roughness": 0.16, "metallic": 0.02, "ao": 0.98},
+    "fayth_stone": {"base_color": (148, 168, 196), "roughness": 0.56, "metallic": 0.10, "ao": 0.93},
+    "sin_flesh": {"base_color": (68, 72, 90), "roughness": 0.88, "metallic": 0.04, "ao": 0.86},
 }
 
 MATERIAL_MODIFIERS = {
@@ -119,4 +149,15 @@ MATERIAL_MODIFIERS = {
     "coastal": {"brightness": 1.01, "roughness_add": -0.08, "metallic_mul": 0.96},
     "dungeon": {"brightness": 0.74, "roughness_add": 0.08, "metallic_mul": 0.90},
     "overhauled": {"brightness": 1.08, "roughness_add": -0.06, "metallic_mul": 1.04},
+    # FF7/FF8/FF10 environment modifiers
+    "mako_infused": {"brightness": 1.10, "roughness_add": -0.12, "metallic_mul": 1.00},
+    "sinspawn": {"brightness": 0.75, "roughness_add": 0.14, "metallic_mul": 0.88},
+    "aeon": {"brightness": 1.12, "roughness_add": -0.10, "metallic_mul": 1.05},
+    "yevon": {"brightness": 0.98, "roughness_add": -0.08, "metallic_mul": 1.10},
+    "unsent": {"brightness": 0.72, "roughness_add": 0.08, "metallic_mul": 0.95},
+    "pyrefly": {"brightness": 1.18, "roughness_add": -0.14, "metallic_mul": 0.98},
+    "shinra": {"brightness": 0.92, "roughness_add": 0.04, "metallic_mul": 1.12},
+    "soldier": {"brightness": 0.88, "roughness_add": 0.06, "metallic_mul": 1.10},
+    "cetra": {"brightness": 1.06, "roughness_add": -0.06, "metallic_mul": 0.96},
+    "sorceress": {"brightness": 0.82, "roughness_add": -0.04, "metallic_mul": 1.08},
 }

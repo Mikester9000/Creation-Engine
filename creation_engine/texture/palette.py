@@ -52,6 +52,33 @@ PALETTE_FAMILIES = {
     "crystal_shrine": ((96, 148, 178), (136, 188, 210), (178, 218, 232), (220, 242, 248)),
     "magitek_forge": ((62, 68, 82), (92, 102, 120), (136, 148, 168), (196, 204, 214)),
     "summon_realm": ((74, 44, 96), (110, 68, 140), (154, 106, 186), (210, 162, 232)),
+    # FF7 palettes — Midgar, Mako, Cetra
+    "mako": ((8, 120, 72), (24, 180, 120), (48, 220, 160), (120, 240, 200)),
+    "midgar": ((52, 56, 64), (76, 80, 90), (108, 112, 122), (168, 168, 176)),
+    "reactor": ((28, 36, 52), (44, 60, 88), (68, 96, 136), (112, 152, 196)),
+    "slum": ((64, 58, 50), (88, 82, 72), (116, 108, 96), (162, 152, 136)),
+    "cetra": ((148, 196, 172), (180, 220, 196), (208, 236, 218), (236, 248, 240)),
+    "lifestream": ((12, 148, 88), (32, 196, 128), (72, 224, 168), (148, 240, 208)),
+    "mideel": ((96, 148, 80), (128, 182, 102), (168, 210, 132), (210, 232, 172)),
+    "cosmo_canyon": ((140, 76, 40), (184, 108, 58), (216, 148, 88), (240, 196, 136)),
+    # FF8 palettes — Balamb, Galbadia, Timber, Esthar
+    "balamb": ((148, 168, 196), (180, 196, 218), (208, 220, 234), (232, 238, 246)),
+    "galbadia": ((56, 64, 80), (84, 96, 118), (120, 136, 158), (172, 184, 196)),
+    "timber": ((96, 68, 46), (136, 96, 64), (178, 132, 88), (220, 180, 128)),
+    "esthar": ((96, 136, 178), (136, 172, 210), (178, 206, 228), (220, 236, 246)),
+    "sorceress": ((68, 32, 88), (100, 48, 132), (144, 80, 180), (200, 130, 224)),
+    "dollet": ((148, 116, 88), (186, 152, 116), (220, 190, 154), (248, 226, 196)),
+    "para_magic": ((176, 108, 210), (200, 140, 228), (220, 172, 240), (240, 210, 250)),
+    # FF10 palettes — Spira, Zanarkand, Bevelle, Al Bhed, Guadosalam
+    "spira": ((160, 136, 96), (196, 168, 120), (224, 200, 152), (246, 232, 192)),
+    "zanarkand": ((80, 108, 160), (116, 148, 196), (156, 186, 222), (204, 220, 240)),
+    "bevelle": ((172, 140, 56), (206, 178, 90), (232, 212, 136), (250, 238, 190)),
+    "besaid": ((60, 132, 108), (96, 172, 140), (140, 206, 174), (196, 234, 212)),
+    "kilika": ((192, 128, 56), (218, 162, 88), (238, 196, 128), (250, 228, 174)),
+    "guadosalam": ((80, 52, 104), (114, 76, 148), (156, 112, 192), (210, 166, 232)),
+    "calm_lands": ((140, 168, 116), (176, 200, 148), (210, 224, 182), (236, 242, 216)),
+    "al_bhed": ((56, 104, 72), (88, 144, 104), (128, 180, 136), (184, 214, 180)),
+    "pyrefly_glow": ((220, 192, 56), (238, 218, 100), (248, 236, 152), (254, 248, 210)),
 }
 
 _PALETTE_ALIASES = {
@@ -89,6 +116,39 @@ _PALETTE_ALIASES = {
     "crystal": "crystal_shrine",
     "magitek": "magitek_forge",
     "summon": "summon_realm",
+    # FF7
+    "mako": "mako",
+    "midgar": "midgar",
+    "reactor": "reactor",
+    "slum": "slum",
+    "cetra": "cetra",
+    "lifestream": "lifestream",
+    "mideel": "mideel",
+    "cosmo_canyon": "cosmo_canyon",
+    "materia": "mako",
+    "shinra": "midgar",
+    # FF8
+    "balamb": "balamb",
+    "galbadia": "galbadia",
+    "timber": "timber",
+    "esthar": "esthar",
+    "sorceress": "sorceress",
+    "dollet": "dollet",
+    "para_magic": "para_magic",
+    "garden": "balamb",
+    # FF10
+    "spira": "spira",
+    "zanarkand": "zanarkand",
+    "bevelle": "bevelle",
+    "besaid": "besaid",
+    "kilika": "kilika",
+    "guadosalam": "guadosalam",
+    "calm_lands": "calm_lands",
+    "al_bhed": "al_bhed",
+    "pyrefly": "pyrefly_glow",
+    "pyrefly_glow": "pyrefly_glow",
+    "aeon": "zanarkand",
+    "yevon": "bevelle",
 }
 
 
