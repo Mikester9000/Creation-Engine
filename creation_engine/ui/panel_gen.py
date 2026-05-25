@@ -6,7 +6,7 @@ from creation_engine.texture.palette import select_palette
 from creation_engine.ui.ui_specs import UI_PANEL_FAMILIES, resolve_ui_panel_family
 
 
-def generate_ui_panel(prompt: str, seed: int = 42, size: tuple[int, int] = (128, 64)) -> np.ndarray:
+def generate_ui_panel(prompt: str, seed: int = 42, size: tuple[int, int] = (256, 64)) -> np.ndarray:
     family = resolve_ui_panel_family(prompt)
     palette = select_palette(UI_PANEL_FAMILIES[family]["palette"], seed)
     width, height = size

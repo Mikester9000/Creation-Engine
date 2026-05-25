@@ -213,7 +213,7 @@ class CreationEngine:
             name=name,
             family=ASSET_FAMILY_UI_PANELS,
             generator=build_ui_panel_image,
-            width=128,
+            width=256,
             height=64,
             source_generator="creation_engine.ui.panel_gen.generate_ui_panel",
         )
@@ -232,8 +232,8 @@ class CreationEngine:
             name=name,
             family=ASSET_FAMILY_UI_PORTRAITS,
             generator=build_ui_portrait_image,
-            width=96,
-            height=96,
+            width=128,
+            height=128,
             source_generator="creation_engine.ui.portrait_gen.generate_ui_portrait",
         )
 
@@ -494,7 +494,7 @@ class CreationEngine:
         )
         asset_name = name or self._make_name(prompt)
         seed_value = seed if seed is not None else (self.seed if self.seed is not None else 42)
-        image = generator(prompt=prompt, seed=seed_value)
+        image = generator(prompt=prompt, seed=seed_value, size=width if height == width else (width, height))
         if image.shape[0] != height or image.shape[1] != width:
             raise ValueError(f"{family} generator returned unexpected image size")
         out_dir.mkdir(parents=True, exist_ok=True)
@@ -540,7 +540,8 @@ class CreationEngine:
             asset_seed = seed_value + index
             asset_name = self._make_name(prompt)
             self.generate_texture(
-                prompt=prompt, output_dir=out_dir, name=asset_name, seed=asset_seed
+                prompt=prompt, output_dir=out_dir, name=asset_name, seed=asset_seed,
+                width=128, height=128,
             )
             entry = {
                 "name": asset_name,

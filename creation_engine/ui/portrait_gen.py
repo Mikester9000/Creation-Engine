@@ -6,9 +6,11 @@ from creation_engine.texture.palette import select_palette
 from creation_engine.ui.ui_specs import UI_PORTRAIT_FAMILIES, resolve_ui_portrait_family
 
 
-def generate_ui_portrait(prompt: str, seed: int = 42, size: int = 96) -> np.ndarray:
+def generate_ui_portrait(prompt: str, seed: int = 42, size: int = 128) -> np.ndarray:
     family = resolve_ui_portrait_family(prompt)
     palette = select_palette(UI_PORTRAIT_FAMILIES[family]["palette"], seed)
+    if isinstance(size, tuple):
+        size = size[0]
     image = np.zeros((size, size, 3), dtype=np.uint8)
     image[...] = palette[0]
     yy, xx = np.ogrid[:size, :size]

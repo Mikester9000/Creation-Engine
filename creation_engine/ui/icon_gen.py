@@ -9,13 +9,17 @@ from creation_engine.ui.ui_specs import UI_ICON_FAMILIES, resolve_ui_icon_family
 def generate_ui_icon(prompt: str, seed: int = 42, size: int = 64) -> np.ndarray:
     family = resolve_ui_icon_family(prompt)
     palette = select_palette(UI_ICON_FAMILIES[family]["palette"], seed)
+    if not isinstance(size, int):
+        size = size[0]
     image = np.zeros((size, size, 3), dtype=np.uint8)
     image[...] = palette[0]
-    image = _draw_icon_shape(image, family, palette)
+    image = _draw_icon_shape(image, family, palette, tokens=prompt.lower().split())
     return image
 
 
-def _draw_icon_shape(image: np.ndarray, family: str, palette: np.ndarray) -> np.ndarray:
+def _draw_icon_shape(
+    image: np.ndarray, family: str, palette: np.ndarray, tokens: list[str] | None = None
+) -> np.ndarray:
     out = image.copy()
     h, w = out.shape[:2]
     yy, xx = np.ogrid[:h, :w]
