@@ -58,37 +58,56 @@ All planned outputs in this file must align to the following target:
 
 ---
 
-## Current Repo Baseline
+## Current Repo Baseline (As-Built — All Tasks Complete)
 
-Current Python entry points and generators already present:
+All 20 tasks are complete. The following production-ready components exist:
 
-- `/home/runner/work/Creation-Engine/Creation-Engine/creation_engine/cli.py` lines `1-89`
-- `/home/runner/work/Creation-Engine/Creation-Engine/creation_engine/engine.py` lines `1-98`
-- `/home/runner/work/Creation-Engine/Creation-Engine/creation_engine/backend.py` lines `1-178`
-- `/home/runner/work/Creation-Engine/Creation-Engine/creation_engine/texture/texture_gen.py` lines `1-98`
-- `/home/runner/work/Creation-Engine/Creation-Engine/creation_engine/map/map_gen.py` lines `1-79`
-- `/home/runner/work/Creation-Engine/Creation-Engine/creation_engine/export/texture_exporter.py` lines `1-37`
-- `/home/runner/work/Creation-Engine/Creation-Engine/creation_engine/export/map_exporter.py` lines `1-55`
-- `/home/runner/work/Creation-Engine/Creation-Engine/creation_engine/export/mesh_exporter.py` lines `1-72`
-- `/home/runner/work/Creation-Engine/Creation-Engine/tests/test_backend_and_api.py` lines `1-24`
-- `/home/runner/work/Creation-Engine/Creation-Engine/tests/test_cli.py` lines `1-25`
+**Core generators:**
+- `creation_engine/cli.py` — full command router: `texture`, `map`, `mesh`, `*-pack`, `full-bundle`, `quality-check`, `bundle-audit`, `release-check`, `gui`, `list-backends`
+- `creation_engine/engine.py` — `CreationEngine` class with all pack builders and `generate_full_bundle`
+- `creation_engine/backend.py` — `ProceduralBackend` with family-aware texture/map/mesh generation and `BackendRegistry`
 
-Current repo can already do:
+**Texture pipeline:**
+- `creation_engine/texture/texture_gen.py` — material-family-aware PBR texture generator (Python fallback + C++ bridge)
+- `creation_engine/texture/material_presets.py` — 80+ presets: region, civilization, corruption, elemental variants
+- `creation_engine/texture/palette.py` — 50+ palettes: faction, biome, narrative mood, era variants
+- `creation_engine/export/texture_exporter.py` — exports PNG + JSON manifest with 3D fields, narrative tags, `style_profile`
 
-- texture generation
-- map generation
-- simple mesh export
-- CLI command routing
-- deterministic seed-based generation
+**Map pipeline:**
+- `creation_engine/map/map_gen.py` — region/chunk-aware generator with 14+ themed layouts, neighbor-theme blending, per-tile height maps
+- `creation_engine/map/tileset_specs.py` — 17 tileset themes: overworld, town, dungeon, cave, coast, desert, snowfield, temple, ruins, castle, forest, capital\_city, port\_city, highlands, volcanic, sacred\_ruins, imperial\_fortress, wasteland
+- `creation_engine/export/map_exporter.py` — exports map JSON with narrative tags, `world_region_id`, `exploration_intent`, 3D fields, height map
 
-Current repo cannot yet fully do:
+**Mesh pipeline:**
+- `creation_engine/mesh/mesh_family_specs.py` — full variant catalog for props, architecture, foliage, items, characters\_static, enemies\_static with 10+ examples each and named parts
+- `creation_engine/mesh/mesh_builder.py` — primitive assembly, LOD policy per family, complexity budget
+- `creation_engine/export/mesh_exporter.py` — exports OBJ + MTL + JSON manifest with narrative tags, placement intent, LOD policy
 
-- asset family packs
-- UI asset generation
-- standardized metadata manifests for every asset family
-- richer mesh families beyond generic placeholder cube output
-- bundle generation for a full GameRewritten content drop
-- consistent catalog / validation schema across all asset types
+**Narrative metadata:**
+- `creation_engine/narrative_tags.py` — canonical taxonomy: `region`, `faction`, `era`, `story_phase`, `culture_theme`, `world_region_id`, `exploration_intent`, `placement_intent`
+- `creation_engine/prompting.py` — deterministic prompt tokenizer and narrative tag classifier
+
+**Bundle and validation:**
+- `creation_engine/game_rewritten_bundle.py` — 20 prompts × 13 asset families with region/lore-driven variants
+- `creation_engine/quality_check.py` — hard aesthetic gate: banned terms, required FF style descriptors, narrative field validation, bundle completeness
+- `creation_engine/asset_catalog.py` — shared family constants, slug helper, build order
+
+**GUI:**
+- `creation_engine/gui.py` — desktop editor/preview app: load, edit, save, and preview assets
+
+**Tests:**
+- `tests/test_backend_and_api.py` — multi-family bundle, narrative metadata, tileset fallback tests
+- `tests/test_cli.py` — narrative tags, aesthetic gate, completeness matrix, GUI, all CLI commands
+- `tests/test_gui.py` — GUI smoke tests
+- `tests/run_tests.sh` — C++ asset generation integration tests (requires compiled binary)
+
+Current repo can do:
+
+- All 13 asset pack families: materials, terrain, tilesets, props, architecture, foliage, items, decals, ui\_icons, ui\_panels, ui\_portraits, characters\_static, enemies\_static
+- Full-bundle generation with completeness matrix validation
+- Region-aware, chunk-stitchable open-world map generation
+- Quality-check, bundle-audit, release-check CLI gates
+- Desktop GUI for loading and previewing assets
 
 ---
 
@@ -139,11 +158,12 @@ Use these rules for every task below.
 15. New prompts and presets must explicitly target PS2-era JRPG visual output and avoid modern photoreal style drift.
 16. Planned bundle examples must include style language that reinforces FF7-FF12-era visual constraints.
 
-Validation command already used by this repo:
+Validation commands:
 
 ```bash
 cd <repo-root>
-python -m pytest tests/test_backend_and_api.py tests/test_cli.py
+python -m pytest tests/test_backend_and_api.py tests/test_cli.py tests/test_gui.py
+bash tests/run_tests.sh
 ```
 
 Production gate commands:
@@ -153,14 +173,21 @@ cd <repo-root>
 creation-engine full-bundle --seed 101 --output assets
 creation-engine quality-check --output assets
 creation-engine bundle-audit --output assets
-python -m pytest tests/test_backend_and_api.py tests/test_cli.py
+creation-engine release-check --output assets
+python -m pytest tests/test_backend_and_api.py tests/test_cli.py tests/test_gui.py
+bash tests/run_tests.sh
 ```
 
 Release gate policy:
 
 - `quality-check` is a hard fail gate for style profile, banned prompt drift, required FF descriptors, narrative metadata fields, and safe file references.
 - `bundle-audit` is a hard fail gate for per-family counts, narrative coverage, and FF aesthetic compliance status.
-- Full-bundle manifest must include a completeness matrix proving required packs, minimum counts, and content destination coverage.
+- `release-check` is a combined gate: runs quality-check + bundle-audit + full-bundle completeness matrix validation in one command.
+- Full-bundle manifest must include a `completeness_matrix` proving required packs, minimum counts per family, and complete content destination coverage.
+- All manifests must include `asset_dimension: "3d"`, `render_pipeline: "3d_pbr"`, `coordinate_space: "Y_up"`, and `style_profile: "ps2_ff7_ff12_highest_quality_ps2"`.
+- Texture manifests must include `shader: "Shaders/pbr_3d"`.
+- Map manifests must include `render_mode: "3d"`, `height_map`, `narrative_tags`, `world_region_id`, and `exploration_intent`.
+- Mesh manifests must include `narrative_tags`, `placement_intent`, `lod_policy`, and `coordinate_space`.
 
 ---
 
@@ -218,6 +245,19 @@ All tasks that export files must satisfy this compatibility contract:
 - UI exports (icons, panels, portraits) must include metadata that can be mapped to `Content/UI`.
 - Bundle metadata must include a full file manifest with family labels and target `Content/*` destination hints.
 - Bundle and per-asset manifests must include a deterministic `style_profile` value set exactly to `ps2_ff7_ff12_highest_quality_ps2` so art direction can be audited automatically.
+
+**3D rendering fields (required on all manifests):**
+- `asset_dimension: "3d"` — marks the asset as a 3D asset (not 2D sprite).
+- `render_pipeline: "3d_pbr"` — signals the PBR render path.
+- `coordinate_space: "Y_up"` — Y-axis is up (GameRewritten standard).
+- Texture manifests: `shader: "Shaders/pbr_3d"`.
+- Map manifests: `render_mode: "3d"` and `height_map` (2D float array, one elevation per tile).
+
+**Narrative metadata fields (required on all manifests):**
+- `narrative_tags` object with keys: `region`, `faction`, `era`, `story_phase`, `culture_theme` — values drawn from canonical lists in `creation_engine/narrative_tags.py`.
+- `world_region_id` — deterministic region slug (e.g. `"kingdom_central"`, `"frozen_highlands"`).
+- `exploration_intent` — slot for open-world routing (e.g. `"main_route"`, `"dungeon_entrance"`, `"optional_area"`).
+- `placement_intent` — asset placement category (e.g. `"world_prop"`, `"town_prop"`, `"dungeon_prop"`).
 
 ---
 
