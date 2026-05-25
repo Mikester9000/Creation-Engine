@@ -3,19 +3,18 @@ setlocal EnableExtensions
 
 cd /d "%~dp0"
 
+set "PYTHON_CMD="
 where py >nul 2>nul
-if %ERRORLEVEL%==0 (
-    set "PYTHON_CMD=py -3"
-) else (
+if not errorlevel 1 set "PYTHON_CMD=py -3"
+if not defined PYTHON_CMD (
     where python >nul 2>nul
-    if %ERRORLEVEL%==0 (
-        set "PYTHON_CMD=python"
-    ) else (
-        echo Python 3 is not installed.
-        echo Install Python from https://www.python.org/downloads/windows/ and re-run this file.
-        pause
-        exit /b 1
-    )
+    if not errorlevel 1 set "PYTHON_CMD=python"
+)
+if not defined PYTHON_CMD (
+    echo Python 3 is not installed.
+    echo Install Python from https://www.python.org/downloads/windows/ and re-run this file.
+    pause
+    exit /b 1
 )
 
 if not exist ".venv\Scripts\python.exe" (
