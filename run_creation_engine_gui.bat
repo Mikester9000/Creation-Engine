@@ -50,7 +50,7 @@ if errorlevel 1 (
     exit /b 1
 )
 
-call "%VENV_PY%" -m pip install .
+call "%VENV_PY%" -m pip install --upgrade .
 if errorlevel 1 (
     echo Failed to install Creation Engine package.
     pause
@@ -63,7 +63,7 @@ if not exist "assets\maps" mkdir "assets\maps"
 if not exist "assets\meshes" mkdir "assets\meshes"
 if not exist "assets\ui" mkdir "assets\ui"
 
-call "%VENV_PY%" -m creation_engine.cli list-backends >nul 2>nul
+call "%VENV_PY%" -m creation_engine.cli list-backends >nul
 if errorlevel 1 (
     echo Installation check failed: CLI import test did not pass.
     pause
