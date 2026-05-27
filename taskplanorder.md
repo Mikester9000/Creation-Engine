@@ -537,10 +537,10 @@ Expected: All tests still pass. (This task edits only a .md file — no code cha
 ---
 
 # TASK 10
-**Task Name:** Final validation — run full pipeline end-to-end
+**Task Name:** Core pipeline validation (pre-GUI expansion checkpoint)
 
 **Logic and purpose:**
-After Tasks 01–09 are applied, the complete pipeline must be validated in one run. This confirms: generation works, all quality gates pass, all tests pass, and no regressions were introduced.
+After Tasks 01–09 are applied, validate that the core generation + quality pipeline remains stable before adding new GUI-manual-creation work. This creates a clean checkpoint.
 
 **No file to edit.** This is an execution-only task.
 
@@ -572,6 +572,285 @@ bash tests/run_tests.sh
 
 ---
 
+# TASK 11
+**Task Name:** Add GUI regression test for manual single-asset creation flow
+
+**Logic and purpose:**
+The GUI now has manual generation controls, but there is no direct regression test proving a user can trigger **Generate Asset** and that the callback updates UI metadata/status. Add one focused test that simulates this user flow without launching a real Tk window.
+
+**Narrative code structure:**
+In `tests/test_gui.py`, append one test that creates a lightweight `CreationEngineGuiApp` stub (`__new__`), injects minimal fields (`_gen_type_var`, `_gen_prompt_var`, `_gen_seed_var`, `_gen_width_var`, `_gen_height_var`, `_gen_complexity_var`, output hooks), monkeypatches `_run_in_thread` to execute synchronously, and asserts:
+1) generation function is called,
+2) status text includes `Generated texture`,
+3) generated JSON is loaded in editor flow.
+
+**File to edit:**
+`tests/test_gui.py`
+
+**READ_FILE:** `tests/test_gui.py`
+**READ_LINES:** 1–20 (imports and helpers)
+**READ_LINES ALSO:** end of file (append location after last test)
+
+**Lines to edit:**
+End of file — append one new test function.
+
+**Number of lines to modify:** 0 lines changed, ~35 lines appended.
+
+**EXACT CHANGE (append to end of file):**
+```python
+
+
+def test_gui_generate_single_asset_updates_status_and_meta(tmp_path, monkeypatch):
+    app = CreationEngineGuiApp.__new__(CreationEngineGuiApp)
+    app.output_dir = tmp_path
+    app.current_path = None
+    app.current_is_binary = False
+
+    class _V:
+        def __init__(self, value):
+            self._v = value
+        def get(self):
+            return self._v
+
+    app._gen_type_var = _V("texture")
+    app._gen_prompt_var = _V("ps2 jrpg wet stone")
+    app._gen_seed_var = _V("7")
+    app._gen_width_var = _V("32")
+    app._gen_height_var = _V("32")
+    app._gen_complexity_var = _V("medium")
+
+    status_calls = []
+    meta_calls = []
+    loaded = []
+    app._set_status = status_calls.append
+    app._set_meta = meta_calls.append
+    app.load_file = loaded.append
+    app.refresh_file_browser = lambda: None
+
+    def _inline_run(fn, *args, on_done=None):
+        result = fn(*args)
+        if on_done:
+            on_done(result)
+
+    app._run_in_thread = _inline_run
+    app.generate_single_asset_ui()
+
+    assert any("Generated texture" in s for s in status_calls)
+    assert any("Generated texture" in s for s in meta_calls)
+    assert loaded, "Expected GUI flow to load the generated manifest."
+```
+
+**VERIFY COMMAND:**
+```bash
+python -m pytest tests/test_gui.py::test_gui_generate_single_asset_updates_status_and_meta -v
+```
+Expected: 1 test passes.
+
+---
+
+---
+
+# TASK 12
+**Task Name:** Add GUI output-directory picker for manual creation sessions
+
+**Logic and purpose:**
+Manual creation requires quickly switching between output roots (for example, `assets/prototype_a`, `assets/prototype_b`) without restarting the app. Add an in-GUI folder picker that safely re-roots the browser/editor to a selected directory.
+
+**Narrative code structure:**
+In `CreationEngineGuiApp`, add a toolbar button `Set Output Dir` near existing file controls. Implement `choose_output_dir_dialog` that uses `tkinter.filedialog.askdirectory`, validates non-empty selection, updates `self.output_dir`, refreshes file browser, and writes a status/meta message including the new path.
+
+**File to edit:**
+`creation_engine/gui.py`
+
+**READ_FILE:** `creation_engine/gui.py`
+**READ_LINES:** 377–409 (toolbar construction)
+**READ_LINES ALSO:** 708–722 (`refresh_file_browser` status behavior)
+**READ_LINES ALSO:** 815–886 (adjacent action-handler style)
+
+**Lines to edit:**
+- Toolbar row around line 381 (insert new button)
+- Add new method near other UI actions (before `run_quality_check_ui` block is preferred)
+
+**Number of lines to modify:** 1 line inserted (toolbar) + ~18 lines appended (new handler).
+
+**EXACT CHANGE:**
+1) Insert button:
+```python
+Button(toolbar, text="Set Output Dir", command=self.choose_output_dir_dialog, width=12).pack(side=LEFT, padx=2, pady=3)
+```
+2) Add handler:
+```python
+def choose_output_dir_dialog(self) -> None:
+    from tkinter import filedialog
+
+    selected = filedialog.askdirectory(
+        title="Select Creation Engine Output Directory",
+        initialdir=str(self.output_dir),
+    )
+    if not selected:
+        self._set_status("Output directory change canceled.")
+        return
+    self.output_dir = Path(selected)
+    self.refresh_file_browser()
+    self._set_meta(
+        "Output directory updated.\n"
+        f"Asset directory: {self.output_dir}\n"
+        "Generate or open files from this directory."
+    )
+    self._set_status(f"Output directory set to: {self.output_dir}")
+```
+
+**VERIFY COMMAND:**
+```bash
+python -m pytest tests/test_gui.py -q
+```
+Expected: GUI tests pass.
+
+---
+
+---
+
+# TASK 13
+**Task Name:** Add GUI generation profile presets for faster manual authoring
+
+**Logic and purpose:**
+Manual creators should be able to switch between common generation profiles (Texture/Map/Mesh/UI) without manually retyping prompt + size fields every time. Add deterministic presets to reduce error-prone repetitive input.
+
+**Narrative code structure:**
+In `creation_engine/gui.py` generation panel row A, add:
+- preset selector (`self._gen_profile_var`) with fixed values
+- `Apply Profile` button
+- helper method `apply_generation_profile` that sets asset type, prompt, width, height, complexity defaults
+
+Keep existing manual fields editable after profile application.
+
+**File to edit:**
+`creation_engine/gui.py`
+
+**READ_FILE:** `creation_engine/gui.py`
+**READ_LINES:** 413–445 (single-asset generation controls)
+**READ_LINES ALSO:** 579–635 (`generate_single_asset_ui` to confirm compatible variable names)
+
+**Lines to edit:**
+- Row A UI control declarations (insert preset selector/button)
+- Add one new helper method close to `_toggle_gen_panel` and generation methods
+
+**Number of lines to modify:** ~9 lines inserted in row A + ~28 lines appended for helper.
+
+**EXACT CHANGE:**
+- Add profile dropdown values:
+  - `texture_default`
+  - `map_default`
+  - `mesh_default`
+  - `ui_icon_default`
+- Add button:
+```python
+Button(row_a, text="Apply Profile", command=self.apply_generation_profile, width=11).pack(side=LEFT, padx=4)
+```
+- Add helper that maps profile -> field values and updates:
+  - `self._gen_type_var`
+  - `self._gen_prompt_var`
+  - `self._gen_width_var`
+  - `self._gen_height_var`
+  - `self._gen_complexity_var`
+  - status text (`Profile applied: ...`)
+
+Use only existing field variables. Do not introduce additional generation side effects.
+
+**VERIFY COMMAND:**
+```bash
+python -m pytest tests/test_gui.py -q
+```
+Expected: GUI tests pass.
+
+---
+
+---
+
+# TASK 14
+**Task Name:** Document end-to-end manual GUI creation workflow in README
+
+**Logic and purpose:**
+After adding GUI manual-creation controls (asset generation, output-dir switching, previews, quality gates), the README should explicitly describe the full click-path so users can operate the program without CLI commands.
+
+**Narrative code structure:**
+In `README.md`, add a new section under `## GUI Workflow Highlights` named:
+`### Full Manual Creation Workflow (No CLI Required)`
+
+Describe the exact operator sequence:
+1) launch GUI,
+2) set output directory,
+3) open Generate Panel,
+4) apply profile,
+5) edit prompt/seed/dimensions,
+6) generate asset/pack/bundle,
+7) inspect preview and manifest,
+8) run Quality Check / Bundle Audit / Release Check.
+
+Also include a short troubleshooting list for empty prompt, invalid seed, and preview unavailable messages.
+
+**File to edit:**
+`README.md`
+
+**READ_FILE:** `README.md`
+**READ_LINES:** 125–133 (existing GUI highlights section)
+**READ_LINES ALSO:** 220–300 (CLI reference + validation section for terminology consistency)
+
+**Lines to edit:**
+Append new subsection directly below existing GUI highlights block.
+
+**Number of lines to modify:** 0 lines changed, ~35 lines appended.
+
+**EXACT CHANGE:**
+Add a markdown subsection with numbered steps and troubleshooting bullets. Keep terminology consistent with existing button labels in `creation_engine/gui.py`.
+
+**VERIFY COMMAND:**
+```bash
+python -m pytest tests/test_backend_and_api.py tests/test_cli.py tests/test_gui.py -q
+```
+Expected: All tests still pass (docs-only task).
+
+---
+
+---
+
+# TASK 15
+**Task Name:** Final validation — full pipeline + GUI manual creation coverage
+
+**Logic and purpose:**
+After Tasks 01–14, run complete validation to confirm both backend pipeline quality and GUI manual-creation reliability.
+
+**No file to edit.** This is an execution-only task.
+
+**EXACT COMMANDS (run in order, all must exit 0):**
+```bash
+cd /path/to/Creation-Engine
+pip install -e . -q
+python -m pytest tests/test_backend_and_api.py tests/test_cli.py tests/test_gui.py -q
+bash tests/run_tests.sh
+```
+
+**READ_FILE:** `tests/run_tests.sh`
+**READ_LINES:** 1–30
+
+**Pass criteria:**
+- `pytest` reports 0 failures, 0 errors
+- GUI tests pass including the new manual-creation regression test
+- `bash tests/run_tests.sh` prints `All tests complete.` with no non-zero exit codes
+- `quality-check` prints `Quality check passed`
+- `bundle-audit` prints `FF aesthetic compliance: PASS`
+- `release-check` prints `Release readiness passed`
+
+**If any command fails:**
+- Stop immediately at first failing command
+- Identify failing task card (11–14 for GUI expansion, or earlier core task)
+- Re-apply that card’s EXACT CHANGE only
+- Re-run TASK 15 from the beginning
+
+---
+
+---
+
 ## Summary Table
 
 | Task | File | Lines Changed | Purpose |
@@ -585,7 +864,12 @@ bash tests/run_tests.sh
 | 07 | `tests/test_backend_and_api.py` | 4 lines appended inside existing test | All-packs completeness assertion |
 | 08 | `pyproject.toml` | 8 lines appended | Pytest config |
 | 09 | `docs/ff-game-rewrite-plan.md` | ~60 lines appended | Plan doc alignment |
-| 10 | (no file) | — | Final validation run |
+| 10 | (no file) | — | Core checkpoint validation |
+| 11 | `tests/test_gui.py` | ~35 lines appended | Manual single-asset GUI regression test |
+| 12 | `creation_engine/gui.py` | ~19 lines added | Output-directory picker for GUI sessions |
+| 13 | `creation_engine/gui.py` | ~37 lines added | Generation profile presets |
+| 14 | `README.md` | ~35 lines appended | Full manual GUI workflow docs |
+| 15 | (no file) | — | Final pipeline + GUI validation |
 
-**Total code lines changed: ~164 lines across 5 files.**
-**After Task 10 passes: Creation-Engine is retail-ready for GameRewritten handoff.**
+**Total code lines changed: ~255 lines across 7 files.**
+**After Task 15 passes: Creation-Engine is retail-ready with full manual GUI operation for GameRewritten handoff.**
