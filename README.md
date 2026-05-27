@@ -275,6 +275,30 @@ Quality-check options:
 
 ---
 
+## Downloads — Pre-Generated Assets
+
+All generated assets live in the [`creation_export/`](https://github.com/Mikester9000/Creation-Engine/tree/main/creation_export) directory.
+Browse any category below and click a file to download it individually — no build step required.
+
+| Category | Contents | Browse |
+|---|---|---|
+| **Materials** | PBR textures (albedo/normal/roughness/metallic/AO/emissive PNG + JSON) | [Browse materials](https://github.com/Mikester9000/Creation-Engine/tree/main/creation_export/materials) |
+| **Terrain** | Biome/terrain PBR texture sets + JSON manifests | [Browse terrain](https://github.com/Mikester9000/Creation-Engine/tree/main/creation_export/terrain) |
+| **Tilesets** | Tileset metadata JSONs for each biome | [Browse tilesets](https://github.com/Mikester9000/Creation-Engine/tree/main/creation_export/tilesets) |
+| **Props** | Static prop meshes (OBJ + MTL + JSON manifest) | [Browse props](https://github.com/Mikester9000/Creation-Engine/tree/main/creation_export/props) |
+| **Architecture** | Building/structure meshes (OBJ + MTL + JSON manifest) | [Browse architecture](https://github.com/Mikester9000/Creation-Engine/tree/main/creation_export/architecture) |
+| **Foliage** | Foliage meshes (OBJ + MTL + JSON manifest) | [Browse foliage](https://github.com/Mikester9000/Creation-Engine/tree/main/creation_export/foliage) |
+| **Items** | Item meshes (OBJ + MTL + JSON manifest) | [Browse items](https://github.com/Mikester9000/Creation-Engine/tree/main/creation_export/items) |
+| **Decals** | Decal texture sets (PNG + JSON manifest) | [Browse decals](https://github.com/Mikester9000/Creation-Engine/tree/main/creation_export/decals) |
+| **Characters** | Static NPC placeholder meshes (OBJ + MTL + JSON manifest) | [Browse characters](https://github.com/Mikester9000/Creation-Engine/tree/main/creation_export/characters) |
+| **Enemies** | Static enemy placeholder meshes (OBJ + MTL + JSON manifest) | [Browse enemies](https://github.com/Mikester9000/Creation-Engine/tree/main/creation_export/enemies) |
+| **UI** | Icons, panels, portrait PNGs + JSON manifests | [Browse UI](https://github.com/Mikester9000/Creation-Engine/tree/main/creation_export/ui) |
+| **Bundles** | Full bundle index JSON | [Browse bundles](https://github.com/Mikester9000/Creation-Engine/tree/main/creation_export/bundles) |
+
+> **Tip:** Click any file in the browser, then click the **Download** button (or **Raw** for text/JSON files) to save it locally.
+
+---
+
 ## Production Completion Workflow
 
 Run this deterministic release path for non-audio/non-animation asset delivery:
