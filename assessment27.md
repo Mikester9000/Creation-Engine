@@ -26,7 +26,7 @@ The repository is in a **highly advanced state**. Nearly all 20 tasks from `Task
 
 ### Implemented and Working
 
-#### CLI (18 commands)
+#### CLI (22 commands)
 `texture`, `map`, `mesh`, `ui-icon`, `ui-panel`, `portrait`,
 `material-pack`, `biome-pack`, `tileset-pack`, `prop-pack`, `architecture-pack`,
 `foliage-pack`, `item-pack`, `decal-pack`, `character-static-pack`, `enemy-static-pack`,

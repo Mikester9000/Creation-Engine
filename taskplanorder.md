@@ -475,6 +475,8 @@ creation-engine full-bundle     -- All 13 packs in one command
 creation-engine quality-check   -- Validate manifests
 creation-engine bundle-audit    -- Coverage + FF compliance report
 creation-engine release-check   -- Full production gate
+creation-engine gui             -- Launch desktop GUI
+creation-engine list-backends   -- List available backends
 ```
 
 ### Required Packs (13 total, 20 assets each = 260 total)
@@ -524,7 +526,6 @@ All commands must exit 0. Any non-zero exit is a blocker.
 - `exploration_intent` — one of: dungeon_exploration, settlement_navigation, open_world_traversal, overworld_traversal
 - `placement_intent` — family-specific placement hint string
 - `prompt` — source prompt string (must not contain banned terms)
-```
 
 **VERIFY COMMAND:**
 ```bash
@@ -871,5 +872,5 @@ bash tests/run_tests.sh
 | 14 | `README.md` | ~35 lines appended | Full manual GUI workflow docs |
 | 15 | (no file) | — | Final pipeline + GUI validation |
 
-**Total code lines changed: ~255 lines across 7 files.**
+**Total code lines changed: ~255 lines across 9 files.**
 **After Task 15 passes: Creation-Engine is retail-ready with full manual GUI operation for GameRewritten handoff.**
