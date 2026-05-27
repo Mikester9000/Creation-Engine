@@ -66,6 +66,10 @@ The script will:
 Output: `assets/<name>_albedo.png`, `_normal.png`, `_roughness.png`,
 `_metallic.png`, `_ao.png`, `_emissive.png`, and `<name>.json`.
 
+Single-asset generation also writes a download-friendly copy to
+`assets/export/<family>/<name>/` plus `assets/export/index.json` so each
+texture/asset file can be downloaded individually.
+
 ### Generate tilemaps
 
 ```bash

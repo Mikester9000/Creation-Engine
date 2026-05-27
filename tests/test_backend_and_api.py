@@ -74,6 +74,40 @@ def test_engine_pack_generation(tmp_path):
     assert manifest["style_profile"] == "ps2_ff7_ff12_highest_quality_ps2"
 
 
+def test_single_assets_create_downloadable_export_bundles(tmp_path):
+    engine = CreationEngine(output_dir=tmp_path)
+    engine.generate_texture("stone", width=8, height=8)
+    engine.generate_map("forest", width=8, height=8)
+    engine.generate_mesh("pillar", complexity="low")
+    engine.generate_ui_icon("quest icon", seed=11)
+
+    texture_bundle = tmp_path / "export" / "props" / "stone"
+    assert (texture_bundle / "stone_albedo.png").exists()
+    assert (texture_bundle / "stone.json").exists()
+
+    map_bundle = tmp_path / "export" / "maps" / "forest"
+    assert (map_bundle / "forest.json").exists()
+    assert (map_bundle / "forest_preview.png").exists()
+
+    mesh_bundle = tmp_path / "export" / "props" / "pillar"
+    assert (mesh_bundle / "pillar.obj").exists()
+    assert (mesh_bundle / "pillar.mtl").exists()
+    assert (mesh_bundle / "pillar.json").exists()
+    assert (mesh_bundle / "pillar_preview.png").exists()
+
+    icon_bundle = tmp_path / "export" / "ui_icons" / "quest_icon"
+    assert (icon_bundle / "quest_icon.png").exists()
+    assert (icon_bundle / "quest_icon.json").exists()
+
+    with open(tmp_path / "export" / "index.json", encoding="utf-8") as f:
+        export_index = json.load(f)
+    exports = {(item["family"], item["name"]) for item in export_index["exports"]}
+    assert ("props", "stone") in exports
+    assert ("maps", "forest") in exports
+    assert ("props", "pillar") in exports
+    assert ("ui_icons", "quest_icon") in exports
+
+
 def test_full_bundle_manifest_includes_completeness_matrix(tmp_path):
     engine = CreationEngine(output_dir=tmp_path)
     bundle_manifest_path = engine.generate_full_bundle(seed=19)
