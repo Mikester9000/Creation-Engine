@@ -78,7 +78,7 @@ def test_single_assets_create_downloadable_export_bundles(tmp_path):
     engine = CreationEngine(output_dir=tmp_path)
     engine.generate_texture("stone", width=8, height=8)
     engine.generate_map("forest", width=8, height=8)
-    engine.generate_mesh("pillar", complexity="low")
+    mesh_path = engine.generate_mesh("pillar", complexity="low")
     engine.generate_ui_icon("quest icon", seed=11)
 
     texture_bundle = tmp_path / "export" / "props" / "stone"
@@ -89,7 +89,7 @@ def test_single_assets_create_downloadable_export_bundles(tmp_path):
     assert (map_bundle / "forest.json").exists()
     assert (map_bundle / "forest_preview.png").exists()
 
-    mesh_bundle = tmp_path / "export" / "props" / "pillar"
+    mesh_bundle = tmp_path / "export" / mesh_path.parent.name / "pillar"
     assert (mesh_bundle / "pillar.obj").exists()
     assert (mesh_bundle / "pillar.mtl").exists()
     assert (mesh_bundle / "pillar.json").exists()
@@ -104,7 +104,7 @@ def test_single_assets_create_downloadable_export_bundles(tmp_path):
     exports = {(item["family"], item["name"]) for item in export_index["exports"]}
     assert ("props", "stone") in exports
     assert ("maps", "forest") in exports
-    assert ("props", "pillar") in exports
+    assert (mesh_path.parent.name, "pillar") in exports
     assert ("ui_icons", "quest_icon") in exports
 
 
