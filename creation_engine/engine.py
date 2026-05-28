@@ -30,10 +30,12 @@ from creation_engine.export.manifest_exporter import (
     build_manifest,
     write_manifest_json,
 )
+from creation_engine.export.download_exporter import write_download_bundle
 from creation_engine.export.map_exporter import export_tilemap
 from creation_engine.export.mesh_exporter import export_obj
 from creation_engine.export.texture_exporter import export_pbr_textures
 from creation_engine.game_rewritten_bundle import GAME_REWRITTEN_BUNDLE_RECIPE
+from creation_engine.gui import render_map_preview, render_obj_preview
 from creation_engine.map.tileset_specs import (
     resolve_tileset_theme,
     tileset_spec_for_theme,
@@ -97,6 +99,7 @@ class CreationEngine:
         height: int = 64,
         output_dir: str | Path | None = None,
         name: str | None = None,
+        export_download: bool = True,
         **kwargs: Any,
     ) -> Path:
         out_dir = (
@@ -114,7 +117,7 @@ class CreationEngine:
             **kwargs,
         )
         parsed = classify_prompt(prompt)
-        return export_pbr_textures(
+        texture_dir = export_pbr_textures(
             texture_data=texture_data,
             output_dir=out_dir,
             name=asset_name,
@@ -125,6 +128,17 @@ class CreationEngine:
             height=height,
             parsed_prompt=parsed,
         )
+        if export_download:
+            files = {"manifest": texture_dir / f"{asset_name}.json"}
+            for channel in ("albedo", "normal", "roughness", "metallic", "ao", "emissive"):
+                files[channel] = texture_dir / f"{asset_name}_{channel}.png"
+            write_download_bundle(
+                output_root=Path(output_dir) if output_dir else self.output_dir,
+                family=str(parsed["family"]),
+                name=asset_name,
+                files=files,
+            )
+        return texture_dir
 
     def generate_map(
         self,
@@ -133,6 +147,7 @@ class CreationEngine:
         height: int = 64,
         output_dir: str | Path | None = None,
         name: str | None = None,
+        export_download: bool = True,
         **kwargs: Any,
     ) -> Path:
         out_dir = (
@@ -149,13 +164,25 @@ class CreationEngine:
             seed=seed,
             **kwargs,
         )
-        return export_tilemap(
+        map_path = export_tilemap(
             map_data=map_data,
             output_dir=out_dir,
             name=asset_name,
             prompt=prompt,
             seed=seed,
         )
+        if export_download:
+            with open(map_path, encoding="utf-8") as file:
+                exported_map = json_load(file)
+            write_download_bundle(
+                output_root=Path(output_dir) if output_dir else self.output_dir,
+                family=ASSET_FAMILY_MAPS,
+                name=asset_name,
+                files={"map": map_path},
+                preview_image=render_map_preview(exported_map),
+                preview_filename=f"{asset_name}_preview.png",
+            )
+        return map_path
 
     def generate_mesh(
         self,
@@ -163,6 +190,7 @@ class CreationEngine:
         complexity: str = "medium",
         output_dir: str | Path | None = None,
         name: str | None = None,
+        export_download: bool = True,
         **kwargs: Any,
     ) -> Path:
         asset_name = name or self._make_name(prompt)
@@ -178,7 +206,22 @@ class CreationEngine:
             if output_dir
             else self.output_dir / ASSET_FAMILY_OUTPUT_DIRS[mesh_family]
         )
-        return export_obj(mesh_data=mesh_data, output_dir=out_dir, name=asset_name)
+        mesh_path = export_obj(mesh_data=mesh_data, output_dir=out_dir, name=asset_name)
+        if export_download:
+            preview_image = render_obj_preview(mesh_path.read_text(encoding="utf-8"))
+            write_download_bundle(
+                output_root=Path(output_dir) if output_dir else self.output_dir,
+                family=mesh_family,
+                name=asset_name,
+                files={
+                    "obj": mesh_path,
+                    "mtl": mesh_path.with_suffix(".mtl"),
+                    "manifest": mesh_path.with_suffix(".json"),
+                },
+                preview_image=preview_image,
+                preview_filename=f"{asset_name}_preview.png",
+            )
+        return mesh_path
 
     def generate_ui_icon(
         self,
@@ -186,12 +229,14 @@ class CreationEngine:
         seed: int | None = None,
         output_dir: str | Path | None = None,
         name: str | None = None,
+        export_download: bool = True,
     ) -> Path:
         return self._export_ui_image(
             prompt=prompt,
             seed=seed,
             output_dir=output_dir,
             name=name,
+            export_download=export_download,
             family=ASSET_FAMILY_UI_ICONS,
             generator=build_ui_icon_image,
             width=64,
@@ -205,12 +250,14 @@ class CreationEngine:
         seed: int | None = None,
         output_dir: str | Path | None = None,
         name: str | None = None,
+        export_download: bool = True,
     ) -> Path:
         return self._export_ui_image(
             prompt=prompt,
             seed=seed,
             output_dir=output_dir,
             name=name,
+            export_download=export_download,
             family=ASSET_FAMILY_UI_PANELS,
             generator=build_ui_panel_image,
             width=256,
@@ -224,12 +271,14 @@ class CreationEngine:
         seed: int | None = None,
         output_dir: str | Path | None = None,
         name: str | None = None,
+        export_download: bool = True,
     ) -> Path:
         return self._export_ui_image(
             prompt=prompt,
             seed=seed,
             output_dir=output_dir,
             name=name,
+            export_download=export_download,
             family=ASSET_FAMILY_UI_PORTRAITS,
             generator=build_ui_portrait_image,
             width=128,
@@ -483,6 +532,7 @@ class CreationEngine:
         seed: int | None,
         output_dir: str | Path | None,
         name: str | None,
+        export_download: bool,
         family: str,
         generator: Any,
         width: int,
@@ -521,6 +571,16 @@ class CreationEngine:
             placement_intent=infer_placement_intent(family, narrative_tags),
         )
         write_manifest_json(out_dir, asset_name, manifest)
+        if export_download:
+            write_download_bundle(
+                output_root=Path(output_dir) if output_dir else self.output_dir,
+                family=family,
+                name=asset_name,
+                files={
+                    "image": png_path,
+                    "manifest": out_dir / f"{asset_name}.json",
+                },
+            )
         return png_path
 
     def _generate_texture_pack(
@@ -541,7 +601,7 @@ class CreationEngine:
             asset_name = self._make_name(prompt)
             self.generate_texture(
                 prompt=prompt, output_dir=out_dir, name=asset_name, seed=asset_seed,
-                width=128, height=128,
+                width=128, height=128, export_download=False,
             )
             entry = {
                 "name": asset_name,
@@ -589,7 +649,7 @@ class CreationEngine:
             asset_seed = seed_value + index
             asset_name = self._make_name(prompt)
             mesh_path = self.generate_mesh(
-                prompt=prompt, output_dir=out_dir, name=asset_name, seed=asset_seed
+                prompt=prompt, output_dir=out_dir, name=asset_name, seed=asset_seed, export_download=False
             )
             entry = {
                 "name": asset_name,
@@ -630,7 +690,7 @@ class CreationEngine:
             asset_seed = seed_value + index
             asset_name = self._make_name(prompt)
             png_path = generator(
-                prompt=prompt, seed=asset_seed, output_dir=out_dir, name=asset_name
+                prompt=prompt, seed=asset_seed, output_dir=out_dir, name=asset_name, export_download=False
             )
             entry = {
                 "name": asset_name,
